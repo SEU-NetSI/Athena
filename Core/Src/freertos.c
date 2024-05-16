@@ -33,8 +33,8 @@
 #include "calibration.h"
 #include "w25q64.h"
 
-static VL53L5CX_Configuration vl53l5dev_f;
-static VL53L5CX_ResultsData vl53l5_res_f;
+//static VL53L5CX_Configuration vl53l5dev_f;
+//static VL53L5CX_ResultsData vl53l5_res_f;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -151,23 +151,22 @@ void StartDefaultTask(void *argument)
 	uint8_t ID[4];
 	BSP_W25Qx_Init();
 	BSP_W25Qx_Read_ID(ID);
-    I2C_expander_initialize();
-    initialize_sensors_I2C(&vl53l5dev_f,1);
-    vl53l5cx_start_ranging(&vl53l5dev_f);
+//    I2C_expander_initialize();
+//    initialize_sensors_I2C(&vl53l5dev_f,1);
+//    vl53l5cx_start_ranging(&vl53l5dev_f);
     while(1){
     	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1);
-    	get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
-    	process(vl53l5_res_f.distance_mm,vl53l5_res_f.reflectance,vl53l5_res_f.target_status,position,yaw,pitch,roll);
-    	//TEST TODO DELETE
-    	static VL53L5CX_ResultsData vl53l5_res_test;
-    	memset(&vl53l5_res_test, 0, sizeof(VL53L5CX_ResultsData));
     	BSP_W25Qx_Erase_Block(0x000000);
     	//
     	uint32_t writeAddress = 0x000000; // 假设写入地址为0x000000
-        uint8_t writeStatus = Write_Struct_to_Flash(writeAddress, &vl53l5_res_f);
-        //memset(&vl53l5_res_f, 0, sizeof(VL53L5CX_ResultsData));
-        uint8_t readStatus = Read_Struct_from_Flash(writeAddress, &vl53l5_res_test);
+    	int cc = 0;
+    	int a = 10;
+        BSP_W25Qx_Write((uint8_t*)&a, writeAddress, sizeof(int));
+        int b = 0;
+        uint8_t readStatus = Read_Struct_from_Flash(writeAddress, &b);
     	LL_mDelay(65);
+
+
     }
 
   /* USER CODE END StartDefaultTask */
