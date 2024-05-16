@@ -1,0 +1,3 @@
+../Core/Src/test_tof.c:16:6:config_sensors	9
+../Core/Src/test_tof.c:44:6:initialize_sensors_I2C	11
+../Core/Src/test_tof.c:70:6:get_sensor_data	4

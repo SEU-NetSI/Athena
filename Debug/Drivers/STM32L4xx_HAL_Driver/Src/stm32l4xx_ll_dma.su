@@ -1,0 +1,17 @@
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:628:22:LL_DMA_ConfigTransfer	32	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:996:22:LL_DMA_SetDataLength	32	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1084:22:LL_DMA_SetMemoryAddress	32	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1107:22:LL_DMA_SetPeriphAddress	32	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1512:22:LL_DMA_SetPeriphRequest	40	static,ignoring_inline_asm
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1879:22:LL_DMA_ClearFlag_GI1	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1894:22:LL_DMA_ClearFlag_GI2	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1909:22:LL_DMA_ClearFlag_GI3	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1924:22:LL_DMA_ClearFlag_GI4	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1939:22:LL_DMA_ClearFlag_GI5	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1954:22:LL_DMA_ClearFlag_GI6	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:1969:22:LL_DMA_ClearFlag_GI7	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_bus.h:416:22:LL_AHB1_GRP1_ForceReset	16	static
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_bus.h:445:22:LL_AHB1_GRP1_ReleaseReset	16	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_dma.c:162:13:LL_DMA_DeInit	24	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_dma.c:286:13:LL_DMA_Init	24	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_dma.c:362:6:LL_DMA_StructInit	16	static
