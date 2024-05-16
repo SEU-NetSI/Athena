@@ -1,6 +1,0 @@
-../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:1014:22:LL_GPIO_TogglePin	1
-../Core/Src/freertos.c:89:6:MX_FREERTOS_Init	1
-../Core/Src/freertos.c:126:9:Write_Struct_to_Flash	1
-../Core/Src/freertos.c:132:9:Read_Struct_from_Flash	1
-../Core/Src/freertos.c:145:6:StartDefaultTask	1
-../Core/Src/freertos.c:183:6:StartTask02	1

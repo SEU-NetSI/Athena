@@ -1,9 +1,0 @@
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:14:9:BSP_W25Qx_Init	1
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:21:13:BSP_W25Qx_Reset	1
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:35:16:BSP_W25Qx_GetStatus	2
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:61:9:BSP_W25Qx_WriteEnable	3
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:89:6:BSP_W25Qx_Read_ID	1
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:106:9:BSP_W25Qx_Read	2
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:132:9:BSP_W25Qx_Write	9
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:206:9:BSP_W25Qx_Erase_Block	3
-../Drivers/BSP/Components/W25Q64/src/w25q64.c:240:9:BSP_W25Qx_Erase_Chip	3

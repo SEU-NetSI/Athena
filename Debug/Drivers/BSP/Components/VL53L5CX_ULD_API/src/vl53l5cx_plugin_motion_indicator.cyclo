@@ -1,3 +1,0 @@
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_motion_indicator.c:16:9:vl53l5cx_motion_indicator_init	1
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_motion_indicator.c:48:9:vl53l5cx_motion_indicator_set_distance_motion	4
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_motion_indicator.c:83:9:vl53l5cx_motion_indicator_set_resolution	7

@@ -1,6 +1,0 @@
-../Drivers/BSP/Components/TCA6408A/src/tca6408a.c:16:6:I2C_expander_set_register	1
-../Drivers/BSP/Components/TCA6408A/src/tca6408a.c:23:6:I2C_expander_get_register	1
-../Drivers/BSP/Components/TCA6408A/src/tca6408a.c:30:6:I2C_expander_set_output_pin	3
-../Drivers/BSP/Components/TCA6408A/src/tca6408a.c:53:6:I2C_expander_toggle_output_pin	2
-../Drivers/BSP/Components/TCA6408A/src/tca6408a.c:72:6:I2C_expander_get_input_pin	1
-../Drivers/BSP/Components/TCA6408A/src/tca6408a.c:84:6:I2C_expander_initialize	1
