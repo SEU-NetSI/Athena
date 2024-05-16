@@ -1,4 +1,0 @@
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_detection_thresholds.c:15:9:vl53l5cx_get_detection_thresholds_enable	24	static
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_detection_thresholds.c:28:9:vl53l5cx_set_detection_thresholds_enable	40	static
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_detection_thresholds.c:59:9:vl53l5cx_get_detection_thresholds	24	static
-../Drivers/BSP/Components/VL53L5CX_ULD_API/src/vl53l5cx_plugin_detection_thresholds.c:107:9:vl53l5cx_set_detection_thresholds	32	static

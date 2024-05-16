@@ -1,7 +1,0 @@
-../app-example/tinymap/src/calibration.c:61:6:init_XYZ_ZoneCoordinates	16	static
-../app-example/tinymap/src/calibration.c:69:6:init_ResultsData	16	static
-../app-example/tinymap/src/calibration.c:76:5:Judge	24	static
-../app-example/tinymap/src/calibration.c:86:6:setResultData	40	static
-../app-example/tinymap/src/calibration.c:101:21:ConvertDist2XYZCoords8x8	2088	static
-../app-example/tinymap/src/calibration.c:126:6:ground_coordinate	104	static
-../app-example/tinymap/src/calibration.c:153:6:process	5424	static
