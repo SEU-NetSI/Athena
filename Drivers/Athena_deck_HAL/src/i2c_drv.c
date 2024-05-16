@@ -388,7 +388,7 @@ void i2cdevReadReg16(I2C_TypeDef *I2Cx ,
     LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_7);
 
     //Debug problem :TBD
-    osDelay(10);
+    LL_mDelay(10);
     while(!LL_DMA_IsActiveFlag_TC7(DMA1));
     //TBD: double check if need Stop clear here.
     LL_I2C_ClearFlag_STOP(I2Cx);

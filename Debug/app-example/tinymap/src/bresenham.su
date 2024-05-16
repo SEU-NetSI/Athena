@@ -1,0 +1,6 @@
+../app-example/tinymap/src/bresenham.c:14:6:init_Point3DArray	16	static
+../app-example/tinymap/src/bresenham.c:20:6:add_Point3D	32	static
+../app-example/tinymap/src/bresenham.c:28:6:free_Point3DArray	16	static
+../app-example/tinymap/src/bresenham.c:35:5:sign	16	static
+../app-example/tinymap/src/bresenham.c:39:6:bresenham_3d	144	static
+../app-example/tinymap/src/bresenham.c:112:6:bresenham_3d_multiple	40	static

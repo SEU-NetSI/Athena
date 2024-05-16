@@ -1,0 +1,3 @@
+../Core/Src/test_tof.c:16:6:config_sensors	24	static
+../Core/Src/test_tof.c:44:6:initialize_sensors_I2C	24	static
+../Core/Src/test_tof.c:70:6:get_sensor_data	24	static

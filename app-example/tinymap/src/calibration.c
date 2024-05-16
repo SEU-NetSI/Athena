@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+
 //定义全局变量
 float SinOfPitch[SIZE][SIZE]={
 	{0.857167, 	0.898794, 	0.923880,	0.939693,	0.939693,	0.923880,	0.898794,	0.857167},
@@ -158,8 +159,17 @@ void process(int16_t distance_mm[(VL53L5CX_RESOLUTION_8X8*VL53L5CX_NB_TARGET_PER
 	ResultsData results;
 	setResultData(&results, distance_mm,reflectance,target_status);
 	XYZ_ZoneCoordinates XYZ_ZoneCoordinate=ConvertDist2XYZCoords8x8(&results);
-	XYZ_ZoneCoordinates ground_coordinates;
-	ground_coordinate(&XYZ_ZoneCoordinate,position,yaw,pitch,roll,&ground_coordinates);
+	XYZ_ZoneCoordinates* ground_coordinates = (XYZ_ZoneCoordinates*)malloc(sizeof(XYZ_ZoneCoordinates));
+	if (ground_coordinates == NULL) {
+	        // 处理内存分配失败
+	        return;
+	    }
+
+
+	ground_coordinate(&XYZ_ZoneCoordinate, position, yaw, pitch, roll, ground_coordinates);
+
+	free(ground_coordinates);
+
 
 }
 

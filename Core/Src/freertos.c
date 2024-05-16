@@ -30,9 +30,9 @@
 #include "tca6408a.h"
 #include "vl53l5cx_api.h"
 #include "test_tof.h"
+#include "calibration.h"
 #include "w25q64.h"
 
-#define RX_BUFFER_SIZE 5
 static VL53L5CX_Configuration vl53l5dev_f;
 static VL53L5CX_ResultsData vl53l5_res_f;
 /* USER CODE END Includes */
@@ -146,6 +146,8 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
 //  /* Infinite loop */
+	float position[3]={0,0,0};
+	float yaw=0,  pitch=0,  roll=0;
 	uint8_t ID[4];
 	BSP_W25Qx_Init();
 	BSP_W25Qx_Read_ID(ID);
@@ -155,11 +157,17 @@ void StartDefaultTask(void *argument)
     while(1){
     	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1);
     	get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
+    	process(vl53l5_res_f.distance_mm,vl53l5_res_f.reflectance,vl53l5_res_f.target_status,position,yaw,pitch,roll);
+    	//TEST TODO DELETE
+    	static VL53L5CX_ResultsData vl53l5_res_test;
+    	memset(&vl53l5_res_test, 0, sizeof(VL53L5CX_ResultsData));
+    	BSP_W25Qx_Erase_Block(0x000000);
+    	//
     	uint32_t writeAddress = 0x000000; // 假设写入地址为0x000000
         uint8_t writeStatus = Write_Struct_to_Flash(writeAddress, &vl53l5_res_f);
-        memset(&vl53l5_res_f, 0, sizeof(VL53L5CX_ResultsData));
-        uint8_t readStatus = Read_Struct_from_Flash(writeAddress, &vl53l5_res_f);
-    	osDelay(950);
+        //memset(&vl53l5_res_f, 0, sizeof(VL53L5CX_ResultsData));
+        uint8_t readStatus = Read_Struct_from_Flash(writeAddress, &vl53l5_res_test);
+    	LL_mDelay(65);
     }
 
   /* USER CODE END StartDefaultTask */

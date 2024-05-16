@@ -125,7 +125,7 @@ uint8_t RdMulti(
 		remaining_size-= current_chunk_size;
 		current_address+=current_chunk_size;
 		p_values+= current_chunk_size;
-		osDelay(10);
+		LL_mDelay(10);
 	}
 	return 0;
 }
