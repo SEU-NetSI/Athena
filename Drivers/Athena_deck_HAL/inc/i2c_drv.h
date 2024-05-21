@@ -10,6 +10,8 @@
 
 #include "stm32l4xx_ll_i2c.h"
 
+
+
 typedef void (*DMA_Callback)(void);
 
 uint8_t i2cdevReadReg8(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC , uint8_t target_reg);
@@ -29,4 +31,9 @@ void i2cdevWriteReg16(I2C_TypeDef *I2Cx,
 								uint8_t *p_value,
 								uint32_t size);
 uint8_t *i2cdevReadRegSeq_DMA16(I2C_TypeDef *I2Cx, uint8_t SlaveAddr_IC, uint16_t target_reg, uint8_t *rx_buffer, uint16_t size, DMA_Callback callback);
+void I2C_Transmit(	I2C_TypeDef *I2Cx,
+					uint8_t SlaveAddr_IC,
+					uint16_t target_reg,
+					uint8_t *p_values,
+					uint32_t Length);
 #endif /* INC_I2C_DRV_H_ */

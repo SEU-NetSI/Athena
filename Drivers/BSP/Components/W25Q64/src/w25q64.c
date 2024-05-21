@@ -167,6 +167,7 @@ uint8_t BSP_W25Qx_Write(uint8_t* pData, uint32_t WriteAddr, uint32_t Size)
 		BSP_W25Qx_WriteEnable();
 
 		W25Qx_Enable();
+		while (hspi2.State != HAL_SPI_STATE_READY);
     /* Send the command */
     if (HAL_SPI_Transmit(&hspi2,cmd, 4, W25Qx_TIMEOUT_VALUE) != HAL_OK)
     {

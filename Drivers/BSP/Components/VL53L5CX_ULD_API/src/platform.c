@@ -64,7 +64,7 @@
 #include "i2c_drv.h"
 #include "cmsis_os.h"
 
-#define chunk_size (1<<7)
+#define chunk_size 252
 
 
 uint8_t RdByte(
@@ -104,11 +104,22 @@ uint8_t WrMulti(
 		remaining_size-= current_chunk_size;
 		current_address+=current_chunk_size;
 		p_values+= current_chunk_size;
-		osDelay(10);
+		osDelay(2);
 	}
 
 	return 0;
 }
+
+//uint8_t WrMulti(
+//		VL53L5CX_Platform *p_platform,
+//		uint16_t RegisterAdress,
+//		uint8_t *p_values,
+//		uint32_t size)
+//{
+//	uint16_t Address= (p_platform->address)>>1;
+//	I2C_Transmit(I2C1, Address, RegisterAdress, p_values, size);
+//	return 0;
+//}
 
 uint8_t RdMulti(
 		VL53L5CX_Platform *p_platform,
@@ -125,7 +136,7 @@ uint8_t RdMulti(
 		remaining_size-= current_chunk_size;
 		current_address+=current_chunk_size;
 		p_values+= current_chunk_size;
-		LL_mDelay(10);
+		LL_mDelay(2);
 	}
 	return 0;
 }

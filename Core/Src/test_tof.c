@@ -26,7 +26,7 @@ bool config_sensors(VL53L5CX_Configuration *p_dev, uint16_t new_i2c_address)
   tof_res = vl53l5cx_set_i2c_address(p_dev, new_i2c_address);if (tof_res != VL53L5CX_STATUS_OK) return false ;
   tof_res = vl53l5cx_set_resolution(p_dev, VL53L5CX_RESOLUTION_8X8);if (tof_res != VL53L5CX_STATUS_OK) return false ;
   // 1Hz
-  tof_res = vl53l5cx_set_ranging_frequency_hz(p_dev, 1);if (tof_res != VL53L5CX_STATUS_OK) return false ;
+  tof_res = vl53l5cx_set_ranging_frequency_hz(p_dev, 10);if (tof_res != VL53L5CX_STATUS_OK) return false ;
   tof_res = vl53l5cx_set_target_order(p_dev, VL53L5CX_TARGET_ORDER_CLOSEST);if (tof_res != VL53L5CX_STATUS_OK) return false ;
   tof_res = vl53l5cx_set_ranging_mode(p_dev, VL53L5CX_RANGING_MODE_CONTINUOUS);if (tof_res != VL53L5CX_STATUS_OK) return false ;
   //tof_res = vl53l5cx_set_ranging_mode(p_dev, VL53L5CX_RANGING_MODE_AUTONOMOUS);if (tof_res != VL53L5CX_STATUS_OK) return false ;// TODO test it

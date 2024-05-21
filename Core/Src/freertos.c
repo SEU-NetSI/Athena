@@ -27,11 +27,13 @@
 /* USER CODE BEGIN Includes */
 #include "i2c_drv.h"
 #include "spi_drv.h"
+#include "uart_hal.h"
 #include "tca6408a.h"
 #include "vl53l5cx_api.h"
 #include "test_tof.h"
 #include "calibration.h"
 #include "w25q64.h"
+
 
 static VL53L5CX_Configuration vl53l5dev_f;
 static VL53L5CX_ResultsData vl53l5_res_f;
@@ -60,15 +62,8 @@ static VL53L5CX_ResultsData vl53l5_res_f;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for SPI_test_task */
-osThreadId_t SPI_test_taskHandle;
-const osThreadAttr_t SPI_test_task_attributes = {
-  .name = "SPI_test_task",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,7 +72,6 @@ const osThreadAttr_t SPI_test_task_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-void StartTask02(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -111,9 +105,6 @@ void MX_FREERTOS_Init(void) {
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
-  /* creation of SPI_test_task */
-  //SPI_test_taskHandle = osThreadNew(StartTask02, NULL, &SPI_test_task_attributes);
-
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -123,17 +114,6 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_EVENTS */
 
 }
-uint8_t Write_Struct_to_Flash(uint32_t WriteAddr, VL53L5CX_ResultsData* pStruct)
-{
-    return BSP_W25Qx_Write((uint8_t*)pStruct, WriteAddr, sizeof(VL53L5CX_ResultsData));
-}
-
-// 从闪存读取结构体
-uint8_t Read_Struct_from_Flash(uint32_t ReadAddr, VL53L5CX_ResultsData* pStruct)
-{
-    return BSP_W25Qx_Read((uint8_t*)pStruct, ReadAddr, sizeof(VL53L5CX_ResultsData));
-}
-
 
 /* USER CODE BEGIN Header_StartDefaultTask */
 /**
@@ -145,51 +125,33 @@ uint8_t Read_Struct_from_Flash(uint32_t ReadAddr, VL53L5CX_ResultsData* pStruct)
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-//  /* Infinite loop */
+
 	float position[3]={0,0,0};
 	float yaw=0,  pitch=0,  roll=0;
 	uint8_t ID[4];
-	BSP_W25Qx_Init();
-	BSP_W25Qx_Read_ID(ID);
+	//BSP_W25Qx_Init();
+	//BSP_W25Qx_Read_ID(ID);
     I2C_expander_initialize();
     initialize_sensors_I2C(&vl53l5dev_f,1);
     vl53l5cx_start_ranging(&vl53l5dev_f);
     while(1){
     	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1);
+    	LL_mDelay(100);
     	get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
-    	process(vl53l5_res_f.distance_mm,vl53l5_res_f.reflectance,vl53l5_res_f.target_status,position,yaw,pitch,roll);
+    	//process(vl53l5_res_f.distance_mm,vl53l5_res_f.reflectance,vl53l5_res_f.target_status,position,yaw,pitch,roll);
     	//TEST TODO DELETE
-    	static VL53L5CX_ResultsData vl53l5_res_test;
-    	memset(&vl53l5_res_test, 0, sizeof(VL53L5CX_ResultsData));
-    	BSP_W25Qx_Erase_Block(0x000000);
-    	//
-    	uint32_t writeAddress = 0x000000; // 假设写入地址为0x000000
-        uint8_t writeStatus = Write_Struct_to_Flash(writeAddress, &vl53l5_res_f);
-        //memset(&vl53l5_res_f, 0, sizeof(VL53L5CX_ResultsData));
-        uint8_t readStatus = Read_Struct_from_Flash(writeAddress, &vl53l5_res_test);
-    	LL_mDelay(65);
+
+
+    	//BSP_W25Qx_Erase_Block(0x000000);
+//    	uint32_t writeAddress = 0x000000; // 假设写入地址�????0x000000
+//    	int cc = 0;
+//    	int a = 10;
+//    	BSP_W25Qx_Write((uint8_t*)&a, writeAddress, sizeof(int));
+//    	int b = 0;
+//    	uint8_t readStatus = Read_Struct_from_Flash(writeAddress, &b);
     }
 
   /* USER CODE END StartDefaultTask */
-}
-
-/* USER CODE BEGIN Header_StartTask02 */
-/**
-* @brief Function implementing the SPI_test_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument)
-{
-  /* USER CODE BEGIN StartTask02 */
-  /* Infinite loop */
-  for(;;)
-  {
-
-
-  }
-  /* USER CODE END StartTask02 */
 }
 
 /* Private application code --------------------------------------------------*/
