@@ -97,10 +97,10 @@
 					</folderInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.2124766754" name="w25q64.h" rcbsApplicability="disable" resourcePath="Athena-Driver/BSP/Components/W25Q64/inc/w25q64.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="BSP/Components/W25Q64/inc/w25q64.h|BSP/Components/W25Q64/src/w25q64.c|Athena_deck_HAL/src/i2c_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Athena-Driver"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="Athena_deck_HAL/src/i2c_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="BSP/Components/W25Q64/inc/w25q64.h|BSP/Components/W25Q64/src/w25q64.c|Athena_deck_HAL/src/i2c_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Athena-Driver"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -21,11 +21,12 @@
 #include "main.h"
 #include "stm32l4xx_it.h"
 #include "FreeRTOS.h"
+#include "task.h"
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "semphr.h"
 #include "task.h"
 #include "spi_drv.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -352,17 +353,19 @@ void SPI3_IRQHandler(void)
   */
 void DMA2_Channel1_IRQHandler(void)
 {
+  /* USER CODE BEGIN DMA2_Channel1_IRQn 0 */
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	if (LL_DMA_IsActiveFlag_TC1(DMA2))
-	  	    {
-	  	        LL_DMA_ClearFlag_TC1(DMA2);
-	  	        LL_SPI_DisableDMAReq_RX(SPI3);
-	  	        LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_1);
-	  	        xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
+	if (LL_DMA_IsActiveFlag_TC1(DMA2)){
+		LL_DMA_ClearFlag_TC1(DMA2);
+		LL_SPI_DisableDMAReq_RX(SPI3);
+		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_1);
+		xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
+	}
+  /* USER CODE END DMA2_Channel1_IRQn 0 */
 
-	  	    }
+  /* USER CODE BEGIN DMA2_Channel1_IRQn 1 */
 
-
+  /* USER CODE END DMA2_Channel1_IRQn 1 */
 }
 
 /**
@@ -370,16 +373,20 @@ void DMA2_Channel1_IRQHandler(void)
   */
 void DMA2_Channel2_IRQHandler(void)
 {
+  /* USER CODE BEGIN DMA2_Channel2_IRQn 0 */
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	if (LL_DMA_IsActiveFlag_TC2(DMA2))
-			    {
-			        LL_DMA_ClearFlag_TC2(DMA2);
-			        LL_SPI_DisableDMAReq_TX(SPI3);
-			        LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_2);
-			        xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
+	{
+		LL_DMA_ClearFlag_TC2(DMA2);
+		LL_SPI_DisableDMAReq_TX(SPI3);
+		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_2);
+		xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
+	}
+  /* USER CODE END DMA2_Channel2_IRQn 0 */
 
-			    }
+  /* USER CODE BEGIN DMA2_Channel2_IRQn 1 */
 
+  /* USER CODE END DMA2_Channel2_IRQn 1 */
 }
 
 /**

@@ -24,8 +24,6 @@
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
-#include "freertos.h"
-#include "spi_drv.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

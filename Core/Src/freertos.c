@@ -90,7 +90,7 @@ void MX_FREERTOS_Init(void) {
 
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
-	    // 处理信号量创建失败
+	    // 处理信号量创建失�?
 	    while (1);
 	}
 
@@ -125,31 +125,38 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_EVENTS */
 
 }
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used
+  * @retval None
+  */
 void reset(void){
 	W25Qx_Enable();
 
 	spiBeginTransaction(LL_SPI_BAUDRATEPRESCALER_DIV256);
 
-	    // 发送复位使能命令
+	    // 发�?�复位使能命�?
 	    spiExchange(SPI3, 1, 0x66, NULL);
 
 	    // 短暂延迟，确保复位使能命令被处理
 	    vTaskDelay(pdMS_TO_TICKS(1));
 
-	    // 发送复位命令
+	    // 发�?�复位命�?
 	    spiExchange(SPI3, 1, 0x99, NULL);
 
 	    spiEndTransaction();
 
 	    W25Qx_Disable();
 
-	    // 延迟一段时间以确保芯片完成复位
+	    // 延迟�?段时间以确保芯片完成复位
 	    vTaskDelay(pdMS_TO_TICKS(30));
 }
 void read_w25q64_id(void)
 {
     //reset();
-	uint8_t txBuffer[6] = {READ_ID_CMD, 0x00, 0x00, 0x00, 0x00, 0x00}; // 读取ID命令和三个虚拟字节
+	uint8_t txBuffer[6] = {READ_ID_CMD, 0x00, 0x00, 0x00, 0x00, 0x00}; // 读取ID命令和三个虚拟字�?
     uint8_t rxBuffer[6] = {0};
 
     W25Qx_Enable();
@@ -158,7 +165,7 @@ void read_w25q64_id(void)
 
     if (spiExchange(SPI3, sizeof(txBuffer), txBuffer, rxBuffer))
     {
-        // 读取的ID数据在rxBuffer[1]和rxBuffer[2]中
+        // 读取的ID数据在rxBuffer[1]和rxBuffer[2]�?
         uint8_t manufacturerID = rxBuffer[4];
         uint8_t deviceID = rxBuffer[5];
     }
@@ -170,13 +177,6 @@ void read_w25q64_id(void)
     spiEndTransaction();
     W25Qx_Disable();
 }
-
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {

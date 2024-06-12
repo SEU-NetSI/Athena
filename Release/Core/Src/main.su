@@ -1,0 +1,4 @@
+C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/CMSIS/Include/core_cm4.h:1856:26:NVIC_EncodePriority.constprop	0	static
+../Core/Src/main.c:142:6:SystemClock_Config	8	static
+../Core/Src/main.c:70:5:main	16	static
+../Core/Src/main.c:192:6:Error_Handler	0	static,ignoring_inline_asm

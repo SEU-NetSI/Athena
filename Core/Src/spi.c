@@ -248,8 +248,6 @@ void MX_SPI3_Init(void)
 
   LL_DMA_SetMemorySize(DMA2, LL_DMA_CHANNEL_1, LL_DMA_MDATAALIGN_BYTE);
 
-  LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_1);
-
   /* SPI3_TX Init */
   LL_DMA_SetPeriphRequest(DMA2, LL_DMA_CHANNEL_2, LL_DMA_REQUEST_3);
 
@@ -266,8 +264,6 @@ void MX_SPI3_Init(void)
   LL_DMA_SetPeriphSize(DMA2, LL_DMA_CHANNEL_2, LL_DMA_PDATAALIGN_BYTE);
 
   LL_DMA_SetMemorySize(DMA2, LL_DMA_CHANNEL_2, LL_DMA_MDATAALIGN_BYTE);
-
-  LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_2);
 
   /* SPI3 interrupt Init */
   NVIC_SetPriority(SPI3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
@@ -290,7 +286,8 @@ void MX_SPI3_Init(void)
   LL_SPI_SetStandard(SPI3, LL_SPI_PROTOCOL_MOTOROLA);
   LL_SPI_EnableNSSPulseMgt(SPI3);
   /* USER CODE BEGIN SPI3_Init 2 */
-
+  LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_1);
+  LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_2);
   /* USER CODE END SPI3_Init 2 */
 
 }
