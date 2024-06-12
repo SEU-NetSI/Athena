@@ -1,0 +1,3 @@
+C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/CMSIS/Include/core_cm4.h:1856:26:NVIC_EncodePriority.constprop	2
+../Core/Src/usart.c:29:6:MX_USART1_UART_Init	1
+../Core/Src/usart.c:118:6:MX_USART3_UART_Init	1
