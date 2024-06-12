@@ -26,30 +26,30 @@ bool spiExchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint
     LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_2);
     LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_1);
 
-  // Enable SPI DMA requests
-  LL_SPI_EnableDMAReq_TX(SPIx);
-  LL_SPI_EnableDMAReq_RX(SPIx);
+    // Enable SPI DMA requests
+    LL_SPI_EnableDMAReq_TX(SPIx);
+    LL_SPI_EnableDMAReq_RX(SPIx);
 
-  // Enable peripheral
-  LL_SPI_Enable(SPIx);
+    // Enable peripheral
+    LL_SPI_Enable(SPIx);
 
 
-  // Wait for completion
-  bool result = (xSemaphoreTake(txComplete, portMAX_DELAY) == pdTRUE)
+    // Wait for completion
+    bool result = (xSemaphoreTake(txComplete, portMAX_DELAY) == pdTRUE)
              && (xSemaphoreTake(rxComplete, portMAX_DELAY) == pdTRUE);
 
-  // Disable peripheral
-  LL_SPI_Disable(SPIx);
-  return true;
+    // Disable peripheral
+    LL_SPI_Disable(SPIx);
+    return true;
 }
 
-void spiBeginTransaction(SPI_TypeDef* SPIx, uint16_t baudRatePrescaler)
+void spiBeginTransaction()
 {
-  xSemaphoreTake(spiMutex, portMAX_DELAY);
+	xSemaphoreTake(spiMutex, portMAX_DELAY);
 
 }
 
 void spiEndTransaction()
 {
-  xSemaphoreGive(spiMutex);
+	xSemaphoreGive(spiMutex);
 }
