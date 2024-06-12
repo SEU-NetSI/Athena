@@ -40,7 +40,7 @@ bool spiExchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint
 
     // Disable peripheral
     LL_SPI_Disable(SPIx);
-    return true;
+    return result;
 }
 
 void spiBeginTransaction()
@@ -53,3 +53,4 @@ void spiEndTransaction()
 {
 	xSemaphoreGive(spiMutex);
 }
+

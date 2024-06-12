@@ -137,6 +137,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  BSP_W25Qx_Init();
 	  uint8_t ID[2]={0};
 	  BSP_W25Qx_Read_ID(ID);
 //
