@@ -1,4 +1,3 @@
-C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/CMSIS/Include/core_cm4.h:1667:26:__NVIC_GetPriorityGrouping	1
-C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/CMSIS/Include/core_cm4.h:1679:22:__NVIC_EnableIRQ.part.0	1
-C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/CMSIS/Include/core_cm4.h:1856:26:NVIC_EncodePriority.constprop	2
+../Drivers/CMSIS/Include/core_cm4.h:1667:26:__NVIC_GetPriorityGrouping	1
+../Drivers/CMSIS/Include/core_cm4.h:1856:26:NVIC_EncodePriority.constprop	2
 ../Core/Src/dma.c:39:6:MX_DMA_Init	1

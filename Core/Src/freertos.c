@@ -33,10 +33,16 @@
 #include "test_tof.h"
 #include "calibration.h"
 #include "w25q64_ll.h"
+#include "stm32l4xx_hal_uart.h"
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+//#define RXBUFFERSIZE 1
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+//void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart);
+//uint8_t g_rx_buffer[RXBUFFERSIZE];
 static VL53L5CX_Configuration vl53l5dev_f;
 static VL53L5CX_ResultsData vl53l5_res_f;
 SemaphoreHandle_t txComplete = NULL;
@@ -46,6 +52,7 @@ SemaphoreHandle_t spiMutex = NULL;
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -87,7 +94,6 @@ void MX_FREERTOS_Init(void) {
 
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
-	    // 处理信号量创建失�?
 	    while (1);
 	}
 
@@ -129,19 +135,33 @@ void MX_FREERTOS_Init(void) {
   * @param  argument: Not used
   * @retval None
   */
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//        if(huart->Instance==USART1)
+//        {
+//                HAL_UART_Transmit_IT(&huart1, (uint8_t*)g_rx_buffer, RXBUFFERSIZE);
+//                HAL_UART_Receive_IT(&huart1, (uint8_t *)g_rx_buffer, RXBUFFERSIZE);
+//        }
+//}
 
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-  /* Infinite loop */
+	//HAL_UART_Receive_IT(&huart1, (uint8_t *)g_rx_buffer, RXBUFFERSIZE);
+	/* Infinite loop */
   for(;;)
   {
+	  //uint8_t data[5]={0,1,2,3,4};
+	  //osDelay(1);
+	  char word[]="Hello";
+	  HAL_UART_Transmit(&huart1, word, sizeof(word), 100);
+	  osDelay(20);
 	  BSP_W25Qx_Init();
 	  uint8_t ID[2]={0};
 	  BSP_W25Qx_Read_ID(ID);
-//
-//	  uint8_t ID[4];
+
+
 //	  I2C_expander_initialize();
 //	  initialize_sensors_I2C(&vl53l5dev_f,1);
 //	  vl53l5cx_start_ranging(&vl53l5dev_f);
