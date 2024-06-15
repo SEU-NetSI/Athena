@@ -2,7 +2,7 @@
  * w25q64_ll.c
  *
  *  Created on: May 20, 2024
- *      Author: mfxjx
+ *      Author: Yunfan Li, Hanjie Yu
  */
 
 #include <stdio.h>

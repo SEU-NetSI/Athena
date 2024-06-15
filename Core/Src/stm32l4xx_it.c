@@ -27,6 +27,7 @@
 #include "semphr.h"
 #include "task.h"
 #include "spi_drv.h"
+#include "uart_receive.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,10 +61,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_usart1_tx;
-extern DMA_HandleTypeDef hdma_usart1_rx;
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart3;
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -167,8 +165,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
-#if (INCLUDE_xTaskGetSchedulerState == 1 )
+  #if (INCLUDE_xTaskGetSchedulerState == 1 )
   if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
   {
 #endif /* INCLUDE_xTaskGetSchedulerState */
@@ -319,9 +316,21 @@ void SPI2_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    uint8_t received_data;
+    static int count = 0;
 
+    if (LL_USART_IsActiveFlag_RXNE(USART1)) {
+        received_data = LL_USART_ReceiveData8(USART1);
+        xQueueSendFromISR(UartRxQueue, &received_data, &xHigherPriorityTaskWoken);
+        count++;
+        if(count >= 6){
+        	UartRxCallback();
+        	count=0;
+        }
+    }
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
   /* USER CODE END USART1_IRQn 0 */
-  HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
@@ -335,7 +344,6 @@ void USART3_IRQHandler(void)
   /* USER CODE BEGIN USART3_IRQn 0 */
 
   /* USER CODE END USART3_IRQn 0 */
-  HAL_UART_IRQHandler(&huart3);
   /* USER CODE BEGIN USART3_IRQn 1 */
 
   /* USER CODE END USART3_IRQn 1 */
@@ -431,7 +439,7 @@ void DMA2_Channel6_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Channel6_IRQn 0 */
 
   /* USER CODE END DMA2_Channel6_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+
   /* USER CODE BEGIN DMA2_Channel6_IRQn 1 */
 
   /* USER CODE END DMA2_Channel6_IRQn 1 */
@@ -445,7 +453,7 @@ void DMA2_Channel7_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Channel7_IRQn 0 */
 
   /* USER CODE END DMA2_Channel7_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+
   /* USER CODE BEGIN DMA2_Channel7_IRQn 1 */
 
   /* USER CODE END DMA2_Channel7_IRQn 1 */

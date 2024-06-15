@@ -33,6 +33,7 @@
 #include "test_tof.h"
 #include "calibration.h"
 #include "w25q64_ll.h"
+#include "uart_receive.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,6 +43,7 @@ static VL53L5CX_ResultsData vl53l5_res_f;
 SemaphoreHandle_t txComplete = NULL;
 SemaphoreHandle_t rxComplete = NULL;
 SemaphoreHandle_t spiMutex = NULL;
+SemaphoreHandle_t UartRxReady = NULL;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -84,10 +86,11 @@ void MX_FREERTOS_Init(void) {
 	txComplete = xSemaphoreCreateBinary();
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
+	UartRxReady = xSemaphoreCreateBinary();
+	CreateUartRxQueue();
 
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
-	    // 处理信号量创建失�???
 	    while (1);
 	}
 
@@ -135,17 +138,36 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-  for(;;)
-  {
-	  BSP_W25Qx_Init();
-	  uint8_t ID[2]={0};
-	  BSP_W25Qx_Read_ID(ID);
-	  BSP_W25Qx_Erase_Chip();
-	  BSP_W25Qx_Erase_Block(0x123456);
-	  uint8_t tx_data[128] = {0xef};
-	  uint8_t rx_data[128] = {0x00};
-	  BSP_W25Qx_Write(tx_data, 0x123456, 128);
-	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
+	static uint8_t Pos[6];
+	uint8_t index = 0;
+	for(;;)
+	{
+	  if (xSemaphoreTake(UartRxReady, 0) == pdPASS) {
+		  while (index < 6 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) {
+			  if(Pos[index]!=0){
+				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
+				  LL_mDelay(100);
+				  index++;
+			  }
+		  }
+		  if(index ==6)
+		  {
+			  UART_DMA_Transmit(Pos, 6);
+			  index=0;
+		  }
+	  }
+	  else{
+		  BSP_W25Qx_Init();
+	  }
+//	  BSP_W25Qx_Init();
+//	  uint8_t ID[2]={0};
+//	  BSP_W25Qx_Read_ID(ID);
+//	  //BSP_W25Qx_Erase_Chip();
+//	  BSP_W25Qx_Erase_Block(0x123456);
+//	  uint8_t tx_data[128] = {0xef};
+//	  uint8_t rx_data[128] = {0x00};
+//	  BSP_W25Qx_Write(tx_data, 0x123456, 128);
+//	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
 //	  BSP_W25Qx_Erase_Block(0x123456);
 //	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
 //
