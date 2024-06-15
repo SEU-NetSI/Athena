@@ -1,3 +1,0 @@
-C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_i2c.c:86:13:LL_I2C_DeInit	0	static
-C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_i2c.c:146:13:LL_I2C_Init	8	static
-C:/Users/mfxjx/STM32Cube/Repository/STM32Cube_FW_L4_V1.18.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_i2c.c:214:6:LL_I2C_StructInit	0	static

@@ -98,5 +98,10 @@ uint8_t BSP_W25Qx_Init(void);
 static void	BSP_W25Qx_Reset(void);
 static uint8_t BSP_W25Qx_GetStatus(void);
 void BSP_W25Qx_Read_ID(uint8_t *ID);
+uint8_t BSP_W25Qx_Read(uint8_t* pData, uint32_t ReadAddr, uint32_t Size);
+uint8_t BSP_W25Qx_Write(uint8_t* pData, uint32_t WriteAddr, uint32_t Size);
+uint8_t BSP_W25Qx_Erase_Block(uint32_t Address);
+uint8_t BSP_W25Qx_Erase_Chip(void);
+
 
 #endif /* BSP_COMPONENTS_W25Q64_INC_W25Q64_LL_H_ */

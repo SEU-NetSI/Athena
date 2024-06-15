@@ -87,7 +87,7 @@ void MX_FREERTOS_Init(void) {
 
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
-	    // 处理信号量创建失�?
+	    // 处理信号量创建失�???
 	    while (1);
 	}
 
@@ -140,6 +140,14 @@ void StartDefaultTask(void *argument)
 	  BSP_W25Qx_Init();
 	  uint8_t ID[2]={0};
 	  BSP_W25Qx_Read_ID(ID);
+	  BSP_W25Qx_Erase_Chip();
+	  BSP_W25Qx_Erase_Block(0x123456);
+	  uint8_t tx_data[128] = {0xef};
+	  uint8_t rx_data[128] = {0x00};
+	  BSP_W25Qx_Write(tx_data, 0x123456, 128);
+	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
+//	  BSP_W25Qx_Erase_Block(0x123456);
+//	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
 //
 //	  uint8_t ID[4];
 //	  I2C_expander_initialize();
