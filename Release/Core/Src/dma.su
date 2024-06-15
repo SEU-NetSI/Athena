@@ -1,3 +1,0 @@
-../Drivers/CMSIS/Include/core_cm4.h:1667:26:__NVIC_GetPriorityGrouping	0	static
-../Drivers/CMSIS/Include/core_cm4.h:1856:26:NVIC_EncodePriority.constprop	0	static
-../Core/Src/dma.c:39:6:MX_DMA_Init	16	static,ignoring_inline_asm
