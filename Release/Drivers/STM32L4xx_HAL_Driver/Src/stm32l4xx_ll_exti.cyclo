@@ -1,3 +1,0 @@
-../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c:79:10:LL_EXTI_DeInit	1
-../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c:121:10:LL_EXTI_Init	18
-../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c:260:6:LL_EXTI_StructInit	1

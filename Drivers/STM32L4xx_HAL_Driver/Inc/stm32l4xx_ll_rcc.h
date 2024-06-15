@@ -2740,6 +2740,7 @@ __STATIC_INLINE uint32_t LL_RCC_LSCO_GetSource(void)
 __STATIC_INLINE void LL_RCC_SetSysClkSource(uint32_t Source)
 {
   MODIFY_REG(RCC->CFGR, RCC_CFGR_SW, Source);
+
 }
 
 /**

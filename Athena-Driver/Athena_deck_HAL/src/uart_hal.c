@@ -24,6 +24,27 @@ void UART_DMA_Transmit(uint8_t *data, uint32_t length) {
 
     LL_USART_EnableDMAReq_TX(USART1);
 
+    osDelay(10);
+
     LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_6);
+
+}
+
+void UART_DMA_Receive(uint8_t *data, size_t length){
+
+	LL_DMA_ConfigAddresses(DMA2, LL_DMA_CHANNEL_7,
+						   LL_USART_DMA_GetRegAddr(USART1, LL_USART_DMA_REG_DATA_RECEIVE),
+						   (uint32_t)data,
+		                   LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+
+	LL_DMA_SetDataLength(DMA2, LL_DMA_CHANNEL_7, length);
+
+	LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_7);
+
+	LL_USART_EnableDMAReq_TX(USART1);
+
+	osDelay(10);
+
+	LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_7);
 
 }
