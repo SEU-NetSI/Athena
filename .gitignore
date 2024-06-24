@@ -1,6 +1,6 @@
 Debug/*
 *.launch
-*.cproject
+#*.cproject
 *.mxproject
 *.project
 Release/*
