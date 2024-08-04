@@ -32,17 +32,6 @@ void spiDeckRead(const void* cmd,
 
 void BSP_DW3000_Read_ID(uint8_t *ID)
 {
-	/* dwt_readdevid(void)
-	 * - dwt_read32bitoffsetreg(DEV_ID_ID, 0);
-	 * dwt_read32bitoffsetreg(int regFileID, int regOffset)
-	 * - dwt_readfromdevice(regFileID,regOffset,4,buffer);
-	 * void dwt_readfromdevice( regFileID, index,  length, *buffer)
-	 * - dwt_xfer3000(regFileID, index, length, buffer, DW3000_SPI_RD_BIT);
-	 * void dwt_xfer3000(regFileID, indx, length, *buffer, mode)
-	 * - readfromspi(cnt, header, length, buffer)
-	 * readfromspi( headerLength, *headerBuffer, readlength, *readBuffer)
-	 * - spiRead(headerBuffer, headerLength, readBuffer, readlength);
-	 */
 
 	/* dwt_readdevid(void)
 	 * - dwt_read32bitoffsetreg(DEV_ID_ID, 0);
