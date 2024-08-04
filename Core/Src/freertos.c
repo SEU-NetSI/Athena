@@ -32,14 +32,12 @@
 #include "vl53l5cx_api.h"
 #include "test_tof.h"
 #include "calibration.h"
-#include "w25q64_ll.h"
+#include "dw3000deck_ll.h"
 #include "uart_receive.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-static VL53L5CX_Configuration vl53l5dev_f;
-static VL53L5CX_ResultsData vl53l5_res_f;
 SemaphoreHandle_t txComplete = NULL;
 SemaphoreHandle_t rxComplete = NULL;
 SemaphoreHandle_t spiMutex = NULL;
@@ -140,8 +138,8 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
 
 
-	static uint8_t w25qID;
-	BSP_W25Qx_Read_ID(&w25qID);
+	static uint32_t dw3000ID;
+	BSP_DW3000_Read_ID(&dw3000ID)
 	;
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};

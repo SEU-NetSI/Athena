@@ -28,8 +28,14 @@ SemaphoreHandle_t spiDeckMutex = NULL;
 int spi_deck_init(void)
 {
   spiDeckTxComplete = xSemaphoreCreateBinary();
-  spiDeckTxComplete = xSemaphoreCreateBinary();
+  spiDeckRxComplete = xSemaphoreCreateBinary();
   spiDeckMutex = xSemaphoreCreateMutex();
+
+	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL)
+	{
+	    while (1);
+	}
+
   return 0;
 }
 
