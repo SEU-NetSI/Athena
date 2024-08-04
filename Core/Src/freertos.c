@@ -138,27 +138,11 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	static uint8_t Pos[6];
-	uint8_t index = 0;
-	for(;;)
-	{
-	  if (xSemaphoreTake(UartRxReady, 0) == pdPASS) {
-		  while (index < 6 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) {
-			  if(Pos[index]!=0){
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
-				  index++;
-			  }
-		  }
-		  if(index ==6)
-		  {
-			  UART_DMA_Transmit(Pos, 6);
-			  index=0;
-		  }
-	  }
-	  else{
-		  BSP_W25Qx_Init();
-	  }
+
+
+	static uint8_t w25qID;
+	BSP_W25Qx_Read_ID(&w25qID);
+	;
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
 //	  BSP_W25Qx_Read_ID(ID);
@@ -180,7 +164,7 @@ void StartDefaultTask(void *argument)
 //	  	  LL_mDelay(100);
 //	  	  get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
 //	  }
-  }
+//  }
   /* USER CODE END StartDefaultTask */
 }
 
