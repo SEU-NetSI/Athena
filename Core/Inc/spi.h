@@ -29,10 +29,15 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+#include "FreeRTOS.h"
+#include "semphr.h"
 
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+extern SemaphoreHandle_t spiDeckTxComplete;
+extern SemaphoreHandle_t spiDeckRxComplete;
+extern SemaphoreHandle_t spiDeckMutex;
 
 /* USER CODE END Private defines */
 

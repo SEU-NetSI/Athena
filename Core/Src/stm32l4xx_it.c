@@ -27,6 +27,7 @@
 #include "semphr.h"
 #include "task.h"
 #include "spi_drv.h"
+#include "spi.h"
 #include "uart_receive.h"
 /* USER CODE END Includes */
 
@@ -219,6 +220,13 @@ void DMA1_Channel3_IRQHandler(void)
 void DMA1_Channel4_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	if (LL_DMA_IsActiveFlag_TC1(DMA1)){
+		LL_DMA_ClearFlag_TC1(DMA1);
+		LL_SPI_DisableDMAReq_RX(SPI2);
+		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_4);
+		xSemaphoreGiveFromISR(spiDeckRxComplete, &xHigherPriorityTaskWoken);
+	}
 
   /* USER CODE END DMA1_Channel4_IRQn 0 */
 
@@ -233,6 +241,13 @@ void DMA1_Channel4_IRQHandler(void)
 void DMA1_Channel5_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	if (LL_DMA_IsActiveFlag_TC1(DMA1)){
+		LL_DMA_ClearFlag_TC1(DMA1);
+		LL_SPI_DisableDMAReq_RX(SPI2);
+		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_5);
+		xSemaphoreGiveFromISR(spiDeckTxComplete, &xHigherPriorityTaskWoken);
+	}
 
   /* USER CODE END DMA1_Channel5_IRQn 0 */
 

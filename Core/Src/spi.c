@@ -21,6 +21,17 @@
 #include "spi.h"
 
 /* USER CODE BEGIN 0 */
+SemaphoreHandle_t spiDeckTxComplete = NULL;
+SemaphoreHandle_t spiDeckRxComplete = NULL;
+SemaphoreHandle_t spiDeckMutex = NULL;
+
+int spi_deck_init(void)
+{
+  spiDeckTxComplete = xSemaphoreCreateBinary();
+  spiDeckTxComplete = xSemaphoreCreateBinary();
+  spiDeckMutex = xSemaphoreCreateMutex();
+  return 0;
+}
 
 /* USER CODE END 0 */
 
@@ -115,6 +126,7 @@ void MX_SPI2_Init(void)
 {
 
   /* USER CODE BEGIN SPI2_Init 0 */
+  spi_deck_init();
 
   /* USER CODE END SPI2_Init 0 */
 
