@@ -226,6 +226,7 @@ void DMA1_Channel4_IRQHandler(void)
 		LL_SPI_DisableDMAReq_RX(SPI2);
 		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_4);
 		xSemaphoreGiveFromISR(spiDeckRxComplete, &xHigherPriorityTaskWoken);
+		led_flash_delay_in_ms = 500;
 	}
 
   /* USER CODE END DMA1_Channel4_IRQn 0 */
@@ -247,6 +248,7 @@ void DMA1_Channel5_IRQHandler(void)
 		LL_SPI_DisableDMAReq_TX(SPI2);
 		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_5);
 		xSemaphoreGiveFromISR(spiDeckTxComplete, &xHigherPriorityTaskWoken);
+		led_flash_delay_in_ms = 1000;
 	}
 
   /* USER CODE END DMA1_Channel5_IRQn 0 */
@@ -389,6 +391,7 @@ void DMA2_Channel1_IRQHandler(void)
 		LL_SPI_DisableDMAReq_RX(SPI3);
 		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_1);
 		xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
+		led_flash_delay_in_ms = 2000;
 	}
   /* USER CODE END DMA2_Channel1_IRQn 0 */
 
@@ -410,6 +413,7 @@ void DMA2_Channel2_IRQHandler(void)
 		LL_SPI_DisableDMAReq_TX(SPI3);
 		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_2);
 		xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
+		led_flash_delay_in_ms = 3000;
 	}
   /* USER CODE END DMA2_Channel2_IRQn 0 */
 

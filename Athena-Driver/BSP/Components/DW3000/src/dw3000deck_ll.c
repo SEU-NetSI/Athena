@@ -7,6 +7,8 @@
 
 #include <string.h>
 #include "dw3000deck_ll.h"
+#include "main.h"
+
 
 #define DW3000Deck_Enable()          LL_GPIO_ResetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
 #define DW3000Deck_Disable()         LL_GPIO_SetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
@@ -46,7 +48,7 @@ void BSP_DW3000_Read_ID(uint32_t *dw3000ID)
 	 */
 
 	uint8_t cmd[4] = {0x40, DUMMY_BYTE, DUMMY_BYTE, DUMMY_BYTE};
+	led_flash_delay_in_ms = 4000;
 	spiDeckRead(cmd, 4, dw3000ID, 4);
-
 	return ;
 }
