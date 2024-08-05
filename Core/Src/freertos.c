@@ -55,6 +55,7 @@ SemaphoreHandle_t UartRxReady = NULL;
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+osThreadId_t ledTaskHandle;
 
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
@@ -67,10 +68,12 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+void ledTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
+
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -116,6 +119,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  ledTaskHandle = osThreadNew(ledTask, NULL, &defaultTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -137,9 +141,10 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
 
-
-	static uint32_t dw3000ID;
-	BSP_DW3000_Read_ID(&dw3000ID)
+	//static uint8_t w25qID;
+	//BSP_W25Qx_Read_ID(&w25qID)
+	//static uint32_t dw3000ID;
+	//BSP_DW3000_Read_ID(&dw3000ID);
 	;
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
@@ -168,6 +173,13 @@ void StartDefaultTask(void *argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-
+void ledTask(void *argument)
+{
+  while(1)
+  {
+	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+	LL_mDelay(led_flash_delay_in_ms);
+  }
+}
 /* USER CODE END Application */
 

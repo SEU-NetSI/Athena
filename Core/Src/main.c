@@ -60,7 +60,7 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t led_flash_delay_in_ms = 5000;
+uint32_t led_flash_delay_in_ms = 500;
 /* USER CODE END 0 */
 
 /**
@@ -129,8 +129,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	LL_mDelay(led_flash_delay_in_ms);
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
