@@ -150,6 +150,11 @@ void StartDefaultTask(void *argument)
 	//static uint32_t dw3000ID;
 	//BSP_DW3000_Read_ID(&dw3000ID);
 	;
+	  while(1)
+	  {
+		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		LL_mDelay(led_flash_delay_in_ms);
+	  }
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
 //	  BSP_W25Qx_Read_ID(ID);
