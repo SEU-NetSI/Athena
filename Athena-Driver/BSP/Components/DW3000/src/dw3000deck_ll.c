@@ -44,6 +44,7 @@ void BSP_DW3000_Read_ID(uint32_t *dw3000ID)
 	 * readfromspi( headerLength, *headerBuffer, readlength, *readBuffer)
 	 * - spiRead(headerBuffer, headerLength, readBuffer, readlength);
 	 */
+
 	uint8_t cmd[4] = {0x40, DUMMY_BYTE, DUMMY_BYTE, DUMMY_BYTE};
 	spiDeckRead(cmd, 4, dw3000ID, 4);
 

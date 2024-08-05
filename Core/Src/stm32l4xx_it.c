@@ -226,6 +226,7 @@ void DMA1_Channel4_IRQHandler(void)
 		LL_SPI_DisableDMAReq_RX(SPI2);
 		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_4);
 		xSemaphoreGiveFromISR(spiDeckRxComplete, &xHigherPriorityTaskWoken);
+		led_flash_delay_in_ms=1000;
 	}
 
   /* USER CODE END DMA1_Channel4_IRQn 0 */
@@ -244,9 +245,10 @@ void DMA1_Channel5_IRQHandler(void)
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	if (LL_DMA_IsActiveFlag_TC1(DMA1)){
 		LL_DMA_ClearFlag_TC1(DMA1);
-		LL_SPI_DisableDMAReq_RX(SPI2);
+		LL_SPI_DisableDMAReq_TX(SPI2);
 		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_5);
 		xSemaphoreGiveFromISR(spiDeckTxComplete, &xHigherPriorityTaskWoken);
+		led_flash_delay_in_ms=2000;
 	}
 
   /* USER CODE END DMA1_Channel5_IRQn 0 */

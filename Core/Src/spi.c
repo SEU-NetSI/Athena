@@ -39,6 +39,10 @@ int spi_deck_init(void)
   return 0;
 }
 
+void Led_flash()
+{
+
+}
 /* USER CODE END 0 */
 
 /* SPI1 init function */

@@ -58,6 +58,10 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+#define W25QXX_CS_Pin LL_GPIO_PIN_8
+#define W25QXX_CS_GPIO_Port GPIOB
+#define LED_Pin LL_GPIO_PIN_9
+#define LED_GPIO_Port GPIOB
 
 /* USER CODE END EC */
 
@@ -74,10 +78,7 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define W25QXX_CS_Pin LL_GPIO_PIN_8
-#define W25QXX_CS_GPIO_Port GPIOB
-#define LED_Pin LL_GPIO_PIN_9
-#define LED_GPIO_Port GPIOB
+
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */
@@ -92,6 +93,7 @@ void Error_Handler(void);
 #endif
 
 /* USER CODE BEGIN Private defines */
+extern uint32_t led_flash_delay_in_ms;
 
 /* USER CODE END Private defines */
 

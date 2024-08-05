@@ -12,7 +12,12 @@
 #include "stm32l4xx_ll_spi.h"
 #include "stm32l4xx_ll_bus.h"
 
-
+/*
+  1. SPI3
+  2. DMA2
+    a. channel 1: read from SPI3_RX
+    b. channel 2: write to SPI3_TX
+  */
 bool spiExchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint8_t * data_rx)
 {
 	// DMA already configured, just need to set memory addresses
