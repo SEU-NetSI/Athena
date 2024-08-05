@@ -79,7 +79,6 @@ void ledTask(void *argument);
 
 void StartDefaultTask(void *argument);
 
-
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
