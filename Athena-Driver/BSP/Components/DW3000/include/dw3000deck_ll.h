@@ -22,7 +22,5 @@ extern SemaphoreHandle_t spiDeckTxComplete;
 extern SemaphoreHandle_t spiDeckRxComplete;
 extern SemaphoreHandle_t spiDeckMutex;
 
-void BSP_DW3000_Read_ID(uint32_t *dw3000ID);
-
 
 #endif /* BSP_COMPONENTS_DW300_INC_DW3000DECK_LL_H_ */

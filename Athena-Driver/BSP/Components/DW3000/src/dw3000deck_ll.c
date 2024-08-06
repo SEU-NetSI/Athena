@@ -7,17 +7,32 @@
 
 #include <string.h>
 #include "dw3000deck_ll.h"
-#include "main.h"
 
 
 #define DW3000Deck_Enable()          LL_GPIO_ResetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
 #define DW3000Deck_Disable()         LL_GPIO_SetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
 
+/************ Low level ops for libdw **********/
+
 #define SPI_DECK_BUFFER_MAX_SIZE 240
 static uint8_t spiDeckTxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
 static uint8_t spiDeckRxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
 
-void spiDeckRead(const void* cmd,
+static void spiDeckWrite(const void* cmd,
+			size_t cmdLength,
+			void *data,
+			size_t dataLength)
+{
+	spiDeckBeginTransaction();
+	DW3000Deck_Enable();
+    memcpy(spiDeckTxBuffer, cmd, cmdLength);
+    memcpy(spiDeckTxBuffer + cmdLength, data, dataLength);
+    spiExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
+	DW3000Deck_Disable();
+	spiDeckEndTransaction();
+}
+
+static void spiDeckRead(const void* cmd,
 			size_t cmdLength,
 			void *data,
 			size_t dataLength)
@@ -32,23 +47,23 @@ void spiDeckRead(const void* cmd,
 	spiDeckEndTransaction();
 }
 
-void BSP_DW3000_Read_ID(uint32_t *dw3000ID)
+//TODO EXTI2_Callback
+
+static void delayms(unsigned int delay) { vTaskDelay(M2T(delay)); }
+
+static void reset(void)
 {
-
-	/* dwt_readdevid(void)
-	 * - dwt_read32bitoffsetreg(DEV_ID_ID, 0);
-	 * dwt_read32bitoffsetreg(regFileID=0, regOffset = 0)
-	 * - dwt_readfromdevice(regFileID=0,regOffset=0,4,buffer);
-	 * void dwt_readfromdevice( regFileID=0, index=0,  length=4, *buffer)
-	 * - dwt_xfer3000(regFileID=0, index=0, length=4, buffer, DW3000_SPI_RD_BIT);
-	 * void dwt_xfer3000(regFileID=0, indx=0, length=4, *buffer, mode=0)
-	 * - readfromspi(cnt, header, length, buffer)
-	 * readfromspi( headerLength, *headerBuffer, readlength, *readBuffer)
-	 * - spiRead(headerBuffer, headerLength, readBuffer, readlength);
-	 */
-
-	uint8_t cmd[4] = {0x0, DUMMY_BYTE, DUMMY_BYTE, DUMMY_BYTE};
-	led_flash_delay_in_ms = 3000;
-	spiDeckRead(0, 1, dw3000ID, 4);
-	return ;
+	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_5); // Set PC5 low
+	LL_mDelay(10);
+	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_5);  // Set PC5 high
+	LL_mDelay(10);
 }
+
+extern dwOps_t dwt_ops = {
+    .spiRead = spiRead,
+    .spiWrite = spiWrite,
+    .spiSetSpeed = spiSetSpeed,
+    .delayms = delayms,
+    .reset = reset
+};
+

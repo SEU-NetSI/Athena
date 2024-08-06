@@ -163,16 +163,12 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	LL_mDelay(2000);
 //	static uint8_t w25qID;
 //	BSP_W25Qx_Read_ID(&w25qID);
 
-	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_5); // Set PC5 low
-	LL_mDelay(10);
-	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_5);  // Set PC5 high
-	LL_mDelay(10);
-	static uint32_t dw3000ID;
-	BSP_DW3000_Read_ID(&dw3000ID);
+	static uint32_t devid = 0;
+	devid = dwt_readdevid();
+
 	led_flash_delay_in_ms = 100;
 	  while(1)
 	  {
