@@ -144,17 +144,16 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-
-	static uint8_t w25qID;
-	BSP_W25Qx_Read_ID(&w25qID);
-//	static uint32_t dw3000ID;
-//	BSP_DW3000_Read_ID(&dw3000ID);
+	LL_mDelay(4000);
+//	static uint8_t w25qID;
+//	BSP_W25Qx_Read_ID(&w25qID);
+	static uint32_t dw3000ID;
+	BSP_DW3000_Read_ID(&dw3000ID);
 	;
-//	  while(1)
-//	  {
-//		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-//		LL_mDelay(led_flash_delay_in_ms);
-//	  }
+	  while(1)
+	  {
+		;
+	  }
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
 //	  BSP_W25Qx_Read_ID(ID);
