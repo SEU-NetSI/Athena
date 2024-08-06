@@ -43,6 +43,24 @@ SemaphoreHandle_t txComplete = NULL;
 SemaphoreHandle_t rxComplete = NULL;
 SemaphoreHandle_t spiMutex = NULL;
 SemaphoreHandle_t UartRxReady = NULL;
+SemaphoreHandle_t spiDeckTxComplete = NULL;
+SemaphoreHandle_t spiDeckRxComplete = NULL;
+SemaphoreHandle_t spiDeckMutex = NULL;
+
+int spi_deck_init(void)
+{
+  spiDeckTxComplete = xSemaphoreCreateBinary();
+  spiDeckRxComplete = xSemaphoreCreateBinary();
+  spiDeckMutex = xSemaphoreCreateMutex();
+
+	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL)
+	{
+	    while (1);
+	}
+
+  return 0;
+}
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -98,6 +116,7 @@ void MX_FREERTOS_Init(void) {
 	{
 	    while (1);
 	}
+	spi_deck_init();
 
   /* USER CODE END Init */
 
@@ -144,15 +163,16 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	LL_mDelay(4000);
+	LL_mDelay(2000);
 //	static uint8_t w25qID;
 //	BSP_W25Qx_Read_ID(&w25qID);
-//	static uint32_t dw3000ID;
-//	BSP_DW3000_Read_ID(&dw3000ID);
+
 	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_5); // Set PC5 low
 	LL_mDelay(10);
 	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_5);  // Set PC5 high
 	LL_mDelay(10);
+	static uint32_t dw3000ID;
+	BSP_DW3000_Read_ID(&dw3000ID);
 	led_flash_delay_in_ms = 100;
 	  while(1)
 	  {

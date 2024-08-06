@@ -11,7 +11,7 @@
 #include "stm32l4xx_ll_dma.h"
 #include "stm32l4xx_ll_spi.h"
 #include "stm32l4xx_ll_bus.h"
-#include "spi.h"
+#include "dw3000deck_ll.h"
 
 
 #define SPI_BUFFER_MAX_SIZE 240
@@ -46,7 +46,6 @@ bool spiDeckExchange(size_t length, const uint8_t * data_tx, uint8_t * data_rx)
 
     // Enable peripheral
     LL_SPI_Enable(SPIx);
-
 
     // Wait for completion
     bool result = (xSemaphoreTake(spiDeckTxComplete, portMAX_DELAY) == pdTRUE)

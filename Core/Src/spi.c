@@ -21,28 +21,7 @@
 #include "spi.h"
 
 /* USER CODE BEGIN 0 */
-SemaphoreHandle_t spiDeckTxComplete = NULL;
-SemaphoreHandle_t spiDeckRxComplete = NULL;
-SemaphoreHandle_t spiDeckMutex = NULL;
 
-int spi_deck_init(void)
-{
-  spiDeckTxComplete = xSemaphoreCreateBinary();
-  spiDeckRxComplete = xSemaphoreCreateBinary();
-  spiDeckMutex = xSemaphoreCreateMutex();
-
-	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL)
-	{
-	    while (1);
-	}
-
-  return 0;
-}
-
-void Led_flash()
-{
-
-}
 /* USER CODE END 0 */
 
 /* SPI1 init function */
@@ -136,7 +115,6 @@ void MX_SPI2_Init(void)
 {
 
   /* USER CODE BEGIN SPI2_Init 0 */
-  spi_deck_init();
 
   /* USER CODE END SPI2_Init 0 */
 
