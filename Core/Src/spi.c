@@ -196,7 +196,8 @@ void MX_SPI2_Init(void)
   LL_SPI_SetStandard(SPI2, LL_SPI_PROTOCOL_MOTOROLA);
   LL_SPI_EnableNSSPulseMgt(SPI2);
   /* USER CODE BEGIN SPI2_Init 2 */
-
+  LL_DMA_EnableIT_TC(DMA1, LL_DMA_CHANNEL_4);
+  LL_DMA_EnableIT_TC(DMA1, LL_DMA_CHANNEL_5);
   /* USER CODE END SPI2_Init 2 */
 
 }
