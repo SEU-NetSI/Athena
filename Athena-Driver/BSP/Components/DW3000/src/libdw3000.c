@@ -763,10 +763,10 @@ int dwt_initialise(int mode)
     pdw3000local->cbSPIErr = NULL;
 
     // Read and validate device ID return -1 if not recognised
-    if (dwt_check_dev_id()!=DWT_SUCCESS)
-    {
-        return DWT_ERROR;
-    }
+//    if (dwt_check_dev_id()!=DWT_SUCCESS)
+//    {
+//        return DWT_ERROR;
+//    }
 
     //Read LDO_TUNE and BIAS_TUNE from OTP
     ldo_tune_lo = _dwt_otpread(LDOTUNELO_ADDRESS);

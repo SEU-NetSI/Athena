@@ -171,19 +171,9 @@ void StartDefaultTask(void *argument)
 //	BSP_W25Qx_Read_ID(&w25qID);
 
 	dwt_ops.reset();
-	  if (dw3000Init() == DWT_SUCCESS)
-	  {
-		  ;
-	  }
-	  {
-		  ;
-	  }
-
+	int result = dw3000Init();
 	led_flash_delay_in_ms = 100;
-	  while(1)
-	  {
-		;
-	  }
+
       /* Reset DW3000 to idle state */
       dwt_forcetrxoff();
       uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
@@ -199,6 +189,10 @@ void StartDefaultTask(void *argument)
       {
         ;
       }
+	  while(1)
+	  {
+		;
+	  }
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
 //	  BSP_W25Qx_Read_ID(ID);
