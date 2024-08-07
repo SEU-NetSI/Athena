@@ -33,9 +33,11 @@
 #include "test_tof.h"
 #include "calibration.h"
 #include "w25q64_ll.h"
+#include "uart_receive.h"
 #include "libdw3000.h"
 #include "dw3000deck_ll.h"
-#include "uart_receive.h"
+#include "dwTypes.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -167,7 +169,14 @@ void StartDefaultTask(void *argument)
 //	static uint8_t w25qID;
 //	BSP_W25Qx_Read_ID(&w25qID);
 
-	static uint32_t devid = 0;
+	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_5); // Set PC5 low
+	LL_mDelay(10);
+	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_5);  // Set PC5 high
+	LL_mDelay(10);
+	static uint32_t dw3000ID;
+	dwt_ops.spiRead(0, 1, &dw3000ID, 4);
+
+	static uint32_t devid;
 	devid = dwt_readdevid();
 
 	led_flash_delay_in_ms = 100;
