@@ -173,6 +173,7 @@ void StartDefaultTask(void *argument)
 
 	static uint32_t devid = 0;
 	devid = dwt_readdevid();
+	dwt_setleds(DWT_LEDS_ENABLE | DWT_LEDS_INIT_BLINK);
 
 	led_flash_delay_in_ms = 100;
 	  while(1)
