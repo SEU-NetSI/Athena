@@ -14,10 +14,6 @@
 #include "dw3000deck_ll.h"
 
 
-#define SPI_BUFFER_MAX_SIZE 240
-static uint8_t spiTxBuffer[SPI_BUFFER_MAX_SIZE];
-static uint8_t spiRxBuffer[SPI_BUFFER_MAX_SIZE];
-
 /*
   1. SPI2
   2. DMA1

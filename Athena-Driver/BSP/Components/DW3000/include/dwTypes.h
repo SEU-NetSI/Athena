@@ -53,5 +53,5 @@ typedef struct dwOps_s {
 	 void (*reset)(void);
 } dwOps_t;
 
-dwOps_t dwt_ops;
+extern dwOps_t dwt_ops;
 #endif

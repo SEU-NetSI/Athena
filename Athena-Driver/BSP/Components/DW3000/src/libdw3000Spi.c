@@ -4,8 +4,6 @@
 #include "libdw3000.h"
 #include "dwTypes.h"
 
-extern dwOps_t dwt_ops;
-
 /*! ------------------------------------------------------------------------------------------------------------------
  * Function: writetospiwithcrc()
  *

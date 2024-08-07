@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include "dw3000deck_ll.h"
+#include "dwTypes.h"
 
 
 #define DW3000Deck_Enable()          LL_GPIO_ResetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
@@ -20,14 +21,14 @@ static uint8_t spiDeckRxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
 
 static void spiDeckWrite(const void* cmd,
 			size_t cmdLength,
-			void *data,
+			const void *data,
 			size_t dataLength)
 {
 	spiDeckBeginTransaction();
 	DW3000Deck_Enable();
     memcpy(spiDeckTxBuffer, cmd, cmdLength);
     memcpy(spiDeckTxBuffer + cmdLength, data, dataLength);
-    spiExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
+    spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
 	DW3000Deck_Disable();
 	spiDeckEndTransaction();
 }
@@ -49,20 +50,22 @@ static void spiDeckRead(const void* cmd,
 
 //TODO EXTI2_Callback
 
-static void delayms(unsigned int delay) { vTaskDelay(M2T(delay)); }
+static void spiDeckSetSpeed(dwSpiSpeed_t speed) { return; }
+
+static void delayms(unsigned int delay) { vTaskDelay(delay); }
 
 static void reset(void)
 {
 	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_5); // Set PC5 low
-	LL_mDelay(10);
+	vTaskDelay(10);
 	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_5);  // Set PC5 high
-	LL_mDelay(10);
+	vTaskDelay(10);
 }
 
-extern dwOps_t dwt_ops = {
-    .spiRead = spiRead,
-    .spiWrite = spiWrite,
-    .spiSetSpeed = spiSetSpeed,
+dwOps_t dwt_ops = {
+    .spiRead = spiDeckRead,
+    .spiWrite = spiDeckWrite,
+    .spiSetSpeed = spiDeckSetSpeed,
     .delayms = delayms,
     .reset = reset
 };

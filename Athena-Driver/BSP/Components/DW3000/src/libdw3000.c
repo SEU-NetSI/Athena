@@ -29,7 +29,6 @@ const uint16_t sts_length_factors[STS_LEN_SUPPORTED]=
 
 static uint16_t get_sts_mnth(uint16_t sts, uint8_t default_threshold, uint8_t shift_val);
 
-extern dwOps_t dwt_ops;
 //DW-IC SPI CRC-8 polynomial
 #define POLYNOMIAL  0x07    /* x^8 + x^2 + x^1 + x^0 */
 #define TOPBIT      (1 << (8 - 1))
