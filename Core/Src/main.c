@@ -22,7 +22,6 @@
 #include "dma.h"
 #include "i2c.h"
 #include "spi.h"
-#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -107,7 +106,6 @@ int main(void)
   MX_SPI3_Init();
   MX_SPI2_Init();
   MX_SPI1_Init();
-  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
