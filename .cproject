@@ -104,7 +104,6 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.830040511" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.882792359" name="uart_hal.h" rcbsApplicability="disable" resourcePath="Athena-Driver/Athena_deck_HAL/inc/uart_hal.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.2124766754" name="w25q64.h" rcbsApplicability="disable" resourcePath="Athena-Driver/BSP/Components/W25Q64/inc/w25q64.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Athena_deck_HAL/src/i2c_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>

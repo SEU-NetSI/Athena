@@ -28,7 +28,6 @@
 #include "task.h"
 #include "spi_drv.h"
 #include "dw3000deck_ll.h"
-#include "uart_receive.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
