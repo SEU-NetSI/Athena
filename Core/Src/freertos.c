@@ -143,7 +143,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-//  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -167,9 +167,9 @@ void StartDefaultTask(void *argument)
 //	static uint8_t w25qID;
 //	BSP_W25Qx_Read_ID(&w25qID);
 
+	led_flash_in_rpm = 750;
 	dwt_ops.reset();
 	int result = dw3000Init();
-	led_flash_delay_in_ms = 100;
 
       /* Reset DW3000 to idle state */
       dwt_forcetrxoff();
@@ -188,7 +188,7 @@ void StartDefaultTask(void *argument)
       }
 	  while(1)
 	  {
-		;
+		  vTaskDelay(1);
 	  }
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
@@ -222,7 +222,7 @@ void ledTask(void *argument)
   while(1)
   {
 	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	LL_mDelay(led_flash_delay_in_ms);
+	vTaskDelay(30000 / led_flash_in_rpm);
   }
 }
 /* USER CODE END Application */

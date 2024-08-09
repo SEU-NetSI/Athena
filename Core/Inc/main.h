@@ -95,7 +95,7 @@ void Error_Handler(void);
 #endif
 
 /* USER CODE BEGIN Private defines */
-extern uint32_t led_flash_delay_in_ms;
+extern uint32_t led_flash_in_rpm;
 
 /* USER CODE END Private defines */
 

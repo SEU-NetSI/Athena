@@ -59,7 +59,7 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t led_flash_delay_in_ms = 1000;
+uint32_t led_flash_in_rpm = 50;
 /* USER CODE END 0 */
 
 /**
