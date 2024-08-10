@@ -228,6 +228,10 @@ void uwbTask(void *argument)
     {
       ;
     }
+	while(1)
+	{
+      vTaskDelay(1);
+	}
 }
 void ledTask(void *argument)
 {
