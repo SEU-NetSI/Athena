@@ -48,14 +48,17 @@ SemaphoreHandle_t UartRxReady = NULL;
 SemaphoreHandle_t spiDeckTxComplete = NULL;
 SemaphoreHandle_t spiDeckRxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
+SemaphoreHandle_t irqSemaphore = NULL;
+
 
 int spi_deck_init(void)
 {
   spiDeckTxComplete = xSemaphoreCreateBinary();
   spiDeckRxComplete = xSemaphoreCreateBinary();
   spiDeckMutex = xSemaphoreCreateMutex();
+  irqSemaphore = xSemaphoreCreateMutex();
 
-	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL)
+	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || irqSemaphore == NULL)
 	{
 	    while (1);
 	}
@@ -88,6 +91,7 @@ const osThreadAttr_t uwbTask_attributes = {
   .stack_size = 128 * 8,
   .priority = (osPriority_t) osPriorityNormal,
 };
+osThreadId_t uwbISRTaskHandle;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -99,8 +103,9 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-void ledTask(void *argument);
-void uwbTask(void *argument);
+static void ledTask(void *argument);
+static void uwbTask(void *argument);
+static void uwbISRTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -152,6 +157,7 @@ void MX_FREERTOS_Init(void) {
   /* add threads, ... */
   ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
   uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
+  uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -207,12 +213,31 @@ void StartDefaultTask(void *argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-void uwbTask(void *argument)
+static void uwbISRTask(void *parameters)
+{
+  vTaskDelay(32);
+
+  while (1)
+  {
+    if (ulTaskNotifyTake(pdTRUE, portMAX_DELAY))
+    {
+      do
+      {
+        xSemaphoreTake(irqSemaphore, portMAX_DELAY);
+        dwt_isr();
+        xSemaphoreGive(irqSemaphore);
+      } while (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_4) != RESET);
+    }
+  }
+}
+
+static void uwbTask(void *argument)
 {
 	led_flash_in_rpm = 750;
 	dwt_ops.reset();
 	int result = dw3000Init();
-
+//	  dwt_forcetrxoff();
+//	  dwt_rxenable(DWT_START_RX_IMMEDIATE);
     /* Reset DW3000 to idle state */
     dwt_forcetrxoff();
     uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
@@ -233,7 +258,8 @@ void uwbTask(void *argument)
       vTaskDelay(1);
 	}
 }
-void ledTask(void *argument)
+
+static void ledTask(void *argument)
 {
   while(1)
   {

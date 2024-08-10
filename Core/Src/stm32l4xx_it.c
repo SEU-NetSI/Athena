@@ -28,10 +28,13 @@
 #include "task.h"
 #include "spi_drv.h"
 #include "dw3000deck_ll.h"
+#include "cmsis_os.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
+ extern osThreadId_t uwbISRTaskHandle;
 
 /* USER CODE END TD */
 
@@ -197,7 +200,7 @@ void EXTI4_IRQHandler(void)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_4);
     /* USER CODE BEGIN LL_EXTI_LINE_4 */
-    led_flash_in_rpm = 300;
+    vTaskNotifyGiveFromISR(uwbISRTaskHandle, NULL);
     /* USER CODE END LL_EXTI_LINE_4 */
   }
   /* USER CODE BEGIN EXTI4_IRQn 1 */

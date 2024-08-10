@@ -74,6 +74,71 @@ dwOps_t dwt_ops = {
     .reset = reset
 };
 
+/************ Call back functions for libdw **********/
+#define UWB_FRAME_LEN_MAX 127
+
+static uint8_t rxBuffer[UWB_FRAME_LEN_MAX];
+
+static void txCallback()
+{
+  //  DEBUG_PRINT("txCallback \n");
+//  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+//  vTaskNotifyGiveFromISR(uwbTxTaskHandle, &xHigherPriorityTaskWoken);
+}
+
+/* Packet dispatcher */
+static void rxCallback()
+{
+//  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+  uint32_t dataLength = dwt_read32bitreg(RX_FINFO_ID) & RX_FINFO_RXFLEN_BIT_MASK;
+
+//  ASSERT(dataLength != 0 && dataLength <= UWB_FRAME_LEN_MAX);
+
+  dwt_readrxdata(rxBuffer, dataLength - FCS_LEN, 0); /* No need to read the FCS/CRC. */
+
+  //  DEBUG_PRINT("rxCallback: data length = %lu \n", dataLength);
+
+//  UWB_Packet_t *packet = (UWB_Packet_t *)&rxBuffer;
+//  UWB_MESSAGE_TYPE msgType = packet->header.type;
+//
+//  ASSERT(msgType < UWB_MESSAGE_TYPE_COUNT);
+//
+//  if (!(packet->header.destAddress == MY_UWB_ADDRESS || packet->header.destAddress == UWB_DEST_ANY))
+//  {
+//    dwt_forcetrxoff();
+//    dwt_rxenable(DWT_START_RX_IMMEDIATE);
+//    return;
+//  }
+//  #ifdef ENABLE_SNIFFER
+//  listeners[UWB_SNIFFER_MESSAGE].rxCb(packet);
+//  #else
+//  if (listeners[msgType].rxCb)
+//  {
+//    listeners[msgType].rxCb(packet);
+//  }
+//
+//  if (listeners[msgType].rxQueue)
+//  {
+//    xQueueSendFromISR(listeners[msgType].rxQueue, packet, &xHigherPriorityTaskWoken);
+//  }
+//  #endif
+
+  dwt_forcetrxoff();
+  dwt_rxenable(DWT_START_RX_IMMEDIATE);
+}
+
+static void rxTimeoutCallback()
+{
+  dwt_forcetrxoff();
+  dwt_rxenable(DWT_START_RX_IMMEDIATE);
+}
+
+static void rxErrorCallback()
+{
+  dwt_rxenable(DWT_START_RX_IMMEDIATE);
+//  DEBUG_PRINT("rxErrorCallback: some error occurs when rx\n");
+}
 
 int dw3000Init()
 {
@@ -106,7 +171,7 @@ int dw3000Init()
   dwt_setrxtimeout(0xFFFFF);
 
   /* Set callback functions */
-//  dwt_setcallbacks(&txCallback, &rxCallback, &rxTimeoutCallback, &rxErrorCallback, NULL, NULL);
+  dwt_setcallbacks(&txCallback, &rxCallback, &rxTimeoutCallback, &rxErrorCallback, NULL, NULL);
 
   /* Enable wanted interrupts (TX confirmation, RX good frames, RX timeouts and RX errors). */
   dwt_setinterrupt(SYS_ENABLE_LO_TXFRS_ENABLE_BIT_MASK |
