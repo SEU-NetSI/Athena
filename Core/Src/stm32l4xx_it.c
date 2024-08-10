@@ -186,6 +186,26 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line4 interrupt.
+  */
+void EXTI4_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI4_IRQn 0 */
+
+  /* USER CODE END EXTI4_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_4) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_4);
+    /* USER CODE BEGIN LL_EXTI_LINE_4 */
+    led_flash_in_rpm = 300;
+    /* USER CODE END LL_EXTI_LINE_4 */
+  }
+  /* USER CODE BEGIN EXTI4_IRQn 1 */
+
+  /* USER CODE END EXTI4_IRQn 1 */
+}
+
+/**
   * @brief This function handles DMA1 channel2 global interrupt.
   */
 void DMA1_Channel2_IRQHandler(void)

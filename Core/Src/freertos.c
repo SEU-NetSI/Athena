@@ -79,7 +79,13 @@ int spi_deck_init(void)
 osThreadId_t ledTaskHandle;
 const osThreadAttr_t ledTask_attributes = {
   .name = "ledTask",
-  .stack_size = 128 * 4,
+  .stack_size = 128 * 2,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+osThreadId_t uwbTaskHandle;
+const osThreadAttr_t uwbTask_attributes = {
+  .name = "uwbTask",
+  .stack_size = 128 * 8,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE END Variables */
@@ -87,13 +93,14 @@ const osThreadAttr_t ledTask_attributes = {
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 8,
+  .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 void ledTask(void *argument);
+void uwbTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -144,6 +151,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+  uwbTaskHandle = osThreadNew(uwbTask, NULL, &ledTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -167,25 +175,7 @@ void StartDefaultTask(void *argument)
 //	static uint8_t w25qID;
 //	BSP_W25Qx_Read_ID(&w25qID);
 
-	led_flash_in_rpm = 750;
-	dwt_ops.reset();
-	int result = dw3000Init();
 
-      /* Reset DW3000 to idle state */
-      dwt_forcetrxoff();
-      uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
-      uint16_t length = 16;
-      dwt_writetxdata(length, uwbdata_tx, 0);
-      dwt_writetxfctrl(length + FCS_LEN, 0, 1);
-      /* Start transmission. */
-      if (dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) == DWT_ERROR)
-      {
-        ;
-      }
-      else
-      {
-        ;
-      }
 	  while(1)
 	  {
 		  vTaskDelay(1);
@@ -217,6 +207,28 @@ void StartDefaultTask(void *argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
+void uwbTask(void *argument)
+{
+	led_flash_in_rpm = 750;
+	dwt_ops.reset();
+	int result = dw3000Init();
+
+    /* Reset DW3000 to idle state */
+    dwt_forcetrxoff();
+    uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
+    uint16_t length = 16;
+    dwt_writetxdata(length, uwbdata_tx, 0);
+    dwt_writetxfctrl(length + FCS_LEN, 0, 1);
+    /* Start transmission. */
+    if (dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) == DWT_ERROR)
+    {
+      ;
+    }
+    else
+    {
+      ;
+    }
+}
 void ledTask(void *argument)
 {
   while(1)
