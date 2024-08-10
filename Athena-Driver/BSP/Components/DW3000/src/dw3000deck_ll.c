@@ -27,17 +27,13 @@ static void spiDeckWrite(const void* cmd,
 			const void *data,
 			size_t dataLength)
 {
-	led_flash_in_rpm = 400;
 	spiDeckBeginTransaction();
-	led_flash_in_rpm = 100;
 	DW3000Deck_Enable();
     memcpy(spiDeckTxBuffer, cmd, cmdLength);
     memcpy(spiDeckTxBuffer + cmdLength, data, dataLength);
     spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
 	DW3000Deck_Disable();
-	led_flash_in_rpm = 500;
 	spiDeckEndTransaction();
-	led_flash_in_rpm = 100;
 
 }
 
@@ -46,18 +42,14 @@ static void spiDeckRead(const void* cmd,
 			void *data,
 			size_t dataLength)
 {
-	led_flash_in_rpm = 200;
 	spiDeckBeginTransaction();
-	led_flash_in_rpm = 100;
 	DW3000Deck_Enable();
 	memcpy(spiDeckTxBuffer, cmd, cmdLength);
 	memset(spiDeckTxBuffer + cmdLength, DUMMY_BYTE, dataLength);
 	spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
 	memcpy(data, spiDeckRxBuffer + cmdLength, dataLength);
 	DW3000Deck_Disable();
-	led_flash_in_rpm = 300;
 	spiDeckEndTransaction();
-	led_flash_in_rpm = 100;
 }
 
 //TODO EXTI2_Callback

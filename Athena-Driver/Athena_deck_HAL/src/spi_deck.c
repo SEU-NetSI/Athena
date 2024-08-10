@@ -45,10 +45,8 @@ bool spiDeckExchange(size_t length, const uint8_t * data_tx, uint8_t * data_rx)
     LL_SPI_Enable(SPIx);
 
     // Wait for completion
-    led_flash_in_rpm = 600;
     bool result = (xSemaphoreTake(spiDeckTxComplete, portMAX_DELAY) == pdTRUE)
              && (xSemaphoreTake(spiDeckRxComplete, portMAX_DELAY) == pdTRUE);
-    led_flash_in_rpm = 100;
 
     // Disable peripheral
     LL_SPI_Disable(SPIx);
