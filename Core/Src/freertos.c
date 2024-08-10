@@ -151,7 +151,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
-  uwbTaskHandle = osThreadNew(uwbTask, NULL, &ledTask_attributes);
+  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
