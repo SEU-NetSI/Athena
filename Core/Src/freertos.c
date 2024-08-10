@@ -236,23 +236,23 @@ static void uwbTask(void *argument)
 	led_flash_in_rpm = 750;
 	dwt_ops.reset();
 	int result = dw3000Init();
-//	  dwt_forcetrxoff();
-//	  dwt_rxenable(DWT_START_RX_IMMEDIATE);
     /* Reset DW3000 to idle state */
-    dwt_forcetrxoff();
-    uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
-    uint16_t length = 16;
-    dwt_writetxdata(length, uwbdata_tx, 0);
-    dwt_writetxfctrl(length + FCS_LEN, 0, 1);
-    /* Start transmission. */
-    if (dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) == DWT_ERROR)
-    {
-      ;
-    }
-    else
-    {
-      ;
-    }
+	dwt_forcetrxoff();
+
+	dwt_rxenable(DWT_START_RX_IMMEDIATE);
+//    uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
+//    uint16_t length = 16;
+//    dwt_writetxdata(length, uwbdata_tx, 0);
+//    dwt_writetxfctrl(length + FCS_LEN, 0, 1);
+//    /* Start transmission. */
+//    if (dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) == DWT_ERROR)
+//    {
+//      ;
+//    }
+//    else
+//    {
+//      ;
+//    }
 	while(1)
 	{
       vTaskDelay(1);
