@@ -213,28 +213,29 @@ void StartDefaultTask(void *argument)
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
-void adhocuwb_txCallback_test() {
+void adhocuwb_txCallback_test(void *argument) {
 	return;
 }
 
-void adhocuwb_rxCallback_test() {
+void adhocuwb_rxCallback_test(void *argument) {
 	return;
 }
-
 
 static void uwbTask(void *argument)
 {
+	adhocuwb_set_hdw_cbs(adhocuwb_txCallback_test, adhocuwb_rxCallback_test);
 	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
-	vTaskDelay(4);
+
+	vTaskDelay(2); // wait for the uwbISRTask to start to handle ISR
 
 	led_flash_in_rpm = 750;
 	dwt_ops.reset();
 	int result = dw3000_init();
 
-	adhocuwb_rxCallback = adhocuwb_rxCallback_test;
-	adhocuwb_txCallback = adhocuwb_txCallback_test;
-//	adhocuwb_hdw_force_rx();
-//
+	adhocuwb_hdw_force_rx();
+
+	vTaskDelay(1000);
+
 	uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
 	result = adhocuwb_hdw_send(uwbdata_tx, 30);
 
