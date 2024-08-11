@@ -5,8 +5,8 @@
  *      Author: Feng Shan
  */
 
-#ifndef ATHENA_DECK_HAL_INC_SPI_DECK_H_
-#define ATHENA_DECK_HAL_INC_SPI_DECK_H_
+#ifndef __SPI_DECK_H__
+#define __SPI_DECK_H__
 
 #include <stdbool.h>
 #include "stm32l4xx.h"
@@ -20,4 +20,4 @@ bool spiDeckExchange(size_t length, const uint8_t * data_tx, uint8_t * data_rx);
 void spiDeckBeginTransaction();
 void spiDeckEndTransaction();
 
-#endif /* ATHENA_DECK_HAL_INC_SPI_DECK_H_ */
+#endif /* __SPI_DECK_H__ */

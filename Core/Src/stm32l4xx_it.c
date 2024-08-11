@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <dw3000_cbll.h>
 #include "main.h"
 #include "stm32l4xx_it.h"
 #include "FreeRTOS.h"
@@ -27,7 +28,6 @@
 #include "semphr.h"
 #include "task.h"
 #include "spi_drv.h"
-#include "dw3000deck_ll.h"
 #include "cmsis_os.h"
 
 /* USER CODE END Includes */

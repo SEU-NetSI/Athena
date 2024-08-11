@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <dw3000_cbll.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
@@ -34,8 +35,8 @@
 #include "w25q64_ll.h"
 #include "libdw3000.h"
 #include "dw3000.h"
-#include "dw3000deck_ll.h"
 #include "dwTypes.h"
+#include "dw3000_cbll.h"
 
 /* USER CODE END Includes */
 
@@ -48,7 +49,7 @@ SemaphoreHandle_t UartRxReady = NULL;
 SemaphoreHandle_t spiDeckTxComplete = NULL;
 SemaphoreHandle_t spiDeckRxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
-SemaphoreHandle_t irqSemaphore = NULL;
+SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
 
 int spi_deck_init(void)
@@ -56,9 +57,9 @@ int spi_deck_init(void)
   spiDeckTxComplete = xSemaphoreCreateBinary();
   spiDeckRxComplete = xSemaphoreCreateBinary();
   spiDeckMutex = xSemaphoreCreateMutex();
-  irqSemaphore = xSemaphoreCreateMutex();
+  uwbIrqSemaphore = xSemaphoreCreateMutex();
 
-	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || irqSemaphore == NULL)
+	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
 	{
 	    while (1);
 	}
@@ -105,7 +106,6 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE BEGIN FunctionPrototypes */
 static void ledTask(void *argument);
 static void uwbTask(void *argument);
-static void uwbISRTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -157,7 +157,6 @@ void MX_FREERTOS_Init(void) {
   /* add threads, ... */
   ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
   uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
-  uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -213,46 +212,32 @@ void StartDefaultTask(void *argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-static void uwbISRTask(void *parameters)
-{
-  vTaskDelay(32);
 
-  while (1)
-  {
-    if (ulTaskNotifyTake(pdTRUE, portMAX_DELAY))
-    {
-      do
-      {
-        xSemaphoreTake(irqSemaphore, portMAX_DELAY);
-        dwt_isr();
-        xSemaphoreGive(irqSemaphore);
-      } while (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_4) != RESET);
-    }
-  }
+void adhocuwb_txCallback_test() {
+	return;
 }
+
+void adhocuwb_rxCallback_test() {
+	return;
+}
+
 
 static void uwbTask(void *argument)
 {
+	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
+	vTaskDelay(4);
+
 	led_flash_in_rpm = 750;
 	dwt_ops.reset();
-	int result = dw3000Init();
-    /* Reset DW3000 to idle state */
-	dwt_forcetrxoff();
+	int result = dw3000_init();
 
-	dwt_rxenable(DWT_START_RX_IMMEDIATE);
-//    uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
-//    uint16_t length = 16;
-//    dwt_writetxdata(length, uwbdata_tx, 0);
-//    dwt_writetxfctrl(length + FCS_LEN, 0, 1);
-//    /* Start transmission. */
-//    if (dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) == DWT_ERROR)
-//    {
-//      ;
-//    }
-//    else
-//    {
-//      ;
-//    }
+	adhocuwb_rxCallback = adhocuwb_rxCallback_test;
+	adhocuwb_txCallback = adhocuwb_txCallback_test;
+//	adhocuwb_hdw_force_rx();
+//
+	uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
+	result = adhocuwb_hdw_send(uwbdata_tx, 30);
+
 	while(1)
 	{
       vTaskDelay(1);
