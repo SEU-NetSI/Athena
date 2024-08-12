@@ -226,6 +226,7 @@ void simple_rxCallback(void *argument) {
 
 static void uwbTask(void *argument)
 {
+	int result = 0;
 	led_flash_in_rpm = 750;
 
 	// reset dw3000 chip
@@ -233,10 +234,10 @@ static void uwbTask(void *argument)
 
 	// prepare the interrupt service routines task
 	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
-	vTaskDelay(2); // wait for the uwbISRTask to start to handle ISR
+	vTaskDelay(8); // wait for the uwbISRTask to start to handle ISR
 
 	// init the dw3000 chip, get ready to rx and rx
-	int result = dw3000_init();
+	result = dw3000_init();
 
 	// set the tx and rx callback functions
 	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);

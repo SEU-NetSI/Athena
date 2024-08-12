@@ -200,7 +200,13 @@ void EXTI4_IRQHandler(void)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_4);
     /* USER CODE BEGIN LL_EXTI_LINE_4 */
-    vTaskNotifyGiveFromISR(uwbISRTaskHandle, NULL);
+
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+    if(uwbISRTaskHandle) {
+      vTaskNotifyGiveFromISR(uwbISRTaskHandle, &xHigherPriorityTaskWoken);
+    }
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
     /* USER CODE END LL_EXTI_LINE_4 */
   }
   /* USER CODE BEGIN EXTI4_IRQn 1 */

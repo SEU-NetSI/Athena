@@ -13,7 +13,7 @@
 
 static uint16_t MY_UWB_ADDRESS;
 
-static TaskHandle_t adhocuwbTxTaskHandle = 0;
+TaskHandle_t adhocuwbTxTaskHandle = 0;
 
 static QueueHandle_t txQueue;
 static xQueueHandle queues[UWB_MESSAGE_TYPE_COUNT];
