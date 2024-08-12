@@ -4,7 +4,7 @@
 #include "adhocuwb_impl.h"
 
 //#define UWB_DEBUG_ENABLE
-//#define UWB_RANGING_ENABLE
+#define UWB_RANGING_ENABLE
 //#define UWB_ROUTING_ENABLE
 //#define UWB_RAFT_ENABLE
 //#define UWB_FLOODING_ENABLE
