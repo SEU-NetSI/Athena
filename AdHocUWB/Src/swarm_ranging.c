@@ -12,7 +12,7 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-static uint16_t MY_UWB_ADDRESS = 1;
+static uint16_t MY_UWB_ADDRESS;
 
 static QueueHandle_t rxQueue;
 static Neighbor_Set_t neighborSet;
@@ -766,6 +766,11 @@ static int16_t computeDistance(Timestamp_Tuple_t Tp, Timestamp_Tuple_t Rp,
   diff2 = tRound2 - tReply2;
   t = (diff1 * tReply2 + diff2 * tReply1 + diff2 * diff1) / (tRound1 + tRound2 + tReply1 + tReply2);
   int16_t distance = (int16_t) t * 0.4691763978616;
+
+  static int16_t distances[65], distidx=0;
+  distances[distidx++] = distance;
+  if(distidx==64)
+	  distidx =0;
 
   if (distance < 0) {
     DEBUG_PRINT("Ranging Error: distance < 0\n");
