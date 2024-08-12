@@ -64,5 +64,6 @@ int uwbReceivePacket(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet);
 int uwbReceivePacketBlock(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet);
 int uwbReceivePacketWait(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet, int wait);
 void uwbRegisterListener(UWB_Message_Listener_t *listener);
+void adhocuwbInit();
 
 #endif

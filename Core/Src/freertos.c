@@ -37,6 +37,8 @@
 #include "dw3000.h"
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
+#include "adhocuwb.h"
+
 
 /* USER CODE END Includes */
 
@@ -89,7 +91,7 @@ const osThreadAttr_t ledTask_attributes = {
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
   .name = "uwbTask",
-  .stack_size = 128 * 8,
+  .stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
   .priority = (osPriority_t) osPriorityNormal,
 };
 osThreadId_t uwbISRTaskHandle;
@@ -213,32 +215,51 @@ void StartDefaultTask(void *argument)
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
-void adhocuwb_txCallback_test(void *argument) {
+void simple_txCallback(void *argument) {
 	return;
 }
 
-void adhocuwb_rxCallback_test(void *argument) {
+void simple_rxCallback(void *argument) {
+	uint8_t *packet = (uint8_t *) argument;
 	return;
 }
 
 static void uwbTask(void *argument)
 {
-	adhocuwb_set_hdw_cbs(adhocuwb_txCallback_test, adhocuwb_rxCallback_test);
-	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
+	led_flash_in_rpm = 750;
 
+	// reset dw3000 chip
+	dwt_ops.reset(); // this is not necessary
+
+	// prepare the interrupt service routines task
+	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
 	vTaskDelay(2); // wait for the uwbISRTask to start to handle ISR
 
-	led_flash_in_rpm = 750;
-	dwt_ops.reset();
+	// init the dw3000 chip, get ready to rx and rx
 	int result = dw3000_init();
 
+	// set the tx and rx callback functions
+	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);
+
+	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
+	// you should see the RX led flashes at the UWB Deck
 	adhocuwb_hdw_force_rx();
 
 	vTaskDelay(1000);
 
+	// transmit data with length, txcallback should be invoked once tx success
+	// you should see the TX led flashes at the UWB Deck
 	uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
 	result = adhocuwb_hdw_send(uwbdata_tx, 30);
 
+	/*============ the above code need only support from BSP/Components/DW3000 =============*/
+
+	vTaskDelay(1000);
+
+	/*============  the following code need additional support from AdHocUWB   =============*/
+	adhocuwbInit();
+
+	// loop forever
 	while(1)
 	{
       vTaskDelay(1);

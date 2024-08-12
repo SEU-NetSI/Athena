@@ -15,8 +15,6 @@ static uint16_t MY_UWB_ADDRESS;
 
 static TaskHandle_t adhocuwbTxTaskHandle = 0;
 
-static SemaphoreHandle_t irqSemaphore;
-
 static QueueHandle_t txQueue;
 static xQueueHandle queues[UWB_MESSAGE_TYPE_COUNT];
 static UWB_Message_Listener_t listeners[UWB_MESSAGE_TYPE_COUNT];
@@ -66,10 +64,7 @@ void uwbRegisterListener(UWB_Message_Listener_t *listener) {
 }
 
 void adhocuwb_txCallback(void *parameters) {
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	vTaskNotifyGiveFromISR(adhocuwbTxTaskHandle, &xHigherPriorityTaskWoken);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-
+	adhocuwb_vTaskNotifyGiveFromISR(adhocuwbTxTaskHandle);
 }
 
 /* Packet dispatcher */
@@ -118,8 +113,8 @@ static void adhocuwbTxTask(void *parameters) {
   }
 }
 
-
-static void adhocuwbInit() {
+void adhocuwbInit() {
+  adhocuwb_set_hdw_cbs(adhocuwb_txCallback, adhocuwb_rxCallback);
   txQueue = xQueueCreate(UWB_TX_QUEUE_SIZE, UWB_TX_QUEUE_ITEM_SIZE);
   xTaskCreate(adhocuwbTxTask, ADHOC_UWB_TX_TASK_NAME, UWB_TASK_STACK_SIZE, NULL,
               ADHOC_UWB_TASK_PRI, &adhocuwbTxTaskHandle);

@@ -30,3 +30,9 @@ BaseType_t adhocuwb_xQueueSendFromISR(
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 	return retval;
 }
+
+void adhocuwb_vTaskNotifyGiveFromISR(TaskHandle_t taskHandle) {
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	vTaskNotifyGiveFromISR(taskHandle, &xHigherPriorityTaskWoken);
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
