@@ -12,7 +12,7 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-static uint16_t MY_UWB_ADDRESS;
+static uint16_t MY_UWB_ADDRESS = 1;
 
 static QueueHandle_t rxQueue;
 static Neighbor_Set_t neighborSet;
@@ -1309,3 +1309,16 @@ void rangingInit() {
   xTaskCreate(uwbRangingRxTask, ADHOC_UWB_RANGING_RX_TASK_NAME, UWB_TASK_STACK_SIZE, NULL,
               ADHOC_UWB_TASK_PRI, &uwbRangingRxTaskHandle);
 }
+
+LOG_GROUP_START(Ranging)
+        LOG_ADD(LOG_INT16, distTo1, distanceTowards + 1)
+        LOG_ADD(LOG_INT16, distTo2, distanceTowards + 2)
+        LOG_ADD(LOG_INT16, distTo3, distanceTowards + 3)
+        LOG_ADD(LOG_INT16, distTo4, distanceTowards + 4)
+        LOG_ADD(LOG_INT16, distTo5, distanceTowards + 5)
+        LOG_ADD(LOG_INT16, distTo6, distanceTowards + 6)
+        LOG_ADD(LOG_INT16, distTo7, distanceTowards + 7)
+        LOG_ADD(LOG_INT16, distTo8, distanceTowards + 8)
+        LOG_ADD(LOG_INT16, distTo9, distanceTowards + 9)
+        LOG_ADD(LOG_INT16, distTo10, distanceTowards + 10)
+LOG_GROUP_STOP(Ranging)

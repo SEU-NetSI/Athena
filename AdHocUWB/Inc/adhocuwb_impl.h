@@ -18,7 +18,9 @@
 #define ASSERT assert
 #define M2T(X) ((unsigned int)(X))
 #define systemWaitStart() vTaskDelay(10)
-
+#define LOG_GROUP_START(group)    // Nothing
+#define LOG_GROUP_STOP(group)     // Nothing
+#define LOG_ADD(type, name, value) // Nothing
 
 #define ADHOC_UWB_TX_TASK_NAME "adhocuwbTxTask"
 #define ADHOC_UWB_RANGING_TX_TASK_NAME "uwbRangingTxTask"
@@ -26,7 +28,6 @@
 #define ADHOC_UWB_TASK_PRI osPriorityNormal
 #define ADHOC_UWB_TASK_PRI osPriorityNormal
 #define ADHOC_UWB_TASK_PRI osPriorityNormal
-
 
 void adhocuwb_get_velocity_init();
 void adhocuwb_get_velocity(float* velocityX, float* velocityY, float* velocityZ);
