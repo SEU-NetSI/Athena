@@ -12,7 +12,7 @@
 #include "libdw3000.h"
 
 /* Function Switch */
-//#define UWB_ENABLE_PHR_EXT_MODE
+#define UWB_ENABLE_PHR_EXT_MODE
 
 #define UWB_SPEED_OF_LIGHT 299702547
 #define UWB_MAX_TIMESTAMP 1099511627776  // 2**40

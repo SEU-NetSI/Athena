@@ -1,3 +1,4 @@
 [submodule "AdHocUWB"]
 	path = AdHocUWB
 	url = https://github.com/SEU-NetSI/AdHocUWB.git
+	branch = master
