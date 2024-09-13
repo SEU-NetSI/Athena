@@ -52,6 +52,7 @@ SemaphoreHandle_t spiDeckTxComplete = NULL;
 SemaphoreHandle_t spiDeckRxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
+uint8_t uwbdata_tx[260];
 
 
 int spi_deck_init(void)
@@ -240,7 +241,7 @@ static void uwbTask(void *argument)
 	result = dw3000_init();
 
 	// set the tx and rx callback functions
-	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);
+//	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);
 
 	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
 	// you should see the RX led flashes at the UWB Deck
@@ -250,8 +251,13 @@ static void uwbTask(void *argument)
 
 	// transmit data with length, txcallback should be invoked once tx success
 	// you should see the TX led flashes at the UWB Deck
-	uint8_t uwbdata_tx[32] = {0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0x0F, 0xED, 0xCB, 0xA9};
-	result = adhocuwb_hdw_send(uwbdata_tx, 30);
+//	uint8_t uwbdata_tx[32] = {0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC};
+
+	for(int i=0;i<259;i++){
+		uwbdata_tx[i] = i;
+	}
+
+//	result = adhocuwb_hdw_send(uwbdata_tx, 240);
 
 	/*============ the above code need only support from BSP/Components/DW3000 =============*/
 
@@ -263,7 +269,9 @@ static void uwbTask(void *argument)
 	// loop forever
 	while(1)
 	{
-      vTaskDelay(1);
+//		result = adhocuwb_hdw_send(uwbdata_tx, 30);
+//		result = adhocuwb_hdw_send(uwbdata_tx, 250);
+      vTaskDelay(2000);
 	}
 }
 

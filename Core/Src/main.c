@@ -106,6 +106,7 @@ int main(void)
   MX_SPI3_Init();
   MX_SPI2_Init();
   MX_SPI1_Init();
+
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -116,6 +117,7 @@ int main(void)
   /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
 
+//  ITM_Init();
   /* Start scheduler */
   osKernelStart();
 

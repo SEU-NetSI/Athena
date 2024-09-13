@@ -23,7 +23,7 @@ static dwt_config_t uwbPhrConfig = {
                      non-standard 16 symbol SFD and 3 for 4z 8 symbol SDF type */
     DWT_BR_6M8,   /* Data rate. */
 #ifdef UWB_ENABLE_PHR_EXT_MODE
-//    DWT_PHRMODE_EXT, /* Extended PHY header mode. */
+    DWT_PHRMODE_EXT, /* Extended PHY header mode. */
 #else
     DWT_PHRMODE_STD, /* Standard PHY header mode. */
 #endif
@@ -50,7 +50,7 @@ static adhocuwb_hdw_cb_t _rxCallback = 0;
 
 /************ Low level ops for libdw **********/
 
-#define SPI_DECK_BUFFER_MAX_SIZE 240
+#define SPI_DECK_BUFFER_MAX_SIZE 300
 static uint8_t spiDeckTxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
 static uint8_t spiDeckRxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
 
