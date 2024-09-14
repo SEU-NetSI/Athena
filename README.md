@@ -2,11 +2,15 @@
 ## introduction
 **Athena (Co-processing deck)** is a computational expansion board independently developed by SEU-NetSI. It is designed to be compatible with any micro unmanned systems worldwide. In the future, as devices like drones, unmanned vehicles, and robots continue to miniaturize, Athena will provide these systems with higher computational power and larger memory capacity. At the same time, by leveraging ST’s low-power chips, it ensures energy efficiency.
 ![Software and Hardware Frame of Athena](./Document/hardware-software-frame.jpg)
+**Software and Hardware Frame of Athena**
 ## Demonstration of SLAM
 Our academic work is currently in the submission stage, so we are unable to open source the hardware at this time. However, this project includes the open sourcing of software related to SLAM, comprising three parts: the driver for the VL53L5 TOF sensor, the calibration of the TOF sensor, and the SLAM algorithm.
 Here are some images that can showcase our achievements.
+1. TOF-deck using VL53L5
 ![TOF-deck using VL53L5](./Document/tof-deck-vl53l5.jpg)
+2. The MAV "Crazyflie" loading the TOF-deck
 ![The MAV "Crazyflie" loading the TOF-deck](./Document/UAV-with-tof-deck.jpeg)
+3. We use L496 to drive the TOF-deck
 ![We use L496 to drive the TOF-deck](./Document/L496-deck-with-tof-driver.jpg)
 ## Software Update Log
 ### v0.1
