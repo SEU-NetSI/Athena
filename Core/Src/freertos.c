@@ -138,27 +138,27 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	static uint8_t Pos[6];
+	static uint8_t Pos[16];
 	uint8_t index = 0;
 	for(;;)
 	{
 	  if (xSemaphoreTake(UartRxReady, 0) == pdPASS) {
-		  while (index < 6 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) {
-			  if(Pos[index]!=0){
+		  while (index < 16 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) {
+//			  if(Pos[index]!=0){
 				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
 				  LL_mDelay(100);
 				  index++;
-			  }
+//			  }
 		  }
-		  if(index ==6)
+		  if(index == 16)
 		  {
-			  UART_DMA_Transmit(Pos, 6);
+			  UART_DMA_Transmit(Pos, 16);
 			  index=0;
 		  }
 	  }
-	  else{
-		  BSP_W25Qx_Init();
-	  }
+//	  else{
+//		  BSP_W25Qx_Init();
+//	  }
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
 //	  BSP_W25Qx_Read_ID(ID);

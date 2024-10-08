@@ -324,7 +324,7 @@ void USART1_IRQHandler(void)
         received_data = LL_USART_ReceiveData8(USART1);
         xQueueSendFromISR(UartRxQueue, &received_data, &xHigherPriorityTaskWoken);
         count++;
-        if(count >= 6){
+        if(count >= 16){
         	UartRxCallback();
         	count=0;
         }
@@ -342,7 +342,20 @@ void USART1_IRQHandler(void)
 void USART3_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_IRQn 0 */
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    uint8_t received_data;
+    static int count = 0;
 
+    if (LL_USART_IsActiveFlag_RXNE(USART3)) {
+        received_data = LL_USART_ReceiveData8(USART3);
+        xQueueSendFromISR(UartRxQueue, &received_data, &xHigherPriorityTaskWoken);
+        count++;
+        if(count >= 6){
+        	UartRxCallback();
+        	count=0;
+        }
+    }
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
   /* USER CODE END USART3_IRQn 0 */
   /* USER CODE BEGIN USART3_IRQn 1 */
 
@@ -368,13 +381,13 @@ void SPI3_IRQHandler(void)
 void DMA2_Channel1_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Channel1_IRQn 0 */
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	if (LL_DMA_IsActiveFlag_TC1(DMA2)){
-		LL_DMA_ClearFlag_TC1(DMA2);
-		LL_SPI_DisableDMAReq_RX(SPI3);
-		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_1);
-		xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
-	}
+//	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+//	if (LL_DMA_IsActiveFlag_TC1(DMA2)){
+//		LL_DMA_ClearFlag_TC1(DMA2);
+//		LL_SPI_DisableDMAReq_RX(SPI3);
+//		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_1);
+//		xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
+//	}
   /* USER CODE END DMA2_Channel1_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Channel1_IRQn 1 */
@@ -388,14 +401,14 @@ void DMA2_Channel1_IRQHandler(void)
 void DMA2_Channel2_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Channel2_IRQn 0 */
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	if (LL_DMA_IsActiveFlag_TC2(DMA2))
-	{
-		LL_DMA_ClearFlag_TC2(DMA2);
-		LL_SPI_DisableDMAReq_TX(SPI3);
-		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_2);
-		xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
-	}
+//	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+//	if (LL_DMA_IsActiveFlag_TC2(DMA2))
+//	{
+//		LL_DMA_ClearFlag_TC2(DMA2);
+//		LL_SPI_DisableDMAReq_TX(SPI3);
+//		LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_2);
+//		xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
+//	}
   /* USER CODE END DMA2_Channel2_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Channel2_IRQn 1 */
