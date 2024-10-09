@@ -24,7 +24,7 @@ void UART_DMA_Transmit(uint8_t *data, uint32_t length) {
 
     LL_USART_EnableDMAReq_TX(USART3);
 
-    osDelay(10);
+    osDelay(20);
 
     LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_2);
 
