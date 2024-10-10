@@ -94,6 +94,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
+
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -108,7 +109,6 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
-//  osDelay(5000);
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
