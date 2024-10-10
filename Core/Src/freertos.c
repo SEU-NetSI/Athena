@@ -156,11 +156,7 @@ void StartDefaultTask(void *argument)
 				  para[1] = 0.0;
 				  para[2] = 1.0;
 				  para[3] = 0.0;
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  UART_DMA_Transmit((uint8_t *)para, 16);
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  break;
 			  }
 			  case 1:
@@ -169,11 +165,7 @@ void StartDefaultTask(void *argument)
 				  para[1] = 0.0;
 				  para[2] = 1.0;
 				  para[3] = 0.0;
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  UART_DMA_Transmit((uint8_t *)para, 16);
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  break;
 			  }
 			  case 2:
@@ -182,11 +174,7 @@ void StartDefaultTask(void *argument)
 				  para[1] = 1.0;
 				  para[2] = 1.0;
 				  para[3] = 0.0;
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  UART_DMA_Transmit((uint8_t *)para, 16);
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  break;
 			  }
 			  case 3:
@@ -195,11 +183,7 @@ void StartDefaultTask(void *argument)
 				  para[1] = 0.0;
 				  para[2] = 1.0;
 				  para[3] = 0.0;
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  UART_DMA_Transmit((uint8_t *)para, 16);
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  break;
 			  }
 			  case 4:
@@ -208,11 +192,7 @@ void StartDefaultTask(void *argument)
 				  para[1] = -1.0;
 				  para[2] = 1.0;
 				  para[3] = 0.0;
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  UART_DMA_Transmit((uint8_t *)para, 16);
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  break;
 			  }
 			  case 5:
@@ -221,11 +201,7 @@ void StartDefaultTask(void *argument)
 				  {
 					  para[i] = 0.0;
 				  }
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  UART_DMA_Transmit((uint8_t *)para, 16);
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
 				  break;
 			  }
 			  }
