@@ -209,9 +209,31 @@ void EXTI4_IRQHandler(void)
 
     /* USER CODE END LL_EXTI_LINE_4 */
   }
-  /* USER CODE BEGIN EXTI4_IRQn 1 */
+  /* USER CODE BEGIN EXTI4_IRQn 1 *
 
   /* USER CODE END EXTI4_IRQn 1 */
+}
+
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_13) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
+    /* USER CODE BEGIN LL_EXTI_LINE_13 */
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+    if(uwbISRTaskHandle) {
+      vTaskNotifyGiveFromISR(uwbISRTaskHandle, &xHigherPriorityTaskWoken);
+    }
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
+    /* USER CODE END LL_EXTI_LINE_13 */
+  }
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /**

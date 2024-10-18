@@ -89,9 +89,9 @@ static void delayms(unsigned int delay) { vTaskDelay(delay); }
 
 static void reset(void)
 {
-	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_5); // Set PC5 low
+	LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_3); // Set PC5 low
 	vTaskDelay(10);
-	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_5);  // Set PC5 high
+	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_3);  // Set PC5 high
 	vTaskDelay(10);
 }
 
