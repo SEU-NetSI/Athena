@@ -109,6 +109,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
+  //LL_mDelay(10000);
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

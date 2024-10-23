@@ -43,7 +43,6 @@ void spiRead(const void* cmd,
 	spiEndTransaction();
 }
 
-
 uint8_t BSP_W25Qx_Init(void)
 {
 	BSP_W25Qx_Reset();

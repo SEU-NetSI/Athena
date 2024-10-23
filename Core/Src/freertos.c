@@ -34,10 +34,13 @@
 #include "calibration.h"
 #include "w25q64_ll.h"
 #include "uart_receive.h"
+#include "fm25cl64.h"
+#include "fm25_platform.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+
 static VL53L5CX_Configuration vl53l5dev_f;
 static VL53L5CX_ResultsData vl53l5_res_f;
 SemaphoreHandle_t txComplete = NULL;
@@ -133,32 +136,64 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 
+
+
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	static uint8_t Pos[6];
-	uint8_t index = 0;
-	for(;;)
-	{
-	  if (xSemaphoreTake(UartRxReady, 0) == pdPASS) {
-		  while (index < 6 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) {
-			  if(Pos[index]!=0){
-				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-				  LL_mDelay(100);
-				  index++;
-			  }
-		  }
-		  if(index ==6)
-		  {
-			  UART_DMA_Transmit(Pos, 6);
-			  index=0;
-		  }
-	  }
-	  else{
-		  BSP_W25Qx_Init();
-	  }
+	FM25ObjectType fm25;
+	Fm25cxxInitialization(&fm25,      //FM25xxx对象实体
+							      FM25CL64B,           //设备类型
+			                      ReadDataFromFM25,              //读FM25xxx对象操作指针
+			                      WriteDataToFM25,                 //写FM25xxx对象操作指针
+			                      LL_mDelay, //延时操作指针
+			                      ChipSelectForFM25        //片�?�信号函数指�???
+			                      );
+	uint8_t regAddress = 0xBB;
+	uint8_t writeByte = 0x59;
+	uint8_t regAdd = 0xBC;
+	uint8_t datawrite[16];
+	for(int i = 0; i < 16; ++i) {
+		datawrite[i] = i;
+	}
+	uint8_t datareceive[16];
+	uint8_t readByte;
+
+	for(;;){
+
+		/*向FM25XXX写入单个字节*/
+//		WriteByteToFM25xxx(&fm25,regAddress,writeByte);
+//		readByte=ReadByteFromFM25xxx(&fm25,regAddress);
+//		osDelay(2000);
+		WriteBytesToFM25xxx(&fm25, regAdd, datawrite, 16);
+		osDelay(2000);
+		ReadBytesFromFM25xxx(&fm25, regAdd, datareceive, 16);
+
+
+	}
+//	static uint8_t Pos[6];
+//	uint8_t index = 0;
+//	for(;;)
+//	{
+//	  if (xSemaphoreTake(UartRxReady, 0) == pdPASS) {
+//		  while (index < 6 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) {
+//			  if(Pos[index]!=0){
+//				  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
+//				  LL_mDelay(100);
+//				  index++;
+//			  }
+//		  }
+//		  if(index ==6)
+//		  {
+//			  UART_DMA_Transmit(Pos, 6);
+//			  index=0;
+//		  }
+//	  }
+//	  else{
+//		  BSP_W25Qx_Init();
+//	  }
 //	  BSP_W25Qx_Init();
 //	  uint8_t ID[2]={0};
 //	  BSP_W25Qx_Read_ID(ID);
@@ -180,7 +215,7 @@ void StartDefaultTask(void *argument)
 //	  	  LL_mDelay(100);
 //	  	  get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
 //	  }
-  }
+//  }
   /* USER CODE END StartDefaultTask */
 }
 

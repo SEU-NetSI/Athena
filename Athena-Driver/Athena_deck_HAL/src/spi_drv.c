@@ -43,6 +43,37 @@ bool spiExchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint
     return result;
 }
 
+//TODO: function to merge,test!!
+bool spi2Exchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint8_t * data_rx)
+{
+	// DMA already configured, just need to set memory addresses
+    LL_DMA_ConfigAddresses(DMA1, LL_DMA_CHANNEL_5, (uint32_t)data_tx, LL_SPI_DMA_GetRegAddr(SPIx), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_5, length);
+
+    LL_DMA_ConfigAddresses(DMA1, LL_DMA_CHANNEL_4, LL_SPI_DMA_GetRegAddr(SPIx), (uint32_t)data_rx, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+    LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_4, length);
+
+    // Enable DMA Streams
+    LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_4);
+    LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_5);
+
+    // Enable SPI DMA requests
+    LL_SPI_EnableDMAReq_TX(SPIx);
+    LL_SPI_EnableDMAReq_RX(SPIx);
+
+    // Enable peripheral
+    LL_SPI_Enable(SPIx);
+
+
+    // Wait for completion
+    bool result = (xSemaphoreTake(txComplete, portMAX_DELAY) == pdTRUE)
+             && (xSemaphoreTake(rxComplete, portMAX_DELAY) == pdTRUE);
+
+    // Disable peripheral
+    LL_SPI_Disable(SPIx);
+    return result;
+}
+
 void spiBeginTransaction()
 {
 	xSemaphoreTake(spiMutex, portMAX_DELAY);

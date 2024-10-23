@@ -186,6 +186,26 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line1 interrupt.
+  */
+void EXTI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI1_IRQn 0 */
+
+  /* USER CODE END EXTI1_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_1) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_1);
+    /* USER CODE BEGIN LL_EXTI_LINE_1 */
+
+    /* USER CODE END LL_EXTI_LINE_1 */
+  }
+  /* USER CODE BEGIN EXTI1_IRQn 1 */
+
+  /* USER CODE END EXTI1_IRQn 1 */
+}
+
+/**
   * @brief This function handles DMA1 channel2 global interrupt.
   */
 void DMA1_Channel2_IRQHandler(void)
@@ -219,7 +239,13 @@ void DMA1_Channel3_IRQHandler(void)
 void DMA1_Channel4_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
-
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		if (LL_DMA_IsActiveFlag_TC4(DMA1)){
+			LL_DMA_ClearFlag_TC4(DMA1);
+			LL_SPI_DisableDMAReq_RX(SPI2);
+			LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_4);
+			xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
+		}
   /* USER CODE END DMA1_Channel4_IRQn 0 */
 
   /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
@@ -233,7 +259,14 @@ void DMA1_Channel4_IRQHandler(void)
 void DMA1_Channel5_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
-
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		if (LL_DMA_IsActiveFlag_TC5(DMA1))
+		{
+			LL_DMA_ClearFlag_TC5(DMA1);
+			LL_SPI_DisableDMAReq_TX(SPI2);
+			LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_5);
+			xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
+		}
   /* USER CODE END DMA1_Channel5_IRQn 0 */
 
   /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
@@ -295,6 +328,19 @@ void I2C1_ER_IRQHandler(void)
   /* USER CODE BEGIN I2C1_ER_IRQn 1 */
 
   /* USER CODE END I2C1_ER_IRQn 1 */
+}
+
+/**
+  * @brief This function handles SPI1 global interrupt.
+  */
+void SPI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI1_IRQn 0 */
+
+  /* USER CODE END SPI1_IRQn 0 */
+  /* USER CODE BEGIN SPI1_IRQn 1 */
+
+  /* USER CODE END SPI1_IRQn 1 */
 }
 
 /**
@@ -409,7 +455,13 @@ void DMA2_Channel2_IRQHandler(void)
 void DMA2_Channel3_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Channel3_IRQn 0 */
-
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		if (LL_DMA_IsActiveFlag_TC3(DMA2)){
+			LL_DMA_ClearFlag_TC3(DMA2);
+			LL_SPI_DisableDMAReq_RX(SPI1);
+			LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_3);
+			xSemaphoreGiveFromISR(rxComplete, &xHigherPriorityTaskWoken);
+		}
   /* USER CODE END DMA2_Channel3_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Channel3_IRQn 1 */
@@ -423,7 +475,14 @@ void DMA2_Channel3_IRQHandler(void)
 void DMA2_Channel4_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Channel4_IRQn 0 */
-
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		if (LL_DMA_IsActiveFlag_TC4(DMA2))
+		{
+			LL_DMA_ClearFlag_TC4(DMA2);
+			LL_SPI_DisableDMAReq_TX(SPI1);
+			LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_4);
+			xSemaphoreGiveFromISR(txComplete, &xHigherPriorityTaskWoken);
+		}
   /* USER CODE END DMA2_Channel4_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Channel4_IRQn 1 */
