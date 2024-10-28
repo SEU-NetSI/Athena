@@ -205,7 +205,7 @@ void uwbISRTask(void *parameters) {
         xSemaphoreTake(uwbIrqSemaphore, portMAX_DELAY);
         dwt_isr();
         xSemaphoreGive(uwbIrqSemaphore);
-      } while (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_4) != RESET);
+      } while (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_13) != RESET);
     }
   }
 }
