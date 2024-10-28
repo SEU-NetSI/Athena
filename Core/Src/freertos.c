@@ -54,7 +54,15 @@ SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 uint8_t uwbdata_tx[260];
 
+//拔尖基地展示
+float datas_f[6];
 
+//拔尖基地展示
+void initData(){
+        for(int i=0;i<6;i++){
+                datas_f[i]=1.0f;
+        }
+}
 int spi_deck_init(void)
 {
   spiDeckTxComplete = xSemaphoreCreateBinary();
