@@ -29,7 +29,8 @@
 #include "task.h"
 #include "spi_drv.h"
 #include "cmsis_os.h"
-
+#include "uart_receive.h"
+#include "stm32l4xx_ll_gpio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -386,6 +387,32 @@ void SPI3_IRQHandler(void)
   /* USER CODE BEGIN SPI3_IRQn 1 */
 
   /* USER CODE END SPI3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART3 global interrupt.
+  */
+void USART3_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_IRQn 0 */
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    uint8_t received_data;
+    static int count = 0;
+
+    if (LL_USART_IsActiveFlag_RXNE(USART3)) {
+        received_data = LL_USART_ReceiveData8(USART3);
+        xQueueSendFromISR(UartRxQueue, &received_data, &xHigherPriorityTaskWoken);
+        count++;
+        if(count >= 26){
+        	UartRxCallback();
+        	count=0;
+        }
+    }
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+  /* USER CODE END USART3_IRQn 0 */
+  /* USER CODE BEGIN USART3_IRQn 1 */
+
+  /* USER CODE END USART3_IRQn 1 */
 }
 
 /**

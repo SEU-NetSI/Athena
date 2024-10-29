@@ -28,11 +28,13 @@
 /* USER CODE BEGIN Includes */
 #include "i2c_drv.h"
 #include "spi_drv.h"
+#include "uart_hal.h"
 #include "tca6408a.h"
 #include "vl53l5cx_api.h"
 #include "test_tof.h"
 #include "calibration.h"
 #include "w25q64_ll.h"
+#include "uart_receive.h"
 #include "libdw3000.h"
 #include "dw3000.h"
 #include "dwTypes.h"
@@ -53,7 +55,12 @@ SemaphoreHandle_t spiDeckRxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 uint8_t uwbdata_tx[260];
-
+static uint8_t Pos[26];
+static uint8_t Pos_new[17];
+static float para[4];
+static float padX = 0.0;
+static float padY = 0.0;
+static float padZ = 0.0;
 //拔尖基地展示
 float datas_f[6];
 
@@ -121,7 +128,7 @@ static void uwbTask(void *argument);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-
+void compute();
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
@@ -135,7 +142,7 @@ void MX_FREERTOS_Init(void) {
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 	UartRxReady = xSemaphoreCreateBinary();
-
+  CreateUartRxQueue();
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
 	    while (1);
@@ -182,42 +189,76 @@ void MX_FREERTOS_Init(void) {
   * @param  argument: Not used
   * @retval None
   */
+void para_get()
+{
+  padX = para[0];
+  padY = para[1];
+  padZ = para[2];
+}
 
+void para_reget()
+{
+  para[0] = padX;
+  para[1] = padY;
+  para[2] = padZ;
+}
+
+void compute()
+{
+	switch(Pos[24])
+	{
+	case 0:
+		//add more control 1up 0down
+		if(Pos[25])
+		{
+			padZ = 0.3f;
+			Pos_new[16] = 1;
+		}
+		else
+		{
+			Pos_new[16] = 0;
+		}
+		break;
+	case 1:
+		if(Pos[25])
+		{
+			Pos_new[16] = 2;
+		}
+		else
+		{
+			padZ = 0.3f;
+			Pos_new[16] = 3;
+		}
+		break;
+	}
+}
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-//	static uint8_t w25qID;
-//	BSP_W25Qx_Read_ID(&w25qID);
-
-
+    uint8_t index = 0;
 	  while(1)
 	  {
+      if (xSemaphoreTake(UartRxReady, 0) == pdPASS)
+      {
+        while (index < 26 && xQueueReceive(UartRxQueue, &Pos[index], 0) == pdPASS) 
+        {
+				  index++;
+        }
+        if(index == 26)
+		    {
+          memcpy(para, (float *)Pos, 16);
+          para_get();
+          compute();
+          para_reget();
+          memcpy(Pos_new, (uint8_t *)para, 16);
+		      UART_DMA_Transmit(Pos_new, 17);
+		      index=0;
+		    }
+      }
 		  vTaskDelay(1);
 	  }
-//	  BSP_W25Qx_Init();
-//	  uint8_t ID[2]={0};
-//	  BSP_W25Qx_Read_ID(ID);
-//	  //BSP_W25Qx_Erase_Chip();
-//	  BSP_W25Qx_Erase_Block(0x123456);
-//	  uint8_t tx_data[128] = {0xef};
-//	  uint8_t rx_data[128] = {0x00};
-//	  BSP_W25Qx_Write(tx_data, 0x123456, 128);
-//	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
-//	  BSP_W25Qx_Erase_Block(0x123456);
-//	  BSP_W25Qx_Read(rx_data, 0x123456, 4);
-//
-//	  uint8_t ID[4];
-//	  I2C_expander_initialize();
-//	  initialize_sensors_I2C(&vl53l5dev_f,1);
-//	  vl53l5cx_start_ranging(&vl53l5dev_f);
-//	  while(1){
-//		  LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-//	  	  LL_mDelay(100);
-//	  	  get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
-//	  }
-//  }
   /* USER CODE END StartDefaultTask */
 }
 

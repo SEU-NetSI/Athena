@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "gpio.h": "c",
+        "usart.h": "c",
+        "stm32l4xx_ll_gpio.h": "c",
+        "uart_receive.h": "c",
+        "uart_hal.h": "c"
+    }
+}
