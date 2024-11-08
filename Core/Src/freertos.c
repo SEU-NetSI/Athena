@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include <dw3000_cbll.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
@@ -57,10 +56,12 @@ SemaphoreHandle_t uwbIrqSemaphore = NULL;
 uint8_t uwbdata_tx[260];
 static uint8_t Pos[26];
 static uint8_t Pos_new[17];
-static float para[4];
+int all_pos[3][3];
+float para[4];
 static float padX = 0.0;
 static float padY = 0.0;
 static float padZ = 0.0;
+static bool flag = 0;
 //拔尖基地展示
 float datas_f[6];
 
@@ -128,7 +129,7 @@ static void uwbTask(void *argument);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-void compute();
+
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
@@ -173,8 +174,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
-  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
+//  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+//  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -222,7 +223,24 @@ void compute()
 	case 1:
 		if(Pos[25])
 		{
+			if(padY > 0.8f)
+			{
+				flag = 1;
+			}
+			if(flag == 0)
+			{
+				padY += 0.1f;
+			}
+			else
+			{
+				padY -= 0.1f;
+			}
 			Pos_new[16] = 2;
+			if(padY < -1.2f && flag == 1)
+			{
+				padZ = 0.3f;
+				Pos_new[16] = 3;
+			}
 		}
 		else
 		{
