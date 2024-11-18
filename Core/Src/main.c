@@ -60,7 +60,7 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t led_flash_in_rpm = 50;
+uint32_t led_flash_in_rpm = 750;
 /* USER CODE END 0 */
 
 /**
@@ -107,6 +107,7 @@ int main(void)
   MX_SPI2_Init();
   MX_SPI1_Init();
   MX_USART3_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

@@ -31,6 +31,7 @@
 #include "tca6408a.h"
 #include "vl53l5cx_api.h"
 #include "test_tof.h"
+#include "debug.h"
 #include "calibration.h"
 #include "w25q64_ll.h"
 #include "uart_receive.h"
@@ -39,7 +40,6 @@
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
 #include "adhocuwb.h"
-
 
 /* USER CODE END Includes */
 
@@ -170,11 +170,11 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+//  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-//  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
@@ -344,10 +344,17 @@ static void uwbTask(void *argument)
 
 static void ledTask(void *argument)
 {
+	static uint8_t data[16];
   while(1)
   {
-	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	vTaskDelay(30000 / led_flash_in_rpm);
+
+	  data[0] = 10;
+	  data[1] = 20;
+//	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+	vTaskDelay(200);
+	UART_DMA_Transmit_1(data, 5);
+//	DEBUG_PRINTF("i am %s \n", "lihao");
+//	eprintf(uartPutchar, "i am %s \n", "lihao");
   }
 }
 /* USER CODE END Application */

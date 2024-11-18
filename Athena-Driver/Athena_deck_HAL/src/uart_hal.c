@@ -30,6 +30,25 @@ void UART_DMA_Transmit(uint8_t *data, uint32_t length) {
 
 }
 
+void UART_DMA_Transmit_1(uint8_t *data, uint32_t length) {
+
+	LL_DMA_ConfigAddresses(DMA2, LL_DMA_CHANNEL_6,
+	                       (uint32_t)data, // data为需要发送的数据数组的地址
+	                       LL_USART_DMA_GetRegAddr(USART1, LL_USART_DMA_REG_DATA_TRANSMIT),
+	                       LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+
+	LL_DMA_SetDataLength(DMA2, LL_DMA_CHANNEL_6, length);
+
+    LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_6);
+
+    LL_USART_EnableDMAReq_TX(USART1);
+
+    osDelay(5);
+
+    LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_6);
+
+}
+
 void UART_DMA_Receive(uint8_t *data, uint32_t length){
 
 	LL_DMA_ConfigAddresses(DMA1, LL_DMA_CHANNEL_3,
