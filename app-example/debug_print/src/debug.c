@@ -1,6 +1,6 @@
 #include "debug.h"
 
-#define Buffer 16
+#define Buffer 64
 static bool SendingisPending = 0;
 static uint8_t data[Buffer];
 int len = 0;
@@ -91,6 +91,90 @@ static int itoa10(putc_t putcf, long long int num, int precision)
   return itoa10Unsigned(putcf, n) + len;
 }
 
+static int itoa16(putc_t putcf, uint64_t num, int width, char padChar)
+{
+  int len = 0;
+  bool foundFirst = false;
+
+  for (int i = 15; i >= 0; i--)
+  {
+    int shift = i * 4;
+    uint64_t mask = (uint64_t)0x0F << shift;
+    uint64_t val = (num & mask) >> shift;
+
+    if (val > 0)
+    {
+      foundFirst = true;
+    }
+
+    if (foundFirst || i < width)
+    {
+      if (foundFirst)
+      {
+        putcf(digit[val]);
+      }
+      else
+      {
+        putcf(padChar);
+      }
+
+      len++;
+    }
+  }
+
+  return len;
+}
+
+static int handleLongLong(putc_t putcf, const char** fmt, unsigned long long int val, int width, char padChar)
+{
+  int len = 0;
+
+  switch(*((*fmt)++))
+  {
+    case 'i':
+    case 'd':
+      len = itoa10(putcf, (long long int)val, 0);
+      break;
+    case 'u':
+      len = itoa10Unsigned(putcf, val);
+      break;
+    case 'x':
+    case 'X':
+      len = itoa16(putcf, val, width, padChar);
+      break;
+    default:
+      // Nothing here
+      break;
+  }
+
+  return len;
+}
+
+static int handleLong(putc_t putcf, const char** fmt, unsigned long int val, int width, char padChar)
+{
+  int len = 0;
+
+  switch(*((*fmt)++))
+  {
+    case 'i':
+    case 'd':
+      len = itoa10(putcf, (long int)val, 0);
+      break;
+    case 'u':
+      len = itoa10Unsigned(putcf, val);
+      break;
+    case 'x':
+    case 'X':
+      len = itoa16(putcf, val, width, padChar);
+      break;
+    default:
+      // Nothing here
+      break;
+  }
+
+  return len;
+}
+
 int evprintf(putc_t putcf, const char * fmt, va_list ap)
 {
   int len=0;
@@ -142,6 +226,40 @@ int evprintf(putc_t putcf, const char * fmt, va_list ap)
       }
       switch (*fmt++)
       {
+        case 'i':
+        case 'd':
+          len += itoa10(putcf, va_arg(ap, int), 0);
+          break;
+        case 'u':
+          len += itoa10Unsigned(putcf, va_arg(ap, unsigned int));
+          break;
+        case 'x':
+        case 'X':
+          len += itoa16(putcf, va_arg(ap, unsigned int), width, padChar);
+          break;
+        case 'l':
+          // Look ahead for ll
+          if (*fmt == 'l') {
+            fmt++;
+            len += handleLongLong(putcf, &fmt, va_arg(ap, unsigned long long int), width, padChar);
+          } else {
+            len += handleLong(putcf, &fmt, va_arg(ap, unsigned long int), width, padChar);
+          }
+
+          break;
+        case 'f':
+          num = va_arg(ap, double);
+          if(num<0)
+          {
+            putcf('-');
+            num = -num;
+            len++;
+          }
+          len += itoa10(putcf, (int)num, 0);
+          putcf('.'); len++;
+          len += itoa10(putcf, (num - (int)num) * power(10,precision), precision);
+          break;
+
         case 's':
           str = va_arg(ap, char* );
           while(*str)
@@ -149,6 +267,10 @@ int evprintf(putc_t putcf, const char * fmt, va_list ap)
             putcf(*str++);
             len++;
           }
+          break;
+        case 'c':
+          putcf((char)va_arg(ap, int));
+          len++;
           break;
         default:
           break;
@@ -178,11 +300,6 @@ int eprintf(putc_t putcf, const char * fmt, ...)
 
 int uartPutchar(int ch)
 {
-  if(SendingisPending)
-  {
-	  UART_DMA_Transmit_1(data, len);
-    len = 0;
-  }
   if(!SendingisPending)
   {
     if(len < Buffer)
@@ -195,6 +312,7 @@ int uartPutchar(int ch)
     {
       SendingisPending = 1;
       UART_DMA_Transmit_1(data, len);
+      SendingisPending = 0;
       len = 0;
     }
   }

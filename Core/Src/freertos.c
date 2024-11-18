@@ -344,16 +344,17 @@ static void uwbTask(void *argument)
 
 static void ledTask(void *argument)
 {
-	static uint8_t data[16];
+//	static uint8_t data[16];
+//	for(int i=0;i<5;i++)data[i] = i+1;
   while(1)
   {
-
-	  data[0] = 10;
-	  data[1] = 20;
 //	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	vTaskDelay(200);
-	UART_DMA_Transmit_1(data, 5);
-//	DEBUG_PRINTF("i am %s \n", "lihao");
+	vTaskDelay(2000);
+	DEBUG_PRINTF("this is a test: %u \n", 85);
+//	vTaskDelay(2000);
+	DEBUG_PRINTF("this is a test: %.2f \n", 5.82);
+//	vTaskDelay(2000);
+	DEBUG_PRINTF("this is a test: %i \n", -19);
 //	eprintf(uartPutchar, "i am %s \n", "lihao");
   }
 }
