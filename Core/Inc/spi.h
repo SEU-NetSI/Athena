@@ -29,6 +29,8 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+#include "FreeRTOS.h"
+#include "semphr.h"
 
 /* USER CODE END Includes */
 

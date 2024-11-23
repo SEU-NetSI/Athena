@@ -60,7 +60,7 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint32_t led_flash_in_rpm = 750;
 /* USER CODE END 0 */
 
 /**
@@ -96,19 +96,18 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  LL_mDelay(5000);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_I2C1_Init();
-  MX_I2C3_Init();
   MX_SPI3_Init();
   MX_SPI2_Init();
   MX_SPI1_Init();
-  MX_USART1_UART_Init();
   MX_USART3_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

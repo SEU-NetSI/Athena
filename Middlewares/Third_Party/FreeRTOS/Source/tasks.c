@@ -3984,7 +3984,6 @@ TCB_t *pxTCB;
 #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
 
 	BaseType_t xTaskGetSchedulerState( void )
-
 	{
 	BaseType_t xReturn;
 

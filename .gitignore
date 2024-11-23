@@ -4,3 +4,5 @@ Debug/*
 #*.mxproject
 #*.project
 Release/*
+/Release/
+/Debug/

@@ -11,5 +11,5 @@
 
 
 void UART_DMA_Transmit(uint8_t *data, uint32_t length);
-
+void UART_DMA_Transmit_1(uint8_t *data, uint32_t length);
 #endif /* ATHENA_DECK_HAL_INC_UART_HAL_H_ */
