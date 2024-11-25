@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "i2c_drv.h"
 #include "spi_drv.h"
+#include "spi.h"
 #include "uart_hal.h"
 #include "tca6408a.h"
 #include "vl53l5cx_api.h"
@@ -306,6 +307,13 @@ static void uwbTask(void *argument)
 
 	// init the dw3000 chip, get ready to rx and rx
 	result = dw3000_init();
+	uint32_t  dev_id;
+	dev_id = dwt_readdevid();
+	if (dev_id != 0x0 && dev_id != (0xDECA0302))
+	{
+	  MX_SPI2_Init_IO2IO3();
+	  result = dw3000_init();
+	}
 
 	// set the tx and rx callback functions
 //	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);
