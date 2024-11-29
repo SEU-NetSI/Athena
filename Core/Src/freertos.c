@@ -39,7 +39,7 @@
 #include "dw3000.h"
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
-#include "adhocuwb.h"
+//#include "adhocuwb.h"
 
 /* USER CODE END Includes */
 
