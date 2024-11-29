@@ -4,5 +4,6 @@ Debug/*
 #*.mxproject
 #*.project
 Release/*
+./settings/language.settings.xml
 /Release/
 /Debug/
