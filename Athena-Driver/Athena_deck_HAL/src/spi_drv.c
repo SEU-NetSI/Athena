@@ -48,6 +48,8 @@ bool spiExchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint
     return result;
 }
 
+
+
 void spiBeginTransaction()
 {
 	xSemaphoreTake(spiMutex, portMAX_DELAY);
