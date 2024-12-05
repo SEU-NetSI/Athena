@@ -19,6 +19,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "dma.h"
+#include "memorymap.h"
+#include "spi.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -100,6 +103,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -117,6 +122,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -132,8 +139,8 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
-  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_0)
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_1);
+  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_1)
   {
   }
   LL_PWR_ConfigSupply(LL_PWR_LDO_SUPPLY);
@@ -141,17 +148,36 @@ void SystemClock_Config(void)
   while (LL_PWR_IsActiveFlag_VOS() == 0)
   {
   }
-  LL_RCC_HSE_Enable();
+  LL_RCC_HSI_Enable();
 
-   /* Wait till HSE is ready */
-  while(LL_RCC_HSE_IsReady() != 1)
+   /* Wait till HSI is ready */
+  while(LL_RCC_HSI_IsReady() != 1)
   {
 
   }
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSE);
+  LL_RCC_HSI_SetCalibTrimming(64);
+  LL_RCC_HSI_SetDivider(LL_RCC_HSI_DIV1);
+  LL_RCC_PLL_SetSource(LL_RCC_PLLSOURCE_HSI);
+  LL_RCC_PLL1P_Enable();
+  LL_RCC_PLL1Q_Enable();
+  LL_RCC_PLL1_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_8_16);
+  LL_RCC_PLL1_SetVCOOutputRange(LL_RCC_PLLVCORANGE_MEDIUM);
+  LL_RCC_PLL1_SetM(4);
+  LL_RCC_PLL1_SetN(10);
+  LL_RCC_PLL1_SetP(2);
+  LL_RCC_PLL1_SetQ(2);
+  LL_RCC_PLL1_SetR(2);
+  LL_RCC_PLL1_Enable();
+
+   /* Wait till PLL is ready */
+  while(LL_RCC_PLL1_IsReady() != 1)
+  {
+  }
+
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL1);
 
    /* Wait till System clock is ready */
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSE)
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL1)
   {
 
   }
@@ -162,9 +188,9 @@ void SystemClock_Config(void)
   LL_RCC_SetAPB3Prescaler(LL_RCC_APB3_DIV_1);
   LL_RCC_SetAPB4Prescaler(LL_RCC_APB4_DIV_1);
 
-  LL_Init1msTick(8000000);
+  LL_Init1msTick(80000000);
 
-  LL_SetSystemCoreClock(8000000);
+  LL_SetSystemCoreClock(80000000);
 }
 
 /* USER CODE BEGIN 4 */

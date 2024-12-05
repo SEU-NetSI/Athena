@@ -28,6 +28,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 
+#include "stm32h7xx_ll_dma.h"
 #include "stm32h7xx_ll_rcc.h"
 #include "stm32h7xx_ll_crs.h"
 #include "stm32h7xx_ll_bus.h"
@@ -36,7 +37,7 @@ extern "C" {
 #include "stm32h7xx_ll_cortex.h"
 #include "stm32h7xx_ll_utils.h"
 #include "stm32h7xx_ll_pwr.h"
-#include "stm32h7xx_ll_dma.h"
+#include "stm32h7xx_ll_spi.h"
 #include "stm32h7xx_ll_gpio.h"
 
 #if defined(USE_FULL_ASSERT)
@@ -45,7 +46,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "spi_drv.h"
+#include "fm25cl64.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
