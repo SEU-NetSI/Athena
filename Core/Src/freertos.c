@@ -22,10 +22,11 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "semphr.h"
+#include "fm25_platform.h"
+#include "spi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -35,7 +36,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+SemaphoreHandle_t txComplete = NULL;
+SemaphoreHandle_t rxComplete = NULL;
+SemaphoreHandle_t spiMutex = NULL;
+SemaphoreHandle_t UartRxReady = NULL;
+FM25ObjectType fram_test;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -80,6 +85,9 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
+  txComplete = xSemaphoreCreateBinary();
+  rxComplete = xSemaphoreCreateBinary();
+  spiMutex = xSemaphoreCreateMutex();
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
@@ -115,10 +123,13 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
+	uint8_t readByte;
+	Fm25cxxInitialization(&fram_test,FM25CL64B,ReadDataFromFM25,WriteDataToFM25,LL_mDelay,ChipSelectForFM25);
   for(;;)
   {
-	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_12);
-    osDelay(100);
+	WriteByteToFM25xxx(&fram_test,0x0B,0x66);
+  	readByte = ReadByteFromFM25xxx(&fram_test,0x0B);
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }
