@@ -1,5 +1,6 @@
 Debug/*
-#*.launch
+*.launch
+*.cfg
 #*.cproject
 #*.mxproject
 #*.project
