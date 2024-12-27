@@ -38,6 +38,14 @@ void SetWriteEnableLatchForFM25xxx(FM25ObjectType *fram) {
 	ReadStatusForFM25xxx(fram);
 }
 
+/* 设置写使能所存器*/
+void SetWriteEnableForFM25xxx(FM25ObjectType *fram) {
+	uint8_t opCode = FM25_WREN;
+	fram->ChipSelect(FM25CS_Enable);
+	fram->Write(&opCode, 1);
+	fram->ChipSelect(FM25CS_Disable);
+}
+
 /* 复位写使能所存器*/
 void ResetWriteEnableLatchForFM25xxx(FM25ObjectType *fram) {
 	uint8_t opCode = FM25_WRDI;
@@ -146,7 +154,7 @@ void WriteBytesToFM25xxx(FM25ObjectType *fram, uint32_t regAddress,
 	if (((fram->status) & 0x02) != 0x02) {
 		SetWriteEnableLatchForFM25xxx(fram);
 	}
-
+	SetWriteEnableForFM25xxx(fram);
 	fram->ChipSelect(FM25CS_Enable);
 	fram->Write(data, index);
 	fram->ChipSelect(FM25CS_Disable);
