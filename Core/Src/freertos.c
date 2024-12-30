@@ -39,7 +39,7 @@
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
 
-#include "../../examples/debug_print/inc/debug.h"
+#include "DebugPrint_example.h"
 #include "../../examples/tinymap/inc/calibration.h"
 
 #include "../../examples/FS_example/src/Flash_FS_Example.c"
@@ -115,6 +115,14 @@ const osThreadAttr_t FS_Example_attributes = {
 		.stack_size = 128 * 4,
 		.priority = (osPriority_t) osPriorityNormal,
 };
+
+osThreadId_t Debug_ExampleHandle;
+const osThreadAttr_t Debug_Example_attributes = {
+		.name = "Debug_example",
+		.stack_size = 128 * 2,
+		.priority = (osPriority_t) osPriorityNormal,
+};
+
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 static void ledTask(void *argument);
@@ -169,6 +177,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
 	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
+
+    Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
@@ -176,7 +186,6 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
-
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -276,15 +285,16 @@ static void ledTask(void *argument)
 //	for(int i=0;i<5;i++)data[i] = i+1;
   while(1)
   {
-//	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	vTaskDelay(2000);
-	DEBUG_PRINTF("this is a test: %u \n", 85);
-//	vTaskDelay(2000);
-	DEBUG_PRINTF("this is a test: %.2f \n", 5.82);
-//	vTaskDelay(2000);
-	DEBUG_PRINTF("this is a test: %i \n", -19);
-//	eprintf(uartPutchar, "i am %s \n", "lihao");
+// //	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+	vTaskDelay(100);
+// 	DEBUG_PRINTF("this is a test: %u \n", 85);
+// //	vTaskDelay(2000);
+// 	DEBUG_PRINTF("this is a test: %.2f \n", 5.82);
+// //	vTaskDelay(2000);
+// 	DEBUG_PRINTF("this is a test: %i \n", -19);
+// //	eprintf(uartPutchar, "i am %s \n", "lihao");
   }
 }
+
 /* USER CODE END Application */
 
