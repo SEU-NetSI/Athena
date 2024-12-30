@@ -15,7 +15,7 @@
 #define FLASH_SECTOR_SIZE       4096  //FLASH扇区大小
 #define FLASH_TOTAL_SECTORS     2048 //FLASH总扇区数
 #define FLASH_PARTITION_OFFSET  0	//FLASH扇区区偏移量
-#define FLASH_PARTITION_SIZE    10	//分配给当前文件系统的扇区数
+#define FLASH_PARTITION_SIZE    100	//分配给当前文件系统的扇区数
 
 
 ssize_t ringfs_flash_read_wrapper(struct ringfs_flash_partition *flash, int address, void *data, size_t size);

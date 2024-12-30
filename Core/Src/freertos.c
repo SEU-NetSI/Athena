@@ -41,6 +41,8 @@
 
 #include "../../examples/debug_print/inc/debug.h"
 #include "../../examples/tinymap/inc/calibration.h"
+
+#include "../../examples/FS_example/src/Flash_FS_Example.c"
 //#include "adhocuwb.h"
 
 /* USER CODE END Includes */
@@ -87,11 +89,11 @@ int spi_deck_init(void)
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 osThreadId_t ledTaskHandle;
-const osThreadAttr_t ledTask_attributes = {
-  .name = "ledTask",
-  .stack_size = 128 * 2,
-  .priority = (osPriority_t) osPriorityNormal,
-};
+//const osThreadAttr_t ledTask_attributes = {
+//  .name = "ledTask",
+//  .stack_size = 128 * 2,
+//  .priority = (osPriority_t) osPriorityNormal,
+//};
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
   .name = "uwbTask",
@@ -104,10 +106,15 @@ osThreadId_t uwbISRTaskHandle;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = 128 * 2,
   .priority = (osPriority_t) osPriorityNormal,
 };
-
+osThreadId_t FS_ExampleHandle;
+const osThreadAttr_t FS_Example_attributes = {
+		.name = "FS_Example",
+		.stack_size = 128 * 4,
+		.priority = (osPriority_t) osPriorityNormal,
+};
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 static void ledTask(void *argument);
@@ -161,7 +168,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
+//  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
