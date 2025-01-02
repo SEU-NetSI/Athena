@@ -5,6 +5,17 @@
         "stm32l4xx_ll_gpio.h": "c",
         "uart_receive.h": "c",
         "uart_hal.h": "c",
-        "test_tof.h": "c"
+        "test_tof.h": "c",
+        "cstdarg": "c",
+        "debugprint_example.h": "c",
+        "debug.h": "c",
+        "stdio.h": "c",
+        "semphr.h": "c",
+        "task.h": "c",
+        "typeinfo": "c",
+        "dwtypes.h": "c",
+        "libdw3000.h": "c",
+        "calibration.h": "c",
+        "freertos.h": "c"
     }
 }

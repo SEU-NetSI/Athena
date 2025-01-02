@@ -39,7 +39,7 @@
 #include "dw3000_cbll.h"
 #include "tof_get_data.c"
 
-#include "../../examples/debug_print/inc/debug.h"
+#include "DebugPrint_example.h"
 #include "../../examples/tinymap/inc/calibration.h"
 
 #include "../../examples/FS_example/src/Flash_FS_Example.c"
@@ -108,6 +108,12 @@ const osThreadAttr_t tof_get_data_attributes = {
 		.stack_size = 128 * 4,
 		.priority = (osPriority_t) osPriorityNormal,
 };
+osThreadId_t Debug_ExampleHandle;
+const osThreadAttr_t Debug_Example_attributes = {
+		.name = "Debug_example",
+		.stack_size = 128 * 2,
+		.priority = (osPriority_t) osPriorityNormal,
+};
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 static void ledTask(void *argument);
@@ -135,7 +141,8 @@ void MX_FREERTOS_Init(void) {
 	    while (1);
 	}
 	spi_deck_init();
-	TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
+	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
+	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
@@ -215,13 +222,7 @@ static void ledTask(void *argument)
   while(1)
   {
 //	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	vTaskDelay(2000);
-	DEBUG_PRINTF("this is a test: %u \n", 85);
-//	vTaskDelay(2000);
-	DEBUG_PRINTF("this is a test: %.2f \n", 5.82);
-//	vTaskDelay(2000);
-	DEBUG_PRINTF("this is a test: %i \n", -19);
-//	eprintf(uartPutchar, "i am %s \n", "lihao");
+	vTaskDelay(100);
   }
 }
 /* USER CODE END Application */
