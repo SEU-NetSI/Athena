@@ -5,13 +5,10 @@
  *      Author: mfxjx
  */
 
-#include "test_tof.h"
-
-
+#include "tof_init.h"
 
 #define VL53L5CX_FORWARD_I2C_ADDRESS            ((uint16_t)(VL53L5CX_DEFAULT_I2C_ADDRESS*4))
 #define VL53L5CX_BACKWARD_I2C_ADDRESS            ((uint16_t)(VL53L5CX_FORWARD_I2C_ADDRESS+2))
-
 
 bool config_sensors(VL53L5CX_Configuration *p_dev, uint16_t new_i2c_address)
 {
@@ -86,5 +83,3 @@ bool get_sensor_data(VL53L5CX_Configuration *p_dev,VL53L5CX_ResultsData *p_resul
   //return false;// TODO deleet
   return true;
 }
-
-
