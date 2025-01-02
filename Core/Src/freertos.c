@@ -37,6 +37,7 @@
 #include "dw3000.h"
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
+#include "tof_get_data.c"
 
 #include "../../examples/debug_print/inc/debug.h"
 #include "../../examples/tinymap/inc/calibration.h"
@@ -74,19 +75,6 @@ int spi_deck_init(void)
   return 0;
 }
 
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN Variables */
 osThreadId_t ledTaskHandle;
 //const osThreadAttr_t ledTask_attributes = {
 //  .name = "ledTask",
@@ -114,6 +102,12 @@ const osThreadAttr_t FS_Example_attributes = {
 		.stack_size = 128 * 4,
 		.priority = (osPriority_t) osPriorityNormal,
 };
+osThreadId_t TOF_exampleHandle;
+const osThreadAttr_t tof_get_data_attributes = {
+		.name = "tof_get_data",
+		.stack_size = 128 * 4,
+		.priority = (osPriority_t) osPriorityNormal,
+};
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 static void ledTask(void *argument);
@@ -121,7 +115,6 @@ static void uwbTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -136,72 +129,18 @@ void MX_FREERTOS_Init(void) {
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 	UartRxReady = xSemaphoreCreateBinary();
-  CreateUartRxQueue();
+	CreateUartRxQueue();
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
 	    while (1);
 	}
 	spi_deck_init();
-
-  /* USER CODE END Init */
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of defaultTask */
-//  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
+	TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
+//	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
-
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-
-
-
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-  /* USER CODE BEGIN StartDefaultTask */
-  /* Infinite loop */
-
-	  while(1)
-	  {
-
-	  }
-  /* USER CODE END StartDefaultTask */
-}
-
-/* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
 
 void simple_txCallback(void *argument) {
 	return;
