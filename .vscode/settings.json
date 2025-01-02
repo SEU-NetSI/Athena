@@ -5,6 +5,14 @@
         "stm32l4xx_ll_gpio.h": "c",
         "uart_receive.h": "c",
         "uart_hal.h": "c",
-        "test_tof.h": "c"
+        "test_tof.h": "c",
+        "cstdarg": "c",
+        "type_traits": "c",
+        "debugprint_example.h": "c",
+        "limits": "c",
+        "spi.h": "c",
+        "calibration.h": "c",
+        "main.h": "c",
+        "freertos.h": "c"
     }
 }
