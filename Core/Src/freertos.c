@@ -176,7 +176,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
+//	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 
     Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
