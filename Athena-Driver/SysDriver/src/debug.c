@@ -1,4 +1,4 @@
-#include "../../../examples/debug_print/inc/debug.h"
+#include "debug.h"
 
 #define Buffer 64
 static bool SendingisPending = 0;
