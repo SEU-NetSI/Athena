@@ -3,12 +3,12 @@
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
 	  .name = "uwbTask",
-	  .stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
+	  .stack_size =  2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
 osThreadId_t uwbISRTaskHandle;
 
-void initUWBConfig(){
+void initUWBConfig(adhocuwb_hdw_cb_t txCb, adhocuwb_hdw_cb_t rxCb){
 
 
 	// reset dw3000 chip
@@ -26,6 +26,13 @@ void initUWBConfig(){
 	  MX_SPI2_Init_IO2IO3();
 	  dw3000_init();
 	}
+	// set the tx and rx callback functions
+	adhocuwb_set_hdw_cbs(txCb, rxCb);
+
+	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
+	// you should see the RX led flashes at the UWB Deck
+	adhocuwb_hdw_force_rx();
+
 }
 
 void simpleTxCallback(void *argument) {	// 发送完数据包后的回调函数
@@ -40,14 +47,8 @@ void simpleRxCallback(void *argument) {	// 接收到数据包时的回调函数
 void uwbSendRecvPacketTask(void *argument)
 {
 
-	initUWBConfig();
+	initUWBConfig(simpleTxCallback, simpleRxCallback);
 
-	// set the tx and rx callback functions
-	adhocuwb_set_hdw_cbs(simpleTxCallback, simpleRxCallback);
-
-	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
-	// you should see the RX led flashes at the UWB Deck
-	adhocuwb_hdw_force_rx();
 
 	/*============ the above code need only support from BSP/Components/DW3000 =============*/
 //	int uwbdata_tx[10] = {1,2,3,4,5,6,7,8,9};
