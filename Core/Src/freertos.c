@@ -38,6 +38,7 @@
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
 #include "tof_get_data.c"
+#include "usart.h"
 
 #include "DebugPrint_example.h"
 #include "../../examples/tinymap/inc/calibration.h"
@@ -76,11 +77,11 @@ int spi_deck_init(void)
 }
 
 osThreadId_t ledTaskHandle;
-//const osThreadAttr_t ledTask_attributes = {
-//  .name = "ledTask",
-//  .stack_size = 128 * 2,
-//  .priority = (osPriority_t) osPriorityNormal,
-//};
+const osThreadAttr_t ledTask_attributes = {
+  .name = "ledTask",
+  .stack_size = 128 * 2,
+  .priority = (osPriority_t) osPriorityNormal,
+};
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
   .name = "uwbTask",
@@ -142,9 +143,9 @@ void MX_FREERTOS_Init(void) {
 	}
 	spi_deck_init();
 	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
-	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
+//	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
-//  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
 }
 
@@ -217,11 +218,13 @@ static void uwbTask(void *argument)
 
 static void ledTask(void *argument)
 {
-//	static uint8_t data[16];
-//	for(int i=0;i<5;i++)data[i] = i+1;
+	static uint8_t data[6];
+	for(int i=0;i<=5;i++)data[i] = i+1;
   while(1)
   {
 //	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+	//   uart3SendData(6,data);
+	  Uart3_SendStr(data);
 	vTaskDelay(100);
   }
 }
