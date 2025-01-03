@@ -55,7 +55,7 @@ void uwbSendRecvPacketTask(void *argument)
 	// loop forever
 	while(1)
 	{
-	  adhocuwb_hdw_send(uwbdata_tx, sizeof(uwbdata_tx));
+	  adhocuwb_hdw_send(uwbdata_tx, 8);
       vTaskDelay(2000);
 	}
 }
