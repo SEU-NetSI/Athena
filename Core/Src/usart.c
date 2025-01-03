@@ -21,7 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-
+// static bool isInit = false;
 /* USER CODE END 0 */
 
 /* USART1 init function */
@@ -200,11 +200,20 @@ void MX_USART3_UART_Init(void)
   LL_USART_ConfigAsyncMode(USART3);
   LL_USART_Enable(USART3);
   /* USER CODE BEGIN USART3_Init 2 */
-
+  // isInit = true;
   /* USER CODE END USART3_Init 2 */
 
 }
 
 /* USER CODE BEGIN 1 */
+void Uart3_SendStr(char*SendBuf)//串口1发送字符串
+{
+  while(*SendBuf)
+  {
+    while(LL_USART_IsActiveFlag_TC(USART3)!=1);//等待发送完成
+    LL_USART_TransmitData8(USART3,(uint8_t)(*SendBuf & (uint8_t)0xff));//发送数据
+    SendBuf++;
+  }
+}
 
 /* USER CODE END 1 */
