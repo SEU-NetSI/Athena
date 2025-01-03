@@ -3,7 +3,7 @@
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
 	  .name = "uwbTask",
-	  .stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
+	  .stack_size = 5 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
 osThreadId_t uwbISRTaskHandle;

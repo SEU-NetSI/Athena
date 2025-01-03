@@ -137,14 +137,14 @@ void MX_FREERTOS_Init(void) {
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 	UartRxReady = xSemaphoreCreateBinary();
-	CreateUartRxQueue();
+//	CreateUartRxQueue();
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
 	    while (1);
 	}
 	spi_deck_init();
 	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
-//	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
+//	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 	uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);
