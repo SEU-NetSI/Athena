@@ -43,6 +43,7 @@
 #include "../../examples/tinymap/inc/calibration.h"
 
 #include "../../examples/FS_example/src/Flash_FS_Example.c"
+#include "uwb_send_recv_packet_example.c"
 //#include "adhocuwb.h"
 
 /* USER CODE END Includes */
@@ -81,13 +82,7 @@ osThreadId_t ledTaskHandle;
 //  .stack_size = 128 * 2,
 //  .priority = (osPriority_t) osPriorityNormal,
 //};
-osThreadId_t uwbTaskHandle;
-const osThreadAttr_t uwbTask_attributes = {
-  .name = "uwbTask",
-  .stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
-  .priority = (osPriority_t) osPriorityNormal,
-};
-osThreadId_t uwbISRTaskHandle;
+
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -114,10 +109,17 @@ const osThreadAttr_t Debug_Example_attributes = {
 		.stack_size = 128 * 2,
 		.priority = (osPriority_t) osPriorityNormal,
 };
+
+osThreadId_t uwb_send_recv_packet_ExampleHandle;
+const osThreadAttr_t uwb_send_recv_packet_Example_attributes = {
+		.name = "uwbSendRecvPacketTask",
+		.stack_size = 128 * 4,
+		.priority = (osPriority_t) osPriorityNormal,
+};
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-static void ledTask(void *argument);
-static void uwbTask(void *argument);
+//static void ledTask(void *argument);
+//static void uwbTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -142,88 +144,13 @@ void MX_FREERTOS_Init(void) {
 	}
 	spi_deck_init();
 	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
-	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
+//	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
-//  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
+	uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);
+
 }
 
 
-void simple_txCallback(void *argument) {
-	return;
-}
-
-void simple_rxCallback(void *argument) {
-	uint8_t *packet = (uint8_t *) argument;
-	return;
-}
-
-static void uwbTask(void *argument)
-{
-	int result = 0;
-	led_flash_in_rpm = 750;
-
-	// reset dw3000 chip
-	dwt_ops.reset(); // this is not necessary
-
-	// prepare the interrupt service routines task
-	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
-	vTaskDelay(8); // wait for the uwbISRTask to start to handle ISR
-
-	// init the dw3000 chip, get ready to rx and rx
-	result = dw3000_init();
-	uint32_t  dev_id;
-	dev_id = dwt_readdevid();
-	if (dev_id != 0x0 && dev_id != (0xDECA0302))
-	{
-	  MX_SPI2_Init_IO2IO3();
-	  result = dw3000_init();
-	}
-
-	// set the tx and rx callback functions
-//	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);
-
-	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
-	// you should see the RX led flashes at the UWB Deck
-	adhocuwb_hdw_force_rx();
-
-	vTaskDelay(1000);
-
-	// transmit data with length, txcallback should be invoked once tx success
-	// you should see the TX led flashes at the UWB Deck
-//	uint8_t uwbdata_tx[32] = {0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC};
-
-	for(int i=0;i<259;i++){
-		uwbdata_tx[i] = i;
-	}
-
-//	result = adhocuwb_hdw_send(uwbdata_tx, 240);
-
-	/*============ the above code need only support from BSP/Components/DW3000 =============*/
-
-	vTaskDelay(1000);
-
-	/*============  the following code need additional support from AdHocUWB   =============*/
-	adhocuwbInit();
-
-	// loop forever
-	while(1)
-	{
-//		result = adhocuwb_hdw_send(uwbdata_tx, 30);
-//		result = adhocuwb_hdw_send(uwbdata_tx, 250);
-      vTaskDelay(2000);
-	}
-}
-
-static void ledTask(void *argument)
-{
-//	static uint8_t data[16];
-//	for(int i=0;i<5;i++)data[i] = i+1;
-  while(1)
-  {
-//	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	vTaskDelay(100);
-  }
-}
 /* USER CODE END Application */
 
