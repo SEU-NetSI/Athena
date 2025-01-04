@@ -44,6 +44,7 @@
 #include "../../examples/tinymap/inc/calibration.h"
 
 #include "../../examples/FS_example/src/Flash_FS_Example.c"
+#include "uwb_send_recv_packet_example.c"
 //#include "adhocuwb.h"
 
 /* USER CODE END Includes */
@@ -84,7 +85,6 @@ int spi_deck_init(void)
 }
 
 
-
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
   .name = "uwbTask",
@@ -118,6 +118,13 @@ const osThreadAttr_t Debug_Example_attributes = {
 		.stack_size = 128 * 2,
 		.priority = (osPriority_t) osPriorityNormal,
 };
+
+osThreadId_t uwb_send_recv_packet_ExampleHandle;
+const osThreadAttr_t uwb_send_recv_packet_Example_attributes = {
+		.name = "uwbSendRecvPacketTask",
+		.stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t),
+		.priority = (osPriority_t) osPriorityNormal,
+};
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
@@ -132,19 +139,29 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   * @brief  FreeRTOS initialization
   * @param  None
   * @retval None
+  *
   */
+
+
+
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 	txComplete = xSemaphoreCreateBinary();
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 	UartRxReady = xSemaphoreCreateBinary();
-	CreateUartRxQueue();
+//	CreateUartRxQueue();
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
 	    while (1);
 	}
 	spi_deck_init();
+  
+	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
+//	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);Debug_Example_attributes);
+//	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
+//  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+	// uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);
 
 	initConfig = &_userInit_start;
 	while(initConfig < &_userInit_stop){
@@ -160,74 +177,4 @@ void MX_FREERTOS_Init(void) {
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
 }
 
-
-void simple_txCallback(void *argument) {
-	return;
-}
-
-void simple_rxCallback(void *argument) {
-	uint8_t *packet = (uint8_t *) argument;
-	return;
-}
-
-static void uwbTask(void *argument)
-{
-	int result = 0;
-	led_flash_in_rpm = 750;
-
-	// reset dw3000 chip
-	dwt_ops.reset(); // this is not necessary
-
-	// prepare the interrupt service routines task
-	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
-	vTaskDelay(8); // wait for the uwbISRTask to start to handle ISR
-
-	// init the dw3000 chip, get ready to rx and rx
-	result = dw3000_init();
-	uint32_t  dev_id;
-	dev_id = dwt_readdevid();
-	if (dev_id != 0x0 && dev_id != (0xDECA0302))
-	{
-	  MX_SPI2_Init_IO2IO3();
-	  result = dw3000_init();
-	}
-
-	// set the tx and rx callback functions
-//	adhocuwb_set_hdw_cbs(simple_txCallback, simple_rxCallback);
-
-	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
-	// you should see the RX led flashes at the UWB Deck
-	adhocuwb_hdw_force_rx();
-
-	vTaskDelay(1000);
-
-	// transmit data with length, txcallback should be invoked once tx success
-	// you should see the TX led flashes at the UWB Deck
-//	uint8_t uwbdata_tx[32] = {0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC};
-
-	for(int i=0;i<259;i++){
-		uwbdata_tx[i] = i;
-	}
-
-//	result = adhocuwb_hdw_send(uwbdata_tx, 240);
-
-	/*============ the above code need only support from BSP/Components/DW3000 =============*/
-
-	vTaskDelay(1000);
-
-	/*============  the following code need additional support from AdHocUWB   =============*/
-	adhocuwbInit();
-
-	// loop forever
-	while(1)
-	{
-//		result = adhocuwb_hdw_send(uwbdata_tx, 30);
-//		result = adhocuwb_hdw_send(uwbdata_tx, 250);
-      vTaskDelay(2000);
-	}
-}
-
-
-
-/* USER CODE END Application */
 

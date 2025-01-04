@@ -48,6 +48,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/DebugPrint_example}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/DebugPrint_example/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/DebugPrint_example/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
 								</option>
@@ -104,6 +107,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/DebugPrint_example}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/DebugPrint_example/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/DebugPrint_example/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
 								</option>
@@ -194,6 +200,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/FS_example/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/FS_example/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/tof_get_data}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
 								</option>
@@ -243,6 +252,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/FS_example/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/FS_example/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/tof_get_data}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
 								</option>
