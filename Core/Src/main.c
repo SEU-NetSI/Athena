@@ -96,7 +96,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  LL_mDelay(5000);
+  LL_mDelay(50);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -107,7 +107,7 @@ int main(void)
   MX_SPI3_Init();
   MX_SPI2_Init();
   MX_SPI1_Init();
-  //MX_USART3_UART_Init();
+  MX_USART3_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
@@ -115,6 +115,7 @@ int main(void)
 
   /* Init scheduler */
   osKernelInitialize();
+
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();

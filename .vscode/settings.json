@@ -16,6 +16,7 @@
         "dwtypes.h": "c",
         "libdw3000.h": "c",
         "calibration.h": "c",
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "stdbool.h": "c"
     }
 }

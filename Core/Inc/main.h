@@ -73,7 +73,12 @@ extern "C" {
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
+typedef struct user_init {
+	void (*init)();
+} UserInit;
+
 /* USER CODE BEGIN EFP */
+#define USER_INIT(NAME) const struct user_init * config_##NAME __attribute__((section(".userInit." #NAME), used)) = &(NAME)
 
 /* USER CODE END EFP */
 
@@ -84,6 +89,7 @@ void Error_Handler(void);
 #define LED_GPIO_Port GPIOB
 #define FM25CLXX_CS_Pin LL_GPIO_PIN_0
 #define FM25CLXX_CS_GPIO_Port GPIOB
+
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */
@@ -99,6 +105,8 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 extern uint32_t led_flash_in_rpm;
+
+
 
 /* USER CODE END Private defines */
 
