@@ -84,14 +84,6 @@ int spi_deck_init(void)
 	return 0;
 }
 
-
-osThreadId_t uwbTaskHandle;
-const osThreadAttr_t uwbTask_attributes = {
-  .name = "uwbTask",
-  .stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
-  .priority = (osPriority_t) osPriorityNormal,
-};
-osThreadId_t uwbISRTaskHandle;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -128,19 +120,9 @@ const osThreadAttr_t uwb_send_recv_packet_Example_attributes = {
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
-static void uwbTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
 
-
-void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
-
-/**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  *
-  */
 
 
 

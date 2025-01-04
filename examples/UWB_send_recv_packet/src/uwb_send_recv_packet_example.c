@@ -32,7 +32,6 @@ void initUWBConfig(adhocuwb_hdw_cb_t txCb, adhocuwb_hdw_cb_t rxCb){
 	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
 	// you should see the RX led flashes at the UWB Deck
 	adhocuwb_hdw_force_rx();
-
 }
 
 void simpleTxCallback(void *argument) {	// 发送完数据包后的回调函数
