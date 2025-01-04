@@ -78,6 +78,16 @@ SECTIONS
     _etext = .;        /* define a global symbols at end of code */
   } >FLASH
 
+  /* user init function compiled into "FLASH" Rom type memory */
+  .userInit :
+  {
+  	. = ALIGN(4);
+    _userInit_start = .;
+    KEEP(*(.userInit));
+    KEEP(*(.userInit.*));
+    _userInit_stop = .;
+  } >FLASH
+
   /* Constant data into "FLASH" Rom type memory */
   .rodata :
   {

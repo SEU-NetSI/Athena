@@ -80,6 +80,16 @@ SECTIONS
     _etext = .;        /* define a global symbols at end of code */
   } >RAM
 
+  /* User init program compiled into "RAM" Ram type memory */
+  .userInit :
+  {
+  	. = ALIGN(4);
+    _userInit_start = .;
+    KEEP(*(.userInit));
+    KEEP(*(.userInit.*));
+    _userInit_stop = .;
+  } >RAM
+
   /* Constant data into "RAM" Ram type memory */
   .rodata :
   {
@@ -187,3 +197,4 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
+

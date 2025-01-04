@@ -60,6 +60,13 @@ SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 uint8_t uwbdata_tx[260];
 
+extern const struct user_init * _userInit_start;
+extern const struct user_init * _userInit_stop;
+static const struct user_init ** initConfig;
+
+
+
+
 
 int spi_deck_init(void)
 {
@@ -73,15 +80,11 @@ int spi_deck_init(void)
 	    while (1);
 	}
 
-  return 0;
+	return 0;
 }
 
-osThreadId_t ledTaskHandle;
-const osThreadAttr_t ledTask_attributes = {
-  .name = "ledTask",
-  .stack_size = 128 * 2,
-  .priority = (osPriority_t) osPriorityNormal,
-};
+
+
 osThreadId_t uwbTaskHandle;
 const osThreadAttr_t uwbTask_attributes = {
   .name = "uwbTask",
@@ -117,7 +120,7 @@ const osThreadAttr_t Debug_Example_attributes = {
 };
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-static void ledTask(void *argument);
+
 static void uwbTask(void *argument);
 
 /* USER CODE END FunctionPrototypes */
@@ -142,10 +145,18 @@ void MX_FREERTOS_Init(void) {
 	    while (1);
 	}
 	spi_deck_init();
-	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
+
+	initConfig = &_userInit_start;
+	while(initConfig < &_userInit_stop){
+	   (*initConfig)->init();
+	   initConfig++;
+	}
+
+
+// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
 //	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
-  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
+//    ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
 }
 
@@ -216,17 +227,7 @@ static void uwbTask(void *argument)
 	}
 }
 
-static void ledTask(void *argument)
-{
-	static uint8_t data[6];
-	for(int i=0;i<=5;i++)data[i] = i+1;
-  while(1)
-  {
-//	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	//   uart3SendData(6,data);
-	  Uart3_SendStr(data);
-	vTaskDelay(100);
-  }
-}
+
+
 /* USER CODE END Application */
 
