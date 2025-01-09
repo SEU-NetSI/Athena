@@ -39,7 +39,9 @@ void simpleTxCallback(void *argument) {	// 发送完数据包后的回调函数
 }
 
 void simpleRxCallback(void *argument) {	// 接收到数据包时的回调函数
-	uint8_t *packet = (uint8_t *) argument;
+	int *packet = (int *) argument;
+	int a = packet[1];
+	int b = packet[2];
 	return;
 }
 
