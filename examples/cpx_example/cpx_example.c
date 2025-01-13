@@ -11,12 +11,17 @@ static CPXPacket_t cpxPacket;
 
 static void cpxPacketCallback(const CPXPacket_t *cpxRx)
 {
-  DEBUG_PRINTF("Got packet from cf (%u)\n", cpxRx->data[0]);
+	DEBUG_PRINTF("Got Data from STM32: [");
+	        for (size_t i = 0; i < cpxRx->dataLength; i++)
+	        {
+	            DEBUG_PRINTF("%d%s", cpxRx->data[i], (i < cpxRx->dataLength - 1) ? ", " : "");
+	        }
+	        DEBUG_PRINTF("]\n");
 }
 
 static void cpx_Example(void *argument)
 {
-	DEBUG_PRINTF("led task is up\n");
+	DEBUG_PRINTF("cpx task is up\n");
 	cpxRegisterAppMessageHandler(cpxPacketCallback);
 	DEBUG_PRINTF("to call uart_transport_init\n");
 	uart_transport_init();
