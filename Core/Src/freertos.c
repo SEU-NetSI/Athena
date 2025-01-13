@@ -121,12 +121,7 @@ const osThreadAttr_t uwb_send_recv_packet_Example_attributes = {
 		.stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t),
 		.priority = (osPriority_t) osPriorityNormal,
 };
-osThreadId_t cpx_ExampleHandle;
-const osThreadAttr_t cpx_Example_attributes = {
-		.name = "cpx_Example",
-		.stack_size = 128 * 2,
-		.priority = (osPriority_t) osPriorityNormal,
-};
+
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
@@ -154,7 +149,7 @@ void MX_FREERTOS_Init(void) {
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 //  ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 	// uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);
-	cpx_ExampleHandle = osThreadNew(cpx_Example, NULL, &cpx_Example_attributes);
+
 	initConfig = &_userInit_start;
 	while(initConfig < &_userInit_stop){
 	   (*initConfig)->init();
