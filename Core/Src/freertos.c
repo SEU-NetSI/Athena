@@ -45,6 +45,10 @@
 
 #include "../../examples/FS_example/src/Flash_FS_Example.c"
 #include "uwb_send_recv_packet_example.c"
+#include "cpx/cpx.h"
+#include "cpx/uart_transport.h"
+#include "cpx/router.h"
+#include "../../examples/cpx_example/cpx_example.c"
 //#include "adhocuwb.h"
 
 /* USER CODE END Includes */
@@ -117,6 +121,7 @@ const osThreadAttr_t uwb_send_recv_packet_Example_attributes = {
 		.stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t),
 		.priority = (osPriority_t) osPriorityNormal,
 };
+
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
@@ -132,7 +137,7 @@ void MX_FREERTOS_Init(void) {
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 	UartRxReady = xSemaphoreCreateBinary();
-//	CreateUartRxQueue();
+	CreateUartRxQueue();
 	if (txComplete == NULL || rxComplete == NULL || spiMutex == NULL)
 	{
 	    while (1);
