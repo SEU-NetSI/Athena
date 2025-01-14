@@ -9,7 +9,11 @@
 #include "dw3000_cbll.h"
 #include "adhocuwb.h"
 
-osThreadId_t uwb_get_distances;
+SemaphoreHandle_t spiDeckTxComplete = NULL;
+SemaphoreHandle_t spiDeckRxComplete = NULL;
+SemaphoreHandle_t spiDeckMutex = NULL;
+SemaphoreHandle_t uwbIrqSemaphore = NULL;
+
 static osThreadId_t uwbISRTaskHandle;
 
 const osThreadAttr_t uwb_get_distances_attributes = {
@@ -17,6 +21,21 @@ const osThreadAttr_t uwb_get_distances_attributes = {
 		.stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t),
 		.priority = (osPriority_t) osPriorityNormal,
 };
+
+int spi_deck_init(void)
+{
+  spiDeckTxComplete = xSemaphoreCreateBinary();
+  spiDeckRxComplete = xSemaphoreCreateBinary();
+  spiDeckMutex = xSemaphoreCreateMutex();
+  uwbIrqSemaphore = xSemaphoreCreateMutex();
+
+	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
+	{
+	    while (1);
+	}
+
+	return 0;
+}
 
 static void initUWBConfig(){
 
@@ -41,8 +60,8 @@ static void initUWBConfig(){
 	adhocuwb_hdw_force_rx();
 }
 
-
 static void uwb_get_distances_init(){
+	spi_deck_init();
 	initUWBConfig();
 	vTaskDelay(100);
 	adhocuwbInit();
