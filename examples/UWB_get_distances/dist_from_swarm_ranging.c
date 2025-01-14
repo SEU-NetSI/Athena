@@ -36,7 +36,7 @@ static void initUWBConfig(){
 
 
 static void uwb_get_distances_init(){
-	initUWBConfig();
+	initUWBConfig()
 	vTaskDelay(100);
 	adhocuwbInit();
 }
