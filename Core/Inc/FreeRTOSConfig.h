@@ -85,7 +85,7 @@
 /* Defaults to size_t for backward compatibility, but can be changed
    if lengths will always be less than the number of bytes in a size_t. */
 #define configMESSAGE_BUFFER_LENGTH_TYPE         size_t
-#define configUSE_TICKLESS_IDLE 				 2
+#define configUSE_TICKLESS_IDLE 				 0
 #define configDEBUG                              1
 #define configTICK_USES_LSI                      1
 #define configLPTIM_REF_CLOCK_HZ                 16000
