@@ -3,7 +3,14 @@
 #include "main.h"
 #include "cmsis_os.h"
 
+#include "libdw3000.h"
+#include "dw3000.h"
+#include "dwTypes.h"
+#include "dw3000_cbll.h"
+#include "adhocuwb.h"
+
 osThreadId_t uwb_get_distances;
+static osThreadId_t uwbISRTaskHandle;
 
 const osThreadAttr_t uwb_get_distances_attributes = {
 		.name = "uwbGetDistances",
@@ -17,7 +24,7 @@ static void initUWBConfig(){
 	dwt_ops.reset(); // this is not necessary
 
 	// prepare the interrupt service routines task
-	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbTask_attributes);
+	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwb_get_distances_attributes);
 	vTaskDelay(100); // wait for the uwbISRTask to start to handle ISR
 
 	// init the dw3000 chip, get ready to rx and rx，下面两次初始化是为了两个不同SPI配置的dw3000设备
@@ -36,7 +43,7 @@ static void initUWBConfig(){
 
 
 static void uwb_get_distances_init(){
-	initUWBConfig()
+	initUWBConfig();
 	vTaskDelay(100);
 	adhocuwbInit();
 }
