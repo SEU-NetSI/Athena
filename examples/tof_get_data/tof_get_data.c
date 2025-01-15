@@ -8,7 +8,10 @@
 
 static VL53L5CX_Configuration vl53l5dev_f;
 static VL53L5CX_ResultsData vl53l5_res_f;
+static tof_packet pk;
+static ToFdataCallback tofHandlerCallback = NULL;
 void tof_get_data(void *argument);
+void ToFRegisterMessageHandler(ToFdataCallback callback);
 
 osThreadId_t TOF_exampleHandle;
 
@@ -28,7 +31,9 @@ static const UserInit tof_init = {
 
 USER_INIT(tof_init);
 
+
 void tof_get_data(void* argument){
+	pk.id = 0;
 #ifdef ZRANGER
 	LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_3);
 	LL_mDelay(100);
@@ -41,14 +46,13 @@ void tof_get_data(void* argument){
 #endif
 	while(1){
 	  	get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);//获取传感器数据
-	  	int16_t distance[64];
-	  	memcpy(distance, vl53l5_res_f.distance_mm, sizeof(distance));
-	  	for(int i = 0; i < 64; ++i){
-	  		DEGUB_PRINTF("%d,", distance[i]);
-	  		if(i % 8 == 0) DEBUG_PRINTF("\n");
-	  	}
+	  	memcpy(pk.distance, vl53l5_res_f.distance_mm, sizeof(pk.distance));
+		tofHandlerCallback(&pk);
         LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-	  	LL_mDelay(100);
+	  	LL_mDelay(500);
 	}
 }
 
+void ToFRegisterMessageHandler(ToFdataCallback callback) {
+    tofHandlerCallback = callback;
+}

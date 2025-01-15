@@ -108,12 +108,6 @@ const osThreadAttr_t FS_Read_attributes = {
 		.stack_size = 128 * 4,
 		.priority = (osPriority_t) osPriorityNormal,
 };
-osThreadId_t TOF_exampleHandle;
-const osThreadAttr_t tof_get_data_attributes = {
-		.name = "tof_get_data",
-		.stack_size = 128 * 4,
-		.priority = (osPriority_t) osPriorityNormal,
-};
 osThreadId_t Debug_ExampleHandle;
 const osThreadAttr_t Debug_Example_attributes = {
 		.name = "Debug_example",
