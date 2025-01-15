@@ -39,6 +39,8 @@
 #include "dw3000_cbll.h"
 #include "tof_get_data.c"
 #include "usart.h"
+#include "adhocuwb.h"
+
 
 #include "DebugPrint_example.h"
 #include "../../examples/tinymap/inc/calibration.h"
@@ -55,34 +57,12 @@ SemaphoreHandle_t txComplete = NULL;
 SemaphoreHandle_t rxComplete = NULL;
 SemaphoreHandle_t spiMutex = NULL;
 SemaphoreHandle_t UartRxReady = NULL;
-SemaphoreHandle_t spiDeckTxComplete = NULL;
-SemaphoreHandle_t spiDeckRxComplete = NULL;
-SemaphoreHandle_t spiDeckMutex = NULL;
-SemaphoreHandle_t uwbIrqSemaphore = NULL;
 uint8_t uwbdata_tx[260];
 
 extern const struct user_init * _userInit_start;
 extern const struct user_init * _userInit_stop;
 static const struct user_init ** initConfig;
 
-
-
-
-
-int spi_deck_init(void)
-{
-  spiDeckTxComplete = xSemaphoreCreateBinary();
-  spiDeckRxComplete = xSemaphoreCreateBinary();
-  spiDeckMutex = xSemaphoreCreateMutex();
-  uwbIrqSemaphore = xSemaphoreCreateMutex();
-
-	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
-	{
-	    while (1);
-	}
-
-	return 0;
-}
 
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
@@ -124,8 +104,6 @@ const osThreadAttr_t uwb_send_recv_packet_Example_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 
-
-
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 	txComplete = xSemaphoreCreateBinary();
@@ -137,7 +115,6 @@ void MX_FREERTOS_Init(void) {
 	{
 	    while (1);
 	}
-	spi_deck_init();
   
 	// TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
 //	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &uwb_send_recv_packet_ExampleHandle = osThreadNew(uwbSendRecvPacketTask, NULL, &uwb_send_recv_packet_Example_attributes);Debug_Example_attributes);
@@ -157,6 +134,7 @@ void MX_FREERTOS_Init(void) {
 //	FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 //    ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
+
 }
 
 

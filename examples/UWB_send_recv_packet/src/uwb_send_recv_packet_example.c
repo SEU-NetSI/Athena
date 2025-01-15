@@ -8,8 +8,7 @@ const osThreadAttr_t uwbTask_attributes = {
 	};
 osThreadId_t uwbISRTaskHandle;
 
-void initUWBConfig(adhocuwb_hdw_cb_t txCb, adhocuwb_hdw_cb_t rxCb){
-
+static void initUWBConfig(adhocuwb_hdw_cb_t txCb, adhocuwb_hdw_cb_t rxCb){
 
 	// reset dw3000 chip
 	dwt_ops.reset(); // this is not necessary
