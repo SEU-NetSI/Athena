@@ -184,13 +184,20 @@
 							<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.2101388871" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 						</tool>
 					</fileInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.842980655" name="adhocuwb_linux.c" rcbsApplicability="disable" resourcePath="AdHocUWB/Src/adhocuwb_linux.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.109154183.320533212">
+						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.109154183.320533212" name="MCU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.109154183"/>
+					</fileInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.61562533" name="adhocuwb_freertos_athena3.2.h" rcbsApplicability="disable" resourcePath="AdHocUWB/Inc/adhocuwb_freertos_athena3.2.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.1687951900" name="adhocuwb_macos.h" rcbsApplicability="disable" resourcePath="AdHocUWB/Inc/adhocuwb_macos.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.177826239" name="adhocuwb_linux.h" rcbsApplicability="disable" resourcePath="AdHocUWB/Inc/adhocuwb_linux.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.2124766754" name="w25q64.h" rcbsApplicability="disable" resourcePath="Athena-Driver/BSP/Components/W25Q64/inc/w25q64.h" toolsToInvoke=""/>
 					<sourceEntries>
+						<entry excluding="Src/adhocuwb_linux.c|Src/adhocuwb_macos.c|Src/adhocuwb_freertos_crazyflie.c|Src/adhocuwb_freertos_athena3.2.c|Inc/adhocuwb_linux.h|Inc/adhocuwb_macos.h|Inc/adhocuwb_freertos_athena3.2.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AdHocUWB"/>
 						<entry excluding="BSP/Components/W25Q64/src/w25q64.c|Athena_deck_HAL/src/i2c_hal.c|BSP/Components/W25Q64/inc/w25q64.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Athena-Driver"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="Athena_deck_HAL/src/i2c_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples/DebugPrint_example"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/DebugPrint_example"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/init_fun_example"/>
 					</sourceEntries>
 				</configuration>
