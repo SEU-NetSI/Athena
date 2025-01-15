@@ -33,10 +33,7 @@
 #include "vl53l5cx_api.h"
 #include "w25q64_ll.h"
 #include "uart_receive.h"
-#include "libdw3000.h"
-#include "dw3000.h"
-#include "dwTypes.h"
-#include "dw3000_cbll.h"
+
 #include "tof_get_data.c"
 #include "usart.h"
 
