@@ -10,5 +10,6 @@
 
 #define ENABLE_UWB_DW3000
 
+int getInitStatus();
 
 #endif /* INC_SYSLAUNCH_H_ */

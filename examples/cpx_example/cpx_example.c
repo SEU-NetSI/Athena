@@ -56,4 +56,4 @@ static const UserInit cpx_init = {
 		.init = cpx_example_init,
 };
 
-USER_INIT(cpx_init);
+//USER_INIT(cpx_init);
