@@ -6,7 +6,7 @@ const osThreadAttr_t uwbTask_attributes = {
 	  .stack_size =  2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t), //TODO: check whether this works
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
-osThreadId_t uwbISRTaskHandle;
+static osThreadId_t uwbISRTaskHandle;
 
 static void initUWBConfig(adhocuwb_hdw_cb_t txCb, adhocuwb_hdw_cb_t rxCb){
 

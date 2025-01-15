@@ -20,7 +20,7 @@ SemaphoreHandle_t spiDeckRxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
-static osThreadId_t uwbISRTaskHandle;
+osThreadId_t uwbISRTaskHandle;
 
 const osThreadAttr_t uwbGetNeighborDistancesTaskAttributes = {
 		.name = "uwbGetNeighborDistancesTask",
