@@ -20,14 +20,14 @@
 osThreadId_t router_uartTaskHandle;
 const osThreadAttr_t router_uartTask_attributes = {
   .name = "router_uartTask",
-  .stack_size = 2000,
+  .stack_size = 500,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 
 osThreadId_t router_internalTaskHandle;
 const osThreadAttr_t router_internalTask_attributes = {
   .name = "router_internalTask",
-  .stack_size = 2000,
+  .stack_size = 500,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 

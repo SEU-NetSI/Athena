@@ -21,16 +21,15 @@ static void cpxPacketCallback(const CPXPacket_t *cpxRx)
 	DEBUG_PRINTF("Got Data from STM32: [");
 	        for (size_t i = 0; i < cpxRx->dataLength; i++)
 	        {
-	            DEBUG_PRINTF("%d%s", cpxRx->data[i], (i < cpxRx->dataLength - 1) ? ", " : "");
+	            DEBUG_PRINTF("%d\n", cpxRx->data[i]);
 	        }
 	        DEBUG_PRINTF("]\n");
 }
 
 static void cpx_Example(void *argument)
 {
-	DEBUG_PRINTF("cpx task is up\n");
+	DEBUG_PRINTF("cpx example task is up\n");
 	cpxRegisterAppMessageHandler(cpxPacketCallback);
-	DEBUG_PRINTF("to call uart_transport_init\n");
 	uart_transport_init();
 	routerInit();
 	DEBUG_PRINTF("router initialized\n");
@@ -44,7 +43,7 @@ static void cpx_Example(void *argument)
 	    cpxPacket.data[0]=count;
 	    count++;
 	    cpxSendPacketBlocking(&cpxPacket);
-	    DEBUG_PRINTF("send packet to cf(%u).\n",cpxPacket.data[0]);
+	    //DEBUG_PRINTF("send packet to cf(%u).\n",cpxPacket.data[0]);
   }
 }
 void cpx_example_init(){
