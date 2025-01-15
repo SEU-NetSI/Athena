@@ -16,52 +16,13 @@ const osThreadAttr_t cpx_Example_attributes = {
 
 static CPXPacket_t cpxPacket;
 
-void doubleToString(double num, char *str) {
-    // 提取整数部分和小数部分
-    long int integerPart = (long int)num;
-    double decimalPart = num - integerPart;
-
-    // 拼接整数部分
-    int i = 0;
-    if (integerPart == 0) {
-        str[i++] = '0';  // 特殊处理整数部分为0的情况
-    } else {
-        int temp = integerPart;
-        int digitCount = 0;
-        while (temp > 0) {
-            digitCount++;
-            temp /= 10;
-        }
-
-        for (int j = digitCount - 1; j >= 0; j--) {
-            str[i + j] = '0' + (integerPart % 10);
-            integerPart /= 10;
-        }
-        i += digitCount;
-    }
-
-    str[i++] = '.';  // 添加小数点
-
-    // 拼接小数部分，保留两位小数
-    decimalPart *= 100;  // 获取小数点后两位
-    int decimalInt = (int)decimalPart;
-
-    str[i++] = '0' + (decimalInt / 10);  // 小数部分的十位
-    str[i++] = '0' + (decimalInt % 10);  // 小数部分的个位
-
-    str[i] = '\0';  // 字符串结束符
-}
-
-
 static void cpxPacketCallback(const CPXPacket_t *cpxRx)
 {
 	double pos[6];
-	char result[50];
 	memcpy((double *)pos, cpxRx->data, cpxRx->dataLength);
 	DEBUG_PRINTF("Got Data from STM32: [");
 	        for (size_t i = 0; i < 6; i++)
 	        {
-//	        	doubleToString(pos[i], result);
 	            DEBUG_PRINTF("%f \n", pos[i]);
 	            vTaskDelay(500);
 	        }

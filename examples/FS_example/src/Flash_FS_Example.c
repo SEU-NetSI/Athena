@@ -52,25 +52,20 @@
 
 static void cpxCallback(const CPXPacket_t *cpxRx)
 {
-//	uint32_t write_time;
-//	write_time = xTaskGetTickCount();
-//	entry.timestamp = write_time;
-	double pos[6];
-	memcpy(pos, cpxRx->data, cpxRx->dataLength);
-//	memcpy((double *)entry.pos, cpxRx->data, cpxRx->dataLength);
-	DEBUG_PRINTF("Got Data from STM32: [");
+	memcpy((double *)entry.pos, cpxRx->data, cpxRx->dataLength);
+	entry.timestamp = id++;
+	DEBUG_PRINTF("Got Data %d from STM32: [ \n", id);
 	        for (size_t i = 0; i < 6; i++)
 	        {
-//	            DEBUG_PRINTF("%f \n", entry.pos[i]);
-	            DEBUG_PRINTF("%f \n", pos[i]);
+	            DEBUG_PRINTF("%f \n", entry.pos[i]);
 	            vTaskDelay(100);
 	        }
 	        DEBUG_PRINTF("]\n");
-//	ringfs_append(&fs, &entry);
-	vTaskDelay(100);
+	ringfs_append(&fs, &entry);
+	vTaskDelay(1000);
 }
 
-void Data_Init()
+void Data_Write()
 {
 	// I2C_expander_initialize();//初始化I2C多路复用器
 	// initialize_sensors_I2C(&vl53l5dev_f,1);//初始化VL53L5CX传感器
@@ -87,60 +82,37 @@ void Data_Init()
 	routerInit();
 	DEBUG_PRINTF("router initialized\n");
 	cpxInit();
+	while(1)
+	{
+		osDelay(50);
+	}
 }
 
 
-void Data_Gather(void *argument)
+void Data_Read(void *argument)
 {
-	//扫描
-	Data_Init();
-	int a = 0;
-	int c = 0;
+	ringfs_init(&fs, &flash, sizeof(struct log_entry));      //初始化文件系统
+
 	if (ringfs_scan(&fs) != 0) {
 		ringfs_format(&fs);     //格式化文件系统
 	}
 
-	a = ringfs_count_estimate(&fs);
-	c = ringfs_capacity(&fs);
-	uint32_t start_time, write_time;
-	start_time = xTaskGetTickCount();	
-	
-	for(int i=0;i<1000;i++)
-	{
-		write_time = xTaskGetTickCount();
-		entry.timestamp = write_time;
-		// get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);
-		// memcpy(entry.distantce_mm, vl53l5_res_f.distance_mm, sizeof(vl53l5_res_f.distance_mm)); // 64 * int16_t
-		// memcpy(entry.target_status, vl53l5_res_f.target_status, sizeof(vl53l5_res_f.target_status)); // 64 * uint8_t
-		//get cpx data
-		//得到数据后，等待CPX这边得到数据，否则CPX可能得不到数据
-		ringfs_append(&fs, &entry);		
-	}
-
-	a = ringfs_count_estimate(&fs);
-	c = ringfs_capacity(&fs);
-
-	while(true)
-	{
-		vTaskDelay(100);
-	}
-
-}
-
-void Data_Read(void *argument)
-{
 	DEBUG_PRINTF("begin to read data \n");
 	struct log_entry entry1;
-	for(int i = 0;i < 1000;i++)
+	for(int i = 0;i < 10;i++)
 	{
 		assert(ringfs_fetch(&fs, &entry1) == 0);
-		DEBUG_PRINTF("get pos data:[ \n");
-		for(int j=0;j<6;j++)
+		DEBUG_PRINTF("get data %d :[ \n", entry1.timestamp);
+		for(int j = 0;j < 6;j++)
 		{
-			DEBUG_PRINTF("%f \n", Pos[j]);
+			DEBUG_PRINTF("%f\n", entry1.pos[j]);
 		}
-		DEBUG_PRINTF("} data is over!\n");
+		DEBUG_PRINTF("]\n");
+		vTaskDelay(1000);
 	}
+
+	ringfs_discard(&fs);
+
 	while(true)
 	{
 		vTaskDelay(100);

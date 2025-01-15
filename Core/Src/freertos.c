@@ -98,8 +98,8 @@ const osThreadAttr_t defaultTask_attributes = {
 };
 osThreadId_t FS_WriteHandle;
 const osThreadAttr_t FS_Write_attributes = {
-		.name = "Data_Init",
-		.stack_size = 128 * 4,
+		.name = "Data_Write",
+		.stack_size = 2000,
 		.priority = (osPriority_t) osPriorityNormal,
 };
 osThreadId_t FS_ReadHandle;
@@ -166,8 +166,8 @@ void MX_FREERTOS_Init(void) {
 // TOF_exampleHandle = osThreadNew(tof_get_data, NULL, &tof_get_data_attributes);
 //	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(Data_Init, NULL, &FS_Example_attributes);
-	FS_WriteHandle = osThreadNew(Data_Init, NULL, &FS_Write_attributes);
-//	FS_ReadHandle = osThreadNew(Data_Read, NULL, &FS_Read_attributes);
+//	FS_WriteHandle = osThreadNew(Data_Write, NULL, &FS_Write_attributes);
+	FS_ReadHandle = osThreadNew(Data_Read, NULL, &FS_Read_attributes);
 //    ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
 }

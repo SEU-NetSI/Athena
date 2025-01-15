@@ -14,7 +14,7 @@
 
 #define FLASH_SECTOR_SIZE       4096  //FLASH扇区大小
 #define FLASH_TOTAL_SECTORS     2048 //FLASH总扇区数
-#define FLASH_PARTITION_OFFSET  0	//FLASH扇区区偏移量
+#define FLASH_PARTITION_OFFSET  101	//FLASH扇区区偏移量
 #define FLASH_PARTITION_SIZE    100	//分配给当前文件系统的扇区数
 
 

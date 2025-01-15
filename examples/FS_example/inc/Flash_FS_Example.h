@@ -24,6 +24,7 @@ struct log_entry
 };
 struct log_entry entry;
 struct ringfs fs;       //定义ringfs结构体变量fs，这就是一个文件系统的实例
+static uint32_t id = 0;
 
 static void cpxCallback(const CPXPacket_t *cpxRx);
 void FS_Example(void *argument);
