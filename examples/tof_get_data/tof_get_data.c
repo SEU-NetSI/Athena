@@ -4,6 +4,7 @@
 #include "cmsis_os.h"
 #include "tof_init.h"
 #include "tof_get_data.h"
+#include "debug.h"
 
 static VL53L5CX_Configuration vl53l5dev_f;
 static VL53L5CX_ResultsData vl53l5_res_f;
@@ -40,6 +41,12 @@ void tof_get_data(void* argument){
 #endif
 	while(1){
 	  	get_sensor_data(&vl53l5dev_f, &vl53l5_res_f);//获取传感器数据
+	  	int16_t distance[64];
+	  	memcpy(distance, vl53l5_res_f.distance_mm, sizeof(distance));
+	  	for(int i = 0; i < 64; ++i){
+	  		DEGUB_PRINTF("%d,", distance[i]);
+	  		if(i % 8 == 0) DEBUG_PRINTF("\n");
+	  	}
         LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
 	  	LL_mDelay(100);
 	}

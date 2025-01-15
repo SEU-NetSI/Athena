@@ -167,7 +167,7 @@ void MX_FREERTOS_Init(void) {
 //	Debug_ExampleHandle = osThreadNew(Debug_example, NULL, &Debug_Example_attributes);
 //	FS_ExampleHandle = osThreadNew(Data_Init, NULL, &FS_Example_attributes);
 //	FS_WriteHandle = osThreadNew(Data_Write, NULL, &FS_Write_attributes);
-	FS_ReadHandle = osThreadNew(Data_Read, NULL, &FS_Read_attributes);
+//	FS_ReadHandle = osThreadNew(Data_Read, NULL, &FS_Read_attributes);
 //    ledTaskHandle = osThreadNew(ledTask, NULL, &ledTask_attributes);
 //  uwbTaskHandle = osThreadNew(uwbTask, NULL, &uwbTask_attributes);
 }

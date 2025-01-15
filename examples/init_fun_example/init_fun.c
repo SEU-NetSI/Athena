@@ -21,7 +21,7 @@ static const UserInit led_init = {
 		.init = user_ledtask_init,
 };
 
-USER_INIT(led_init);
+//USER_INIT(led_init);
 
 static void ledTask(void *argument)
 {
