@@ -354,11 +354,13 @@ void USART3_IRQHandler(void)
 
     if (LL_USART_IsActiveFlag_RXNE(USART3)) {
         received_data = LL_USART_ReceiveData8(USART3);
-        xQueueSendFromISR(UartRxQueue, &received_data, &xHigherPriorityTaskWoken);
-        count++;
-        if(count >= 26){
-        	UartRxCallback();
-        	count=0;
+        if(UartRxQueue) {
+			xQueueSendFromISR(UartRxQueue, &received_data, &xHigherPriorityTaskWoken);
+			count++;
+			if(count >= 26){
+				UartRxCallback();
+				count=0;
+			}
         }
     }
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
