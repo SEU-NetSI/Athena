@@ -30,7 +30,6 @@ static void cpx_Example(void *argument)
 {
 	DEBUG_PRINTF("cpx task is up\n");
 	cpxRegisterAppMessageHandler(cpxPacketCallback);
-	DEBUG_PRINTF("to call uart_transport_init\n");
 	uart_transport_init();
 	routerInit();
 	DEBUG_PRINTF("router initialized\n");

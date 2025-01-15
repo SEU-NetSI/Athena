@@ -96,7 +96,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  LL_mDelay(50);
+  LL_mDelay(5000);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
