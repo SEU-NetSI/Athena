@@ -9,9 +9,9 @@
 #include "dw3000_cbll.h"
 #include "adhocuwb.h"
 
-SemaphoreHandle_t spiDeckTxComplete = NULL;
-SemaphoreHandle_t spiDeckRxComplete = NULL;
-SemaphoreHandle_t spiDeckMutex = NULL;
+SemaphoreHandle_t spiUwbTxComplete = NULL;
+SemaphoreHandle_t spiUwbRxComplete = NULL;
+SemaphoreHandle_t spiUwbMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
 static osThreadId_t uwbISRTaskHandle;
@@ -22,14 +22,14 @@ const osThreadAttr_t uwb_get_distances_attributes = {
 		.priority = (osPriority_t) osPriorityNormal,
 };
 
-int spi_deck_init(void)
+int spi_uwb_init(void)
 {
-  spiDeckTxComplete = xSemaphoreCreateBinary();
-  spiDeckRxComplete = xSemaphoreCreateBinary();
-  spiDeckMutex = xSemaphoreCreateMutex();
+  spiUwbTxComplete = xSemaphoreCreateBinary();
+  spiUwbRxComplete = xSemaphoreCreateBinary();
+  spiUwbMutex = xSemaphoreCreateMutex();
   uwbIrqSemaphore = xSemaphoreCreateMutex();
 
-	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
+	if (spiUwbTxComplete == NULL || spiUwbRxComplete == NULL || spiUwbMutex == NULL || uwbIrqSemaphore == NULL)
 	{
 	    while (1);
 	}
@@ -61,7 +61,7 @@ static void initUWBConfig(){
 }
 
 static void uwb_get_distances_init(){
-	spi_deck_init();
+	spi_uwb_init();
 	initUWBConfig();
 	vTaskDelay(100);
 	adhocuwbInit();

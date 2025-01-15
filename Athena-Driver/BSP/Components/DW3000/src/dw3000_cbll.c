@@ -1,5 +1,5 @@
 /*
- * dw3000deck_ll.c
+ * dw3000_ll.c
  *
  *  Created on: Aug 4, 2024
  *      Author: twinhorse
@@ -42,48 +42,48 @@ static dwt_txconfig_t uwbTxConfigOptions = {
     .power = 0xfdfdfdfd
 };
 
-#define DW3000Deck_Enable()          LL_GPIO_ResetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
-#define DW3000Deck_Disable()         LL_GPIO_SetOutputPin(DW3000Deck_CS_GPIO_Port, DW3000Deck_CS_Pin)
+#define DW3000_Enable()          LL_GPIO_ResetOutputPin(DW3000_CS_GPIO_Port, DW3000_CS_Pin)
+#define DW3000_Disable()         LL_GPIO_SetOutputPin(DW3000_CS_GPIO_Port, DW3000_CS_Pin)
 
 static adhocuwb_hdw_cb_t _txCallback = 0;
 static adhocuwb_hdw_cb_t _rxCallback = 0;
 
 /************ Low level ops for libdw **********/
 
-#define SPI_DECK_BUFFER_MAX_SIZE 300
-static uint8_t spiDeckTxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
-static uint8_t spiDeckRxBuffer[SPI_DECK_BUFFER_MAX_SIZE];
+#define SPI_UWB_BUFFER_MAX_SIZE 300
+static uint8_t spiUwbTxBuffer[SPI_UWB_BUFFER_MAX_SIZE];
+static uint8_t spiUwbRxBuffer[SPI_UWB_BUFFER_MAX_SIZE];
 
-static void spiDeckWrite(const void* cmd,
+static void spiUwbWrite(const void* cmd,
 			size_t cmdLength,
 			const void *data,
 			size_t dataLength)
 {
-	spiDeckBeginTransaction();
-	DW3000Deck_Enable();
-    memcpy(spiDeckTxBuffer, cmd, cmdLength);
-    memcpy(spiDeckTxBuffer + cmdLength, data, dataLength);
-    spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
-	DW3000Deck_Disable();
-	spiDeckEndTransaction();
+	spiUwbBeginTransaction();
+	DW3000_Enable();
+    memcpy(spiUwbTxBuffer, cmd, cmdLength);
+    memcpy(spiUwbTxBuffer + cmdLength, data, dataLength);
+    spiUwbExchange(cmdLength + dataLength, spiUwbTxBuffer, spiUwbRxBuffer);
+	DW3000_Disable();
+	spiUwbEndTransaction();
 }
 
-static void spiDeckRead(const void* cmd,
+static void spiUwbRead(const void* cmd,
 			size_t cmdLength,
 			void *data,
 			size_t dataLength)
 {
-	spiDeckBeginTransaction();
-	DW3000Deck_Enable();
-	memcpy(spiDeckTxBuffer, cmd, cmdLength);
-	memset(spiDeckTxBuffer + cmdLength, DUMMY_BYTE, dataLength);
-	spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
-	memcpy(data, spiDeckRxBuffer + cmdLength, dataLength);
-	DW3000Deck_Disable();
-	spiDeckEndTransaction();
+	spiUwbBeginTransaction();
+	DW3000_Enable();
+	memcpy(spiUwbTxBuffer, cmd, cmdLength);
+	memset(spiUwbTxBuffer + cmdLength, DUMMY_BYTE, dataLength);
+	spiUwbExchange(cmdLength + dataLength, spiUwbTxBuffer, spiUwbRxBuffer);
+	memcpy(data, spiUwbRxBuffer + cmdLength, dataLength);
+	DW3000_Disable();
+	spiUwbEndTransaction();
 }
 
-static void spiDeckSetSpeed(dwSpiSpeed_t speed) { return; }
+static void spiUwbSetSpeed(dwSpiSpeed_t speed) { return; }
 
 static void delayms(unsigned int delay) { vTaskDelay(delay); }
 
@@ -96,9 +96,9 @@ static void reset(void)
 }
 
 dwOps_t dwt_ops = {
-    .spiRead = spiDeckRead,
-    .spiWrite = spiDeckWrite,
-    .spiSetSpeed = spiDeckSetSpeed,
+    .spiRead = spiUwbRead,
+    .spiWrite = spiUwbWrite,
+    .spiSetSpeed = spiUwbSetSpeed,
     .delayms = delayms,
     .reset = reset
 };

@@ -35,8 +35,8 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
  extern osThreadId_t uwbISRTaskHandle;
- extern SemaphoreHandle_t spiDeckTxComplete;
- extern SemaphoreHandle_t spiDeckRxComplete;
+ extern SemaphoreHandle_t spiUwbTxComplete;
+ extern SemaphoreHandle_t spiUwbRxComplete;
 
 /* USER CODE END TD */
 
@@ -229,7 +229,7 @@ void DMA1_Channel4_IRQHandler(void)
 		LL_DMA_ClearFlag_TC4(DMA1);
 		LL_SPI_DisableDMAReq_RX(SPI2);
 		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_4);
-		xSemaphoreGiveFromISR(spiDeckRxComplete, &xHigherPriorityTaskWoken);
+		xSemaphoreGiveFromISR(spiUwbRxComplete, &xHigherPriorityTaskWoken);
 	}
 
   /* USER CODE END DMA1_Channel4_IRQn 0 */
@@ -250,7 +250,7 @@ void DMA1_Channel5_IRQHandler(void)
 		LL_DMA_ClearFlag_TC5(DMA1);
 		LL_SPI_DisableDMAReq_TX(SPI2);
 		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_5);
-		xSemaphoreGiveFromISR(spiDeckTxComplete, &xHigherPriorityTaskWoken);
+		xSemaphoreGiveFromISR(spiUwbTxComplete, &xHigherPriorityTaskWoken);
 	}
 
   /* USER CODE END DMA1_Channel5_IRQn 0 */

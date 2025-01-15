@@ -7,8 +7,8 @@
 #ifndef __DW3000_CBLL_H__
 #define __DW3000_CBLL_H__
 
+#include <spi_uwb.h>
 #include "stm32l4xx_ll_gpio.h"
-#include "spi_deck.h"
 #include "libdw3000.h"
 
 /* Function Switch */
@@ -29,14 +29,14 @@
   #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_STD
 #endif
 
-#define DW3000Deck_CS_GPIO_Port GPIOA
-#define DW3000Deck_CS_Pin LL_GPIO_PIN_1
+#define DW3000_CS_GPIO_Port GPIOA
+#define DW3000_CS_Pin LL_GPIO_PIN_1
 
 #define DUMMY_BYTE 0x00
 
-extern SemaphoreHandle_t spiDeckTxComplete;
-extern SemaphoreHandle_t spiDeckRxComplete;
-extern SemaphoreHandle_t spiDeckMutex;
+extern SemaphoreHandle_t spiUwbTxComplete;
+extern SemaphoreHandle_t spiUwbRxComplete;
+extern SemaphoreHandle_t spiUwbMutex;
 extern SemaphoreHandle_t uwbIrqSemaphore;
 
 typedef void (*adhocuwb_hdw_cb_t)(void *);

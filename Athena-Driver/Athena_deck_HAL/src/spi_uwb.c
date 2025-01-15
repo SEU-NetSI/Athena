@@ -1,5 +1,5 @@
 /*
- * spi_deck.c
+ * spi_uwb.c
  *
  *  Created on: Aug 4, 2024
  *      Author: Feng Shan
@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include "spi_deck.h"
+#include "spi_uwb.h"
 #include "main.h"
 #include "dw3000_cbll.h"
 
@@ -18,7 +18,7 @@
     a. channel 4: read from SPI2_RX
     b. channel 5: write to SPI2_TX
   */
-bool spiDeckExchange(size_t length, const uint8_t * data_tx, uint8_t * data_rx)
+bool spiUwbExchange(size_t length, const uint8_t * data_tx, uint8_t * data_rx)
 {
     SPI_TypeDef* SPIx = SPI2;
     DMA_TypeDef* DMAx = DMA1;
@@ -42,21 +42,21 @@ bool spiDeckExchange(size_t length, const uint8_t * data_tx, uint8_t * data_rx)
     LL_SPI_Enable(SPIx);
 
     // Wait for completion
-    bool result = (xSemaphoreTake(spiDeckTxComplete, portMAX_DELAY) == pdTRUE)
-             && (xSemaphoreTake(spiDeckRxComplete, portMAX_DELAY) == pdTRUE);
+    bool result = (xSemaphoreTake(spiUwbTxComplete, portMAX_DELAY) == pdTRUE)
+             && (xSemaphoreTake(spiUwbRxComplete, portMAX_DELAY) == pdTRUE);
 
     // Disable peripheral
     LL_SPI_Disable(SPIx);
     return result;
 }
 
-void spiDeckBeginTransaction()
+void spiUwbBeginTransaction()
 {
-	xSemaphoreTake(spiDeckMutex, portMAX_DELAY);
+	xSemaphoreTake(spiUwbMutex, portMAX_DELAY);
 
 }
 
-void spiDeckEndTransaction()
+void spiUwbEndTransaction()
 {
-	xSemaphoreGive(spiDeckMutex);
+	xSemaphoreGive(spiUwbMutex);
 }
