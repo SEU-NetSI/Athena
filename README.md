@@ -1,52 +1,22 @@
-# Athena v3.2 efficiency Firmware
-## introduction
-**Athena (Co-processing deck)** is a computational expansion board independently developed by SEU-NetSI. It is designed to be compatible with any micro unmanned systems worldwide. In the future, as devices like drones, unmanned vehicles, and robots continue to miniaturize, Athena will provide these systems with higher computational power and larger memory capacity. At the same time, by leveraging ST’s low-power chips, it ensures energy efficiency.
+# Athena efficiency Firmware
+## 产品介绍
+**Athena (Co-processing deck)** 是由SEU-NetSI完全自主研发的一款适用于微型和纳型无人系统上感知和计算任务的硬件和软件系统。为了兼具能效和算力，Athena上配备两个计算单元，分别是Frenquently-on高能效感知计算单元和Standby高性能主计算单元。在本仓库实现的软硬件原型系统中，这两个计算单元分别由意法半导体公司的STM32L496和STM32H743担任。
+
+为了在软件系统上更贴近用户，我们将Athena划分成了五个通用子系统：分别是低功耗任务调度子系统、低功耗通信子系统、外设驱动子系统、飞行控制子系统、存储子系统；这五大子系统是Athena软件系统的核心，也是每个应用都需要部署的系统。此外，Athena还支持用户自定义代码，称为多个专用子模块，目前，基于UWB技术的相对定位子模块、集群测距子模块；基于ToF技术的自主导航子模块；还有日志存储子模块等多种子模块已经在部署和测试阶段。
+
 ![Software and Hardware Frame of Athena](./Document/hardware-software-frame.jpg)
-**Software and Hardware Frame of Athena**
-## Demonstration of SLAM
-Our academic work is currently in the submission stage, so we are unable to open source the hardware at this time. However, this project includes the open sourcing of software related to SLAM, comprising three parts: the driver for the VL53L5 TOF sensor, the calibration of the TOF sensor, and the SLAM algorithm.
-Here are some images that can showcase our achievements.
-1. TOF-deck using VL53L5
-![TOF-deck using VL53L5](./Document/tof-deck-vl53l5.jpg)
-2. The MAV "Crazyflie" loading the TOF-deck
-![The MAV "Crazyflie" loading the TOF-deck](./Document/UAV-with-tof-deck.jpeg)
-3. We use L496 to drive the TOF-deck
-![We use L496 to drive the TOF-deck](./Document/L496-deck-with-tof-driver.jpg)
-## Software Update Log
-### v0.1
-1. I2C transmit with DMA **@Hanjie**
-2. slam-deck & I2C-expander BSP **@Hanjie**
-3. FreeRTOS **@Hanjie**
-### v0.1.1
-Increased throughput of I2C using fast I/O speed & dual DMA buffer **@Hanjie**
-### v0.2
-1. slam-deck driver **@Hanjie**
-2. SPI exchange with DMA **@Hanjie @Yunfan**
-3. W25Q64 BSP **@Yunfan @Hanjie**
-### v0.3
-1. USART Tranmit with DMA LL **@Hao Li @Hanjie**
-2. USART Receive with Interrupt+callback+semphr **@Hanjie @Hao Li**
-## Hardware Update Log
-### v3.2
-STM32L496 + W25Q512 @8MHz
-## How to use
-git clone
-## TBD
-1. I2C semphr
-2. FreeRTOS multi task
-3. SPI speed up
-4. printf reconstruct
-## Contributors
-@Hanjie Yu
 
-@Yunfan Li
 
-@Hao Li
+## 硬件适配情况
+目前的最常用版本是Athena Gen 3 v3.5和Athena Gen 4 v4.3.
 
-@Yunxi Hou
+- [x] Athena **Gen 3** version 3.1 & 3.2 & 3.5(Athena Generation 3 已经暂停更新)
+- [x] Athena **Gen 4** version 4.1 & 4.3
+- [x] Athena **Gen 2** version 2.0 (Athena Generation 2 已经暂停更新)
 
-@Feng Shan
+## 致谢
+国家自然科学基金面上项目“**基于超宽频技术的小微型无人系统集群协作关键技术研究与应用**”
 
-**National Natural Science Foundation of China (6509009672)**
+国家自然科学基金面上项目“**微纳型无人系统集群协作导航关键技术研究**”
 
 
