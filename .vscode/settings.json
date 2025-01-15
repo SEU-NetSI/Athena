@@ -17,6 +17,11 @@
         "libdw3000.h": "c",
         "calibration.h": "c",
         "freertos.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "adhocuwb.h": "c",
+        "adhocuwb_impl.h": "c",
+        "queue.h": "c",
+        "cmsis_os.h": "c",
+        "assert.h": "c"
     }
 }

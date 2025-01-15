@@ -48,13 +48,13 @@ static EventGroupHandle_t startUpEventGroup;
 osThreadId_t rxTaskHandle;
 const osThreadAttr_t rxTask_attributes = {
   .name = "rxTask",
-  .stack_size = 2000,
+  .stack_size = 500,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 osThreadId_t txTaskHandle;
 const osThreadAttr_t txTask_attributes = {
   .name = "txTask",
-  .stack_size = 2000,
+  .stack_size = 500,
   .priority = (osPriority_t) osPriorityNormal,
 };
 #define CTS_EVENT (1<<0)

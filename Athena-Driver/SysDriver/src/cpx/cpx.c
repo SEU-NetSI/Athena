@@ -21,7 +21,7 @@ osThreadId_t cpxTaskHandle;
 
 const osThreadAttr_t cpxTask_attributes = {
   .name = "cpxTask",
-  .stack_size = 5000,
+  .stack_size = 500,
   .priority = (osPriority_t) osPriorityNormal,
 };
 void cpx(void* _param) {
