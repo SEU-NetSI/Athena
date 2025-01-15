@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <uwb_send_recv_packet_example.c>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
@@ -44,7 +45,6 @@
 #include "../../examples/tinymap/inc/calibration.h"
 
 #include "../../examples/FS_example/src/Flash_FS_Example.c"
-#include "uwb_send_recv_packet_example.c"
 #include "cpx/cpx.h"
 #include "cpx/uart_transport.h"
 #include "cpx/router.h"
