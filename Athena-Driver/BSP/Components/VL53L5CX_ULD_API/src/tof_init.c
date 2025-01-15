@@ -48,8 +48,12 @@ bool initialize_sensors_I2C(VL53L5CX_Configuration *p_dev, uint8_t mode)
 
   if (mode == 1 && p_dev != NULL){
     //enable forward only and config
-    status = I2C_expander_set_register(OUTPUT_PORT_REG_ADDRESS,LPN_FORWARD_PIN | LED_FORWARD_PIN );if (status == false)return status;
+#ifdef ZRANGER
+	status = config_sensors(p_dev,VL53L5CX_FORWARD_I2C_ADDRESS);if (status == false)return status;
+#else
+	status = I2C_expander_set_register(OUTPUT_PORT_REG_ADDRESS,LPN_FORWARD_PIN | LED_FORWARD_PIN );if (status == false)return status;
     status = config_sensors(p_dev,VL53L5CX_FORWARD_I2C_ADDRESS);if (status == false)return status;
+#endif
   }
   if (mode == 2 && p_dev != NULL){
     //enable backward only and config

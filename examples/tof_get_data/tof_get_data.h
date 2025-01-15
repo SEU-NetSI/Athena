@@ -1,1 +1,1 @@
-void tof_get_data(void);
+void tof_get_data(void* argument);
