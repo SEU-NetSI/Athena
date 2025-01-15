@@ -49,7 +49,7 @@ osThreadId_t rxTaskHandle;
 const osThreadAttr_t rxTask_attributes = {
   .name = "rxTask",
   .stack_size = 500,
-  .priority = (osPriority_t) osPriorityAboveNormal,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 osThreadId_t txTaskHandle;
 const osThreadAttr_t txTask_attributes = {
@@ -157,7 +157,7 @@ static void uart_rx_task(void* _param) {
     } while (rxp.start != 0xFF);
     xQueueReceive(UartRxQueue, &rxp.payloadLength, portMAX_DELAY);
     //DEBUG_PRINTF("%u\n",rxp.payloadLength);
-    LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
+    //LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
     if (rxp.payloadLength == 0) {
     	//DEBUG_PRINTF("received cts\n");
       xEventGroupSetBits(evGroup, CTS_EVENT);
@@ -183,7 +183,7 @@ static void uart_rx_task(void* _param) {
 }
 
 void uart_transport_init() {
-	DEBUG_PRINTF("this is a init test: \n");
+	//DEBUG_PRINTF("this is a init test: \n");
     // Setting up synchronization items
     tx_queue = xQueueCreate(TX_QUEUE_LENGTH, sizeof(CPXRoutablePacket_t));
     rx_queue = xQueueCreate(RX_QUEUE_LENGTH, sizeof(uart_transport_packet_t));
