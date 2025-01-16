@@ -8,6 +8,7 @@
 #include "dwTypes.h"
 #include "dw3000_cbll.h"
 #include "adhocuwb.h"
+#include "uwb_send_print.h"
 
 SemaphoreHandle_t spiDeckTxComplete = NULL;
 SemaphoreHandle_t spiDeckRxComplete = NULL;
@@ -64,6 +65,7 @@ static void initUWBConfig(){
 	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
 	// you should see the RX led flashes at the UWB Deck
 	adhocuwb_hdw_force_rx();
+	initUWBDebugPrint();
 }
 
 static int initStatus;
@@ -76,7 +78,7 @@ static void uwbLaunchTask(){
 	spi_deck_init();
 	initUWBConfig();
 	vTaskDelay(100);
-//	adhocuwbInit();
+	adhocuwbInit();
 	initStatus = 1;
 	while (1) {
 		vTaskDelay(1000);
