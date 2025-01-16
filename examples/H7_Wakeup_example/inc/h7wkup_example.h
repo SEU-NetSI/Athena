@@ -10,5 +10,6 @@
 
 void WKUP_Init(void);
 void WKUP_Example(void);
+void WKUP_H7(void);
 
 #endif

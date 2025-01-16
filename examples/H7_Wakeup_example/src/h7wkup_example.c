@@ -13,12 +13,12 @@
 #include "stm32l4xx_ll_bus.h"
 #include "stm32l4xx_ll_gpio.h"
 
-osThreadId_t wkup_ExampleHandle;
-const osThreadAttr_t wkup_Example_attributes = {
-		.name = "wkup_Example",
-		.stack_size = 128 * 2,
-		.priority = (osPriority_t) osPriorityNormal,
-};
+//osThreadId_t wkup_ExampleHandle;
+//const osThreadAttr_t wkup_Example_attributes = {
+//		.name = "wkup_Example",
+//		.stack_size = 128 * 2,
+//		.priority = (osPriority_t) osPriorityNormal,
+//};
 
 
 void WKUP_Init(void)
@@ -39,20 +39,24 @@ void WKUP_Example(void)
 	WKUP_Init();
 	while(1)
 	{
-		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
-		LL_mDelay(5);
-		LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
+		WKUP_H7();
 		LL_mDelay(10000);
 	}
 }
 
-void wkup_example_init(){
-	wkup_ExampleHandle = osThreadNew(WKUP_Example, NULL, &wkup_Example_attributes);
+void WKUP_H7(void)
+{
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+	LL_mDelay(5);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
 }
+//void wkup_example_init(){
+//	wkup_ExampleHandle = osThreadNew(WKUP_Example, NULL, &wkup_Example_attributes);
+//}
 
 
-static const UserInit wkup_init = {
-		.init = wkup_example_init,
-};
-
-USER_INIT(wkup_init);
+//static const UserInit wkup_init = {
+//		.init = wkup_example_init,
+//};
+//
+//USER_INIT(wkup_init);
