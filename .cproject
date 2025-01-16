@@ -186,6 +186,9 @@
 							<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.2101388871" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 						</tool>
 					</fileInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.842980655" name="adhocuwb_linux.c" rcbsApplicability="disable" resourcePath="AdHocUWB/Src/adhocuwb_linux.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.109154183.320533212">
+						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.109154183.320533212" name="MCU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.109154183"/>
+					</fileInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.61562533" name="adhocuwb_freertos_athena3.2.h" rcbsApplicability="disable" resourcePath="AdHocUWB/Inc/adhocuwb_freertos_athena3.2.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.1687951900" name="adhocuwb_macos.h" rcbsApplicability="disable" resourcePath="AdHocUWB/Inc/adhocuwb_macos.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.177826239" name="adhocuwb_linux.h" rcbsApplicability="disable" resourcePath="AdHocUWB/Inc/adhocuwb_linux.h" toolsToInvoke=""/>
