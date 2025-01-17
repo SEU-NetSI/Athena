@@ -16,7 +16,7 @@ Enter_Standby();
 使用时要注意从Standby模式唤醒后，程序复位
 
 ## 注意事项
-**不要让MCU一直处于Standby模式中**，例如
+1. **不要让MCU一直处于Standby模式中**，例如
 ```c
 void StartDefaultTask(void *argument)
 {
@@ -29,3 +29,5 @@ void StartDefaultTask(void *argument)
 MCU在进入Standby模式后会关闭几乎所有外设，也无法烧录进程序。让MCU一直处于Standby模式会导致MCU变砖。
 
 **建议操作**：在Enter_Standby()前添加延时并加入周期性唤醒源。
+
+2. 允许H7在Standby模式下调试会大幅度提升整板功耗，**默认禁止H7在Standby模式下调试**。
