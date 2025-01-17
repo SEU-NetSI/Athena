@@ -37,4 +37,4 @@ static const UserInit uwb_debug_print_init_struct = {
 		.init = uwb_debug_print_init,
 };
 
-USER_INIT(uwb_debug_print_init_struct);
+//USER_INIT(uwb_debug_print_init_struct);
