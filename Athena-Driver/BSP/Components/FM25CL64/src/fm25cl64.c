@@ -198,7 +198,7 @@ void Fm25cxxInitialization(FM25ObjectType *fram,        //FM25xxx对象实体
 
 	//写允许
 	SetWriteEnableLatchForFM25xxx(fram);
-	LL_mDelay(5);
+	LL_mDelay(3);
 
 }
 

@@ -13,18 +13,19 @@
 static uint8_t spiTxBuffer[SPI_BUFFER_MAX_SIZE];
 static uint8_t spiRxBuffer[SPI_BUFFER_MAX_SIZE];
 /*读FM25寄存器值*/
+
 void ReadDataFromFM25(uint8_t *rData, uint16_t rSize) {
-	spiBeginTransaction();
-	spi2Exchange(SPI2, rSize, spiTxBuffer, rData);
-	spiEndTransaction();
+	spi1BeginTransaction();
+	spi1Exchange(SPI1, rSize, spiTxBuffer, rData);
+	spi1EndTransaction();
 
 }
 
 /*写FM25寄存器值*/
 void WriteDataToFM25(uint8_t *wData, uint16_t wSize) {
-	spiBeginTransaction();
-	spi2Exchange(SPI2, wSize, wData, spiRxBuffer);
-	spiEndTransaction();
+	spi1BeginTransaction();
+	spi1Exchange(SPI1, wSize, wData, spiRxBuffer);
+	spi1EndTransaction();
 }
 
 /*片选操作*/

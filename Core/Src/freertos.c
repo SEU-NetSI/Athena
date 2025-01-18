@@ -58,6 +58,7 @@ static const struct user_init ** initConfig;
 
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
+	spi1BusInit();
 	txComplete = xSemaphoreCreateBinary();
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();

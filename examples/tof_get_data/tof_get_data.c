@@ -29,7 +29,7 @@ static const UserInit tof_init = {
 		.init = tof_init_fun,
 };
 
-USER_INIT(tof_init);
+//USER_INIT(tof_init);
 
 
 void tof_get_data(void* argument){

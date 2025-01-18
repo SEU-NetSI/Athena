@@ -54,6 +54,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Athena-Driver/SysDriver/tickless_enhance/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/inform_performance/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Athena-Driver/BSP/Components/TMUX1574}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.948440464" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -116,6 +118,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/cpx_example}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/inform_performance/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Athena-Driver/BSP/Components/TMUX1574}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.otherflags.1776771947" name="Other flags" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.otherflags" useByScannerDiscovery="true" valueType="stringList">
 									<listOptionValue builtIn="false" value="-marm"/>
@@ -192,13 +196,14 @@
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1263579158.2124766754" name="w25q64.h" rcbsApplicability="disable" resourcePath="Athena-Driver/BSP/Components/W25Q64/inc/w25q64.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Src/adhocuwb_linux.c|Src/adhocuwb_macos.c|Src/adhocuwb_freertos_crazyflie.c|Src/adhocuwb_freertos_athena3.2.c|Inc/adhocuwb_linux.h|Inc/adhocuwb_macos.h|Inc/adhocuwb_freertos_athena3.2.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AdHocUWB"/>
-						<entry excluding="BSP/Components/W25Q64/src/w25q64.c|Athena_deck_HAL/src/i2c_hal.c|BSP/Components/W25Q64/inc/w25q64.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Athena-Driver"/>
+						<entry excluding="BSP/TMUX1574|BSP/Components/W25Q64/src/w25q64.c|Athena_deck_HAL/src/i2c_hal.c|BSP/Components/W25Q64/inc/w25q64.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Athena-Driver"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="Athena_deck_HAL/src/i2c_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/DebugPrint_example"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/H7_Wakeup_example"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/UWB_debug_print"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/inform_performance"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/init_fun_example"/>
 					</sourceEntries>
 				</configuration>
@@ -257,6 +262,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/inform_performance/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Athena-Driver/BSP/Components/TMUX1574}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.2077266213" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -309,6 +316,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/UWB_send_recv_packet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/init_func_example}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/inform_performance/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Athena-Driver/BSP/Components/TMUX1574}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1828985651" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -339,6 +348,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/inform_performance"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/init_fun_example"/>
 					</sourceEntries>
 				</configuration>
