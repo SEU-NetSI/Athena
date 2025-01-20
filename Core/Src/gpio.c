@@ -168,6 +168,19 @@ void MX_GPIO_Init(void)
   NVIC_SetPriority(EXTI15_10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
   NVIC_EnableIRQ(EXTI15_10_IRQn);
 
+  /*FRAM EMERGNECY INTERRUPT*/
+  LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTB, LL_SYSCFG_EXTI_LINE1);
+  EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_1;  // 使用 EXTILine1
+  EXTI_InitStruct.Line_32_63 = LL_EXTI_LINE_NONE;  // 没有使用其他线路
+  EXTI_InitStruct.LineCommand = ENABLE;  // 启用该线路中断
+  EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;  // 设置为中断模式
+  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_RISING;  // 设置为上升沿触发
+  LL_EXTI_Init(&EXTI_InitStruct);  // 初始化外部中断
+  LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_1, LL_GPIO_PULL_NO);  // 禁用上下拉电阻
+  LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_1, LL_GPIO_MODE_INPUT);  // 设置为输入模式
+  NVIC_SetPriority(EXTI1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 5, 0));  // 设置优先级为5
+  NVIC_EnableIRQ(EXTI1_IRQn);  // 启用 EXTI1 中断
+
 }
 
 /* USER CODE BEGIN 2 */

@@ -30,6 +30,7 @@
 #include "cmsis_os.h"
 #include "uart_receive.h"
 #include "stm32l4xx_ll_gpio.h"
+#include "arbitration_fram.h"
 
 /* USER CODE END Includes */
 
@@ -394,6 +395,20 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+/*
+ * @brief This function handles FRAM EMERGENCY interrupt
+ * */
+void EXTI1_IRQHandler(void)
+{
+    if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_1) != RESET)
+    {
+        LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_1);
+        portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+        FramArbitrationCallback();
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
 }
 
 /**
