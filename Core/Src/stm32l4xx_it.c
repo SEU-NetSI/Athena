@@ -30,13 +30,14 @@
 #include "cmsis_os.h"
 #include "uart_receive.h"
 #include "stm32l4xx_ll_gpio.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
- extern osThreadId_t uwbISRTaskHandle;
- extern SemaphoreHandle_t spiDeckTxComplete;
- extern SemaphoreHandle_t spiDeckRxComplete;
+extern osThreadId_t uwbISRTaskHandle;
+extern SemaphoreHandle_t spiDeckTxComplete;
+extern SemaphoreHandle_t spiDeckRxComplete;
 
 /* USER CODE END TD */
 
@@ -455,7 +456,13 @@ void DMA2_Channel2_IRQHandler(void)
 void DMA2_Channel3_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Channel3_IRQn 0 */
-
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		if (LL_DMA_IsActiveFlag_TC3(DMA2)){
+			LL_DMA_ClearFlag_TC3(DMA2);
+			LL_SPI_DisableDMAReq_RX(SPI1);
+			LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_3);
+			xSemaphoreGiveFromISR(spi1rxComplete, &xHigherPriorityTaskWoken);
+		}
   /* USER CODE END DMA2_Channel3_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Channel3_IRQn 1 */
@@ -469,7 +476,14 @@ void DMA2_Channel3_IRQHandler(void)
 void DMA2_Channel4_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Channel4_IRQn 0 */
-
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		if (LL_DMA_IsActiveFlag_TC4(DMA2))
+		{
+			LL_DMA_ClearFlag_TC4(DMA2);
+			LL_SPI_DisableDMAReq_TX(SPI1);
+			LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_4);
+			xSemaphoreGiveFromISR(spi1txComplete, &xHigherPriorityTaskWoken);
+		}
   /* USER CODE END DMA2_Channel4_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Channel4_IRQn 1 */

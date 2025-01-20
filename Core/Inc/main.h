@@ -83,12 +83,18 @@ typedef struct user_init {
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define FM25CLXX_CS_Pin LL_GPIO_PIN_0
+#define FM25CLXX_CS_GPIO_Port GPIOB
 #define W25QXX_CS_Pin LL_GPIO_PIN_8
 #define W25QXX_CS_GPIO_Port GPIOB
 #define LED_Pin LL_GPIO_PIN_9
 #define LED_GPIO_Port GPIOB
 #define FM25CLXX_CS_Pin LL_GPIO_PIN_0
 #define FM25CLXX_CS_GPIO_Port GPIOB
+#define TMUX_EN_Pin LL_GPIO_PIN_11
+#define TMUX_EN_Port GPIOB
+#define TMUX_SEL_Pin LL_GPIO_PIN_7
+#define TMUX_SEL_Port GPIOC
 
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,

@@ -31,10 +31,18 @@ typedef struct {
 extern SemaphoreHandle_t txComplete;
 extern SemaphoreHandle_t rxComplete;
 extern SemaphoreHandle_t spiMutex;
+extern SemaphoreHandle_t spi1txComplete;
+extern SemaphoreHandle_t spi1rxComplete;
+extern SemaphoreHandle_t spi1Mutex;
 
 bool spiExchange(SPI_TypeDef *SPIx, size_t length, const uint8_t *data_tx,
 		uint8_t *data_rx);
+bool spi1Exchange(SPI_TypeDef *SPIx, size_t length, const uint8_t *data_tx,
+		uint8_t *data_rx);
 void spiBeginTransaction();
 void spiEndTransaction();
+void spi1BeginTransaction();
+void spi1EndTransaction();
+void spi1BusInit();
 
 #endif /* ATHENA_DECK_HAL_INC_SPI_DRV_H_ */

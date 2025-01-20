@@ -65,6 +65,12 @@ void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_SetOutputPin(W25QXX_CS_GPIO_Port, W25QXX_CS_Pin);
+  /**/
+  LL_GPIO_SetOutputPin(FM25CLXX_CS_GPIO_Port, FM25CLXX_CS_Pin);
+  /*TMUX 1574 CS AND SEL PIN*/
+  LL_GPIO_ResetOutputPin(TMUX_EN_Port, TMUX_EN_Pin);
+
+  LL_GPIO_SetOutputPin(TMUX_SEL_Port, TMUX_SEL_Pin);
 
   /**/
   LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTC, LL_SYSCFG_EXTI_LINE13);
@@ -114,6 +120,29 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   LL_GPIO_Init(W25QXX_CS_GPIO_Port, &GPIO_InitStruct);
+
+  /*FM25CL64 CS PIN*/
+  GPIO_InitStruct.Pin = FM25CLXX_CS_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+  LL_GPIO_Init(FM25CLXX_CS_GPIO_Port, &GPIO_InitStruct);
+
+  /*TMUX1574 PIN OUT*/
+  GPIO_InitStruct.Pin = TMUX_EN_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(TMUX_EN_Port, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = TMUX_SEL_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(TMUX_SEL_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = LED_Pin;
