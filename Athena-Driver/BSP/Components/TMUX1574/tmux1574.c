@@ -15,9 +15,14 @@ void DisableTmux(){
 }
 
 void EnableChannelA(){
+	xSemaphoreTake(FramSwtichMutex, portMAX_DELAY);
 	LL_GPIO_ResetOutputPin(TMUX_SEL_Port, TMUX_SEL_Pin);
+	xSemaphoreGive(FramSwtichMutex);
 }
 
 void EnableChannelB(){
+	xSemaphoreTake(FramSwtichMutex, portMAX_DELAY);
 	LL_GPIO_SetOutputPin(TMUX_SEL_Port, TMUX_SEL_Pin);
+	xSemaphoreGive(FramSwtichMutex);
 }
+
