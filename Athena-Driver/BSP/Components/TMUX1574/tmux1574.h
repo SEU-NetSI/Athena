@@ -10,6 +10,7 @@
 
 #include "stm32l4xx_ll_gpio.h"
 #include "main.h"
+#include "FreeRTOS.h"
 
 void EnableTmux();
 

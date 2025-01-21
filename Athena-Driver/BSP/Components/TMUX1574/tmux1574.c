@@ -5,6 +5,7 @@
  *      Author: mfxjx
  */
 #include "tmux1574.h"
+#include "arbitration_fram.h"
 
 void EnableTmux(){
 	LL_GPIO_ResetOutputPin(TMUX_EN_Port, TMUX_EN_Pin);
@@ -15,14 +16,14 @@ void DisableTmux(){
 }
 
 void EnableChannelA(){
-	xSemaphoreTake(FramSwtichMutex, portMAX_DELAY);
+	xSemaphoreTake(FramSwitchMutex, portMAX_DELAY);
 	LL_GPIO_ResetOutputPin(TMUX_SEL_Port, TMUX_SEL_Pin);
-	xSemaphoreGive(FramSwtichMutex);
+	xSemaphoreGive(FramSwitchMutex);
 }
 
 void EnableChannelB(){
-	xSemaphoreTake(FramSwtichMutex, portMAX_DELAY);
+	xSemaphoreTake(FramSwitchMutex, portMAX_DELAY);
 	LL_GPIO_SetOutputPin(TMUX_SEL_Port, TMUX_SEL_Pin);
-	xSemaphoreGive(FramSwtichMutex);
+	xSemaphoreGive(FramSwitchMutex);
 }
 

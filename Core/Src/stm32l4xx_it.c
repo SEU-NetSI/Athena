@@ -406,7 +406,13 @@ void EXTI1_IRQHandler(void)
     {
         LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_1);
         portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-        FramArbitrationCallback();
+        if(FramSwitchMutex){
+        	LL_GPIO_SetOutputPin(TMUX_SEL_Port, TMUX_SEL_Pin);
+        	if (xSemaphoreTakeFromISR(FramSwitchMutex, &xHigherPriorityTaskWoken) == pdTRUE){
+        		LL_mDelay(MAX_LOCK_TIME);
+        	}
+        	xSemaphoreGiveFromISR(FramSwitchMutex, &xHigherPriorityTaskWoken);
+        }
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
 }
