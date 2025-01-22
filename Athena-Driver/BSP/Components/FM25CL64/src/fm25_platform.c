@@ -18,7 +18,6 @@ void ReadDataFromFM25(uint8_t *rData, uint16_t rSize) {
 	spi1BeginTransaction();
 	spi1Exchange(SPI1, rSize, spiTxBuffer, rData);
 	spi1EndTransaction();
-
 }
 
 /*写FM25寄存器值*/

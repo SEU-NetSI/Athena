@@ -61,7 +61,6 @@ static void informHighPerformanceTask(void *argument)
 	for(;;){
 		EnableChannelA();
 		WriteBytesToFM25xxx(&fm25, regAdd, datawrite, 512);
-		DEBUG_PRINTF("this is a test: %s \n","hello world");
 		osDelay(2000);
 		ReadBytesFromFM25xxx(&fm25, regAdd, datareceive, 512);
 		EnableChannelB();
