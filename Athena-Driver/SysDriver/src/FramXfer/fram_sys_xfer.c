@@ -6,46 +6,46 @@
  */
 
 #include "fram_sys_xfer.h"
-
-#include "FreeRTOS.h"
-#include "queue.h"
-#include "string.h"
-#include "stdint.h"
-#include "stm32l4xx.h"
 #include "debug.h"
-#include "fm25_platform.h"
-#include "tmux1574.h"
-#include "arbitration_fram.h"
 
 #define BUFFER_SIZE 256
 #define CHUNK_SIZE 512
-#define QUICK_XFER
+//#define QUICK_XFER
+#define DEBUG_PRINT
 
-static size_t Address = 0x0000;
+static size_t Startaddr = 0x0000;
+static size_t Endaddr = 0x0FFF;
 SemaphoreHandle_t FRAMxferMutex = NULL;
 FM25ObjectType fm25;
 
-void framinit(){
+void Framinit(){
+	FRAMxferMutex = xSemaphoreCreateMutex();
 	FramArbitrationInit();
 	EnableTmux();
 	EnableChannelA();
 	Fm25cxxInitialization(&fm25,
-							 FM25CL64B,
-					         ReadDataFromFM25,
-					         WriteDataToFM25,
-					         LL_mDelay,
-					         ChipSelectForFM25
-					          );
+						  FM25CL64B,
+					      ReadDataFromFM25,
+					      WriteDataToFM25,
+					      LL_mDelay,
+					      ChipSelectForFM25
+					      );
 	EnableChannelB();
 }
 
 void FramXfertoPerform(uint8_t* data, size_t len) {
     EnableChannelA();
-	WriteBytesToFM25xxx(&fm25, Address, data, len);
+    if(Startaddr + len > Endaddr){
 #ifdef DEBUG_PRINT
-    DEBUG_PRINTF("Write %d bytes to address %d\n", len, Address);
+    DEBUG_PRINTF("FRAM limit!\n");
 #endif
-    Address += len;
+    Startaddr = 0;
+    }
+    WriteBytesToFM25xxx(&fm25, Startaddr, data, len);
+#ifdef DEBUG_PRINT
+    DEBUG_PRINTF("Write %d bytes to address %d\n", len, Startaddr);
+#endif
+    Startaddr += len;
     EnableChannelB();
 }
 
@@ -68,6 +68,7 @@ void XfertoPerformance(DataPacket* packet) {
             FramXfertoPerform(buffer, bufferLen + packet->length); // 发送所有缓存数据
             bufferLen = 0;  // 清空缓冲区
             lowDataCount = 0; // 重置计数器
+            xSemaphoreGive(FRAMxferMutex);
             return;
         }
     } else {
@@ -130,6 +131,3 @@ void XfertoPerformance(DataPacket* packet) {
     }
     xSemaphoreGive(FRAMxferMutex);
 }
-
-
-

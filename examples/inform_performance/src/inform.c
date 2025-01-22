@@ -15,6 +15,7 @@
 #include "cmsis_os.h"
 #include "debug.h"
 #include "arbitration_fram.h"
+#include "fram_sys_xfer.h"
 
 static void informHighPerformanceTask(void *argument);
 
@@ -38,31 +39,22 @@ USER_INIT(informHighPerformanceTask_init);
 
 static void informHighPerformanceTask(void *argument)
 {
-	FM25ObjectType fm25;
-	FramArbitrationInit();
-	EnableTmux();
-	EnableChannelA();
-	Fm25cxxInitialization(&fm25,
-						  FM25CL64B,
-				          ReadDataFromFM25,
-				          WriteDataToFM25,
-				          LL_mDelay,
-				          ChipSelectForFM25
-				          );
-	EnableChannelB();
-
-	uint8_t regAdd = 0x00;
-	uint8_t datawrite[512];
-	for(int i = 0; i < 512; ++i) {
-		datawrite[i] = i%255;
+	Framinit();
+	uint8_t data[100] = {0};
+	for(int i = 0; i < 100; ++i) {
+		data[i] = i;
 	}
-	uint8_t datareceive[512];
-
-	for(;;){
-		EnableChannelA();
-		WriteBytesToFM25xxx(&fm25, regAdd, datawrite, 512);
-		osDelay(2000);
-		ReadBytesFromFM25xxx(&fm25, regAdd, datareceive, 512);
-		EnableChannelB();
+	DataPacket pk;
+	pk.length = 100;
+	pk.type = 1;
+	pk.content = malloc(pk.length);
+	if (pk.content != NULL) {
+	    memcpy(pk.content, data, pk.length);
+	}
+	while(1){
+		XfertoPerformance(&pk);
+		int stackWaterMark = uxTaskGetStackHighWaterMark(informHighPerformanceTaskHandle);
+		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		osDelay(1000);
 	}
 }

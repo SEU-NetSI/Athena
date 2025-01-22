@@ -8,12 +8,17 @@
 #ifndef SYSDRIVER_INC_FRAMXFER_FRAM_SYS_XFER_H_
 #define SYSDRIVER_INC_FRAMXFER_FRAM_SYS_XFER_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
 #include "FreeRTOS.h"
+#include "queue.h"
+#include "string.h"
+#include "stdint.h"
+#include "stm32l4xx.h"
+#include "debug.h"
+#include "fm25_platform.h"
+#include "tmux1574.h"
+#include "arbitration_fram.h"
 #include "semphr.h"
+#include "stdlib.h"
 
 typedef struct {
     uint16_t length;
