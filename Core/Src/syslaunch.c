@@ -93,6 +93,7 @@ static void uwb_launch_init(){
 
 static const UserInit uwb_launch_struct = {
 		.init = uwb_launch_init,
+		.name = "uwb_init",
 };
 
 USER_INIT(uwb_launch_struct);

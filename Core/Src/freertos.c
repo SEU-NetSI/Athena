@@ -29,6 +29,7 @@
 #include "spi_drv.h"
 #include "spi.h"
 #include "usart.h"
+#include "debug.h"
 
 //#include "adhocuwb.h"
 
@@ -71,6 +72,7 @@ void MX_FREERTOS_Init(void) {
 	initConfig = &_userInit_start;
 	while(initConfig < &_userInit_stop){
 	   (*initConfig)->init();
+	   //DEBUG_PRINTF("%s is startup!\n", (*initConfig)->name);
 	   initConfig++;
 	}
 

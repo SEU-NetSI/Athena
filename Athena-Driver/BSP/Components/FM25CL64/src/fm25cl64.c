@@ -29,7 +29,7 @@ void WriteByteToFM25xxx(FM25ObjectType *fram, uint32_t regAddress, uint8_t data)
 	WriteBytesToFM25xxx(fram, regAddress, &data, 1);
 }
 
-/* 设置写使能所存器*/
+/* 设置写使能锁存器*/
 void SetWriteEnableLatchForFM25xxx(FM25ObjectType *fram) {
 	uint8_t opCode = FM25_WREN;
 
@@ -40,7 +40,7 @@ void SetWriteEnableLatchForFM25xxx(FM25ObjectType *fram) {
 	ReadStatusForFM25xxx(fram);
 }
 
-/* 设置写使能所存器*/
+/* 设置写使能锁存器*/
 void SetWriteEnableForFM25xxx(FM25ObjectType *fram) {
 	uint8_t opCode = FM25_WREN;
 	fram->ChipSelect(FM25CS_Enable);
@@ -48,7 +48,7 @@ void SetWriteEnableForFM25xxx(FM25ObjectType *fram) {
 	fram->ChipSelect(FM25CS_Disable);
 }
 
-/* 复位写使能所存器*/
+/* 复位写使能锁存器*/
 void ResetWriteEnableLatchForFM25xxx(FM25ObjectType *fram) {
 	uint8_t opCode = FM25_WRDI;
 
@@ -197,7 +197,7 @@ void Fm25cxxInitialization(FM25ObjectType *fram,        //FM25xxx对象实体
 
 	//写允许
 	SetWriteEnableLatchForFM25xxx(fram);
-	LL_mDelay(3);
+	LL_mDelay(1);
 
 }
 

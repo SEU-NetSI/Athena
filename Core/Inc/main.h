@@ -75,6 +75,7 @@ void Error_Handler(void);
 
 typedef struct user_init {
 	void (*init)();
+	char name[20];
 } UserInit;
 
 /* USER CODE BEGIN EFP */

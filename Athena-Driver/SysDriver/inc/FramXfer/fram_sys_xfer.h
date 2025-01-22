@@ -26,6 +26,7 @@ typedef struct {
     uint8_t* content;
 } DataPacket;
 
+void Framinit();
 void FramXfertoPerform(uint8_t* data, size_t len);
 void XfertoPerformance(DataPacket* packet);
 #endif /* SYSDRIVER_INC_FRAMXFER_FRAM_SYS_XFER_H_ */

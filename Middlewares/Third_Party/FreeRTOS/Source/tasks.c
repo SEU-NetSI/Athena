@@ -3663,6 +3663,7 @@ static void prvCheckTasksWaitingTermination( void )
 		}
 	}
 	#endif /* INCLUDE_vTaskDelete */
+
 }
 /*-----------------------------------------------------------*/
 

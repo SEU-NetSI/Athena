@@ -23,7 +23,7 @@ osThreadId_t informHighPerformanceTaskHandle;
 
 const osThreadAttr_t informHighPerformanceTask_attributes = {
   .name = "informHighPerformanceTask",
-  .stack_size = 128 * 15,
+  .stack_size = 128 * 10,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -33,6 +33,7 @@ void user_informHighPerformanceTask_init(){
 
 static const UserInit informHighPerformanceTask_init = {
 	.init = user_informHighPerformanceTask_init,
+	.name = "informH7",
 };
 
 USER_INIT(informHighPerformanceTask_init);
@@ -53,7 +54,6 @@ static void informHighPerformanceTask(void *argument)
 	}
 	while(1){
 		XfertoPerformance(&pk);
-		int stackWaterMark = uxTaskGetStackHighWaterMark(informHighPerformanceTaskHandle);
 		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 		osDelay(1000);
 	}
