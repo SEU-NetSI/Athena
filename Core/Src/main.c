@@ -53,7 +53,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void MX_FREERTOS_Init(void);
+void SysDriverInit(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -118,7 +118,7 @@ int main(void)
 
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
-  MX_FREERTOS_Init();
+  SysDriverInit();
 
   /* Start scheduler */
   osKernelStart();

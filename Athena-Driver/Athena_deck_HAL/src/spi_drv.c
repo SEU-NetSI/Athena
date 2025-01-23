@@ -17,9 +17,6 @@
 #include "cmsis_os.h"
 #include "semphr.h"
 
-SemaphoreHandle_t spi1txComplete = NULL;
-SemaphoreHandle_t spi1rxComplete = NULL;
-SemaphoreHandle_t spi1Mutex = NULL;
 /*
   1. SPI3
   2. DMA2
@@ -108,12 +105,4 @@ void spi1EndTransaction()
 	xSemaphoreGive(spi1Mutex);
 }
 
-void spi1BusInit(){
-	spi1txComplete = xSemaphoreCreateBinary();
-	spi1rxComplete = xSemaphoreCreateBinary();
-	spi1Mutex = xSemaphoreCreateMutex();
-	if (spi1txComplete == NULL || spi1rxComplete == NULL || spi1Mutex == NULL)
-	{
-		Error_Handler();
-	}
-}
+

@@ -67,3 +67,12 @@ void UART_DMA_Receive(uint8_t *data, uint32_t length){
 	LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_3);
 
 }
+
+void UART2_Transmit(uint8_t *data, uint32_t length){
+    while (length > 0) {
+        while (!LL_USART_IsActiveFlag_TC(USART2));
+        LL_USART_TransmitData8(USART2,(*data & (uint8_t)0xff));
+        data++;
+        length--;
+    }
+}

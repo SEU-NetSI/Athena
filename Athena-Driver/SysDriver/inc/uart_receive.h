@@ -14,9 +14,14 @@
 #include "semphr.h"
 
 extern QueueHandle_t UartRxQueue;
+extern QueueHandle_t UART2RxQueue;
+extern SemaphoreHandle_t uartReadySemaphore;
 extern SemaphoreHandle_t UartRxReady;
 
-void CreateUartRxQueue(void);
+void CreateUart2RxQueue(void);
+void CreateUart3RxQueue(void);
+void UARTSysServerInit(void);
+
 void UartRxCallback(void);
 
 

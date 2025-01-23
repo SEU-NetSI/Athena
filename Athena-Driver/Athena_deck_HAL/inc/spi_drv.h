@@ -43,6 +43,5 @@ void spiBeginTransaction();
 void spiEndTransaction();
 void spi1BeginTransaction();
 void spi1EndTransaction();
-void spi1BusInit();
 
 #endif /* ATHENA_DECK_HAL_INC_SPI_DRV_H_ */

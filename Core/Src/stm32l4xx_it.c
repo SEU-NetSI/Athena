@@ -345,6 +345,29 @@ void USART1_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles USART2 global interrupt.
+  */
+void USART2_IRQHandler(void)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    uint8_t received_data;
+
+    if (LL_USART_IsActiveFlag_RXNE(USART2)) {
+        received_data = LL_USART_ReceiveData8(USART2);
+        if (UART2RxQueue) {
+            xQueueSendFromISR(UART2RxQueue, &received_data, &xHigherPriorityTaskWoken);
+        }
+    }
+    if (LL_USART_IsActiveFlag_IDLE(USART2)) {
+        LL_USART_ClearFlag_IDLE(USART2);
+        if (uartReadySemaphore != NULL) {
+            xSemaphoreGiveFromISR(uartReadySemaphore, &xHigherPriorityTaskWoken);
+        }
+    }
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+/**
   * @brief This function handles USART3 global interrupt.
   */
 void USART3_IRQHandler(void)

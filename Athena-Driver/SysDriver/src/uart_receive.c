@@ -9,17 +9,27 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
+#include "main.h"
 #include "uart_hal.h"
 #include "uart_receive.h"
 
-
-#define QUEUE_LENGTH 1024
+#define QUEUE_LENGTH 512
 #define ITEM_SIZE sizeof(uint8_t)
 
+QueueHandle_t UART2RxQueue = NULL;
 QueueHandle_t UartRxQueue = NULL;
+SemaphoreHandle_t uartReadySemaphore = NULL;
+SemaphoreHandle_t UartRxReady = NULL;
 
-void CreateUartRxQueue(void) {
+void CreateUart3RxQueue(void) {
     UartRxQueue = xQueueCreate(QUEUE_LENGTH, ITEM_SIZE);
+    if (UartRxQueue == NULL) {
+        while(1);
+    }
+}
+
+void CreateUart2RxQueue(void) {
+	UART2RxQueue = xQueueCreate(QUEUE_LENGTH, ITEM_SIZE);
     if (UartRxQueue == NULL) {
         while(1);
     }
@@ -28,5 +38,19 @@ void CreateUartRxQueue(void) {
 void UartRxCallback(void){
 	xSemaphoreGiveFromISR(UartRxReady, NULL);
 }
+
+void UARTSysServerInit(void) {
+	CreateUart3RxQueue();
+	CreateUart2RxQueue();
+	uartReadySemaphore = xSemaphoreCreateBinary();
+	UartRxReady = xSemaphoreCreateBinary();
+}
+
+static const UserInit uart_sysdriver_init = {
+		.init = UARTSysServerInit,
+};
+
+USER_INIT(uart_sysdriver_init);
+
 
 
