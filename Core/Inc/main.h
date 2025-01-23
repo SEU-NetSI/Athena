@@ -62,13 +62,20 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define LED_Pin LL_GPIO_PIN_9
+#define LED_GPIO_Port GPIOB
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
+typedef struct user_init {
+	void (*init)();
+	char name[20];
+} UserInit;
+
 /* USER CODE BEGIN EFP */
+#define USER_INIT(NAME) const struct user_init * config_##NAME __attribute__((section(".userInit." #NAME), used)) = &(NAME)
 
 /* USER CODE END EFP */
 

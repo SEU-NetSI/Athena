@@ -79,6 +79,16 @@ SECTIONS
     . = ALIGN(4);
     _etext = .;        /* define a global symbols at end of code */
   } >RAM_EXEC
+  
+  /* User init program compiled into "RAM" Ram type memory */
+  .userInit :
+  {
+  	. = ALIGN(4);
+    _userInit_start = .;
+    KEEP(*(.userInit));
+    KEEP(*(.userInit.*));
+    _userInit_stop = .;
+  } >RAM_EXEC
 
   /* Constant data goes into RAM_EXEC */
   .rodata :

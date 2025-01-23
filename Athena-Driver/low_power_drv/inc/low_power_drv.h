@@ -13,8 +13,11 @@
 #endif
 
 void WKUP_Init(void);
+void Enter_Stop(void);
 void Enter_Standby(void);
+void Post_Stop(void);
 void Post_Standby(void);
+void stop_example(void);
 void standby_example(void);
 
 #endif

@@ -113,8 +113,9 @@ int main(void)
   osKernelInitialize();
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
-  MX_FREERTOS_Init();
-
+  LL_mDelay(5000);
+  SysDriverInit();
+  //MX_FREERTOS_Init();
   /* Start scheduler */
   osKernelStart();
 

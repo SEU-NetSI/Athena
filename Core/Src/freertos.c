@@ -27,6 +27,9 @@
 #include "semphr.h"
 #include "fm25_platform.h"
 #include "spi.h"
+#include "arbitration_fram.h"
+#include "fram_sys_xfer.h"
+#include "fm25cl64.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,9 +39,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-SemaphoreHandle_t txComplete = NULL;
-SemaphoreHandle_t rxComplete = NULL;
-SemaphoreHandle_t spiMutex = NULL;
+
 SemaphoreHandle_t UartRxReady = NULL;
 FM25ObjectType fram_test;
 /* USER CODE END PD */
@@ -62,7 +63,14 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+static void informHighPerformanceTask(void *argument);
+osThreadId_t informHighPerformanceTaskHandle;
 
+const osThreadAttr_t informHighPerformanceTask_attributes = {
+  .name = "informHighPerformanceTask",
+  .stack_size = 128 * 10,
+  .priority = (osPriority_t) osPriorityNormal,
+};
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -104,6 +112,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  //informHighPerformanceTaskHandle = osThreadNew(informHighPerformanceTask, NULL, &informHighPerformanceTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -123,19 +132,44 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	uint8_t readByte;
-	Fm25cxxInitialization(&fram_test,FM25CL64B,ReadDataFromFM25,WriteDataToFM25,LL_mDelay,ChipSelectForFM25);
-  for(;;)
-  {
-	WriteByteToFM25xxx(&fram_test,0x0B,0x66);
-  	readByte = ReadByteFromFM25xxx(&fram_test,0x0B);
-    osDelay(1000);
-  }
+//	uint8_t readByte;
+//	Fm25cxxInitialization(&fram_test,FM25CL64B,ReadDataFromFM25,WriteDataToFM25,LL_mDelay,ChipSelectForFM25);
+//  for(;;)
+//  {
+//	WriteByteToFM25xxx(&fram_test,0x0B,0x66);
+//  	readByte = ReadByteFromFM25xxx(&fram_test,0x0B);
+//  	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+//    osDelay(1000);
+//  }
+	for(;;)
+	{
+		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		osDelay(1000);
+	}
   /* USER CODE END StartDefaultTask */
 }
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-
+static void informHighPerformanceTask(void *argument)
+{
+	Framinit();
+	uint8_t data[100] = {0};
+	for(int i = 0; i < 100; ++i) {
+		data[i] = i;
+	}
+	DataPacket pk;
+	pk.length = 100;
+	pk.type = 1;
+	pk.content = malloc(pk.length);
+	if (pk.content != NULL) {
+	    memcpy(pk.content, data, pk.length);
+	}
+	while(1){
+		XfertoPerformance(&pk);
+		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		osDelay(1000);
+	}
+}
 /* USER CODE END Application */
 
