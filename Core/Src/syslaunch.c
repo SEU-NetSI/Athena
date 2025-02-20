@@ -1,8 +1,6 @@
 #include "syslaunch.h"
 #include "main.h"
 
-#ifdef ENABLE_UWB_DW3000
-
 #include "libdw3000.h"
 #include "dw3000.h"
 #include "dwTypes.h"
@@ -16,6 +14,8 @@ SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
 osThreadId_t uwbISRTaskHandle;
+
+#ifdef ENABLE_UWB_DW3000
 
 const osThreadAttr_t uwbLaunchTaskAttributes = {
 		.name = "uwbLaunchTask",
