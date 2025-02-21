@@ -27,10 +27,12 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "fifo_buff.h"
 
 /* USER CODE BEGIN Includes */
 #include <stdint.h> 
 #include <stdbool.h>
+extern fifo_rx_def *pfifo_2;
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
