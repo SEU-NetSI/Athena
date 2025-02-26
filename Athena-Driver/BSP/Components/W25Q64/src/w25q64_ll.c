@@ -11,7 +11,7 @@
 #include "w25q64_ll.h"
 #include "spi_drv.h"
 
-#define SPI_BUFFER_MAX_SIZE 240
+#define SPI_BUFFER_MAX_SIZE 520
 static uint8_t spiTxBuffer[SPI_BUFFER_MAX_SIZE];
 static uint8_t spiRxBuffer[SPI_BUFFER_MAX_SIZE];
 
