@@ -2,7 +2,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "debug.h"
 #include "cpx/cpx.h"
 #include "cpx/uart_transport.h"
 #include "cpx/router.h"
@@ -10,7 +10,7 @@
 osThreadId_t cpx_ExampleHandle;
 const osThreadAttr_t cpx_Example_attributes = {
 		.name = "cpx_Example",
-		.stack_size = 128 * 2,
+		.stack_size = 2000,
 		.priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -55,4 +55,4 @@ static const UserInit cpx_init = {
 		.init = cpx_example_init,
 };
 
-//USER_INIT(cpx_init);
+USER_INIT(cpx_init);
