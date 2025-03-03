@@ -19,16 +19,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-#include "fifo_buff.h"
 
 /* USER CODE BEGIN 0 */
-#define USART2_RX_LEN 32
-uint8_t USART2_BUFFER[USART2_RX_LEN] = {0};
-
-fifo_rx_def fifo_usart_rx_2;
-fifo_rx_def *pfifo_2 = &fifo_usart_rx_2;
-
-
+// static bool isInit = false;
 /* USER CODE END 0 */
 
 /* USART1 init function */
@@ -156,8 +149,6 @@ void MX_USART2_UART_Init(void)
 
   /* USER CODE BEGIN USART2_Init 1 */
   LL_USART_EnableIT_RXNE(USART2);
-  LL_USART_EnableIT_IDLE(USART2);
-  LL_USART_EnableIT_TC(USART2);
 
   /* USER CODE END USART2_Init 1 */
   USART_InitStruct.BaudRate = 921600;
@@ -170,51 +161,12 @@ void MX_USART2_UART_Init(void)
   LL_USART_Init(USART2, &USART_InitStruct);
   LL_USART_ConfigAsyncMode(USART2);
   LL_USART_Enable(USART2);
-  /* USART2 DMA Init */
+  /* USER CODE BEGIN USART2_Init 2 */
 
-  /* USART2_RX Init */
-  LL_DMA_SetPeriphRequest(DMA1, LL_DMA_CHANNEL_6, LL_DMA_REQUEST_2);
-
-  LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_6, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
-
-  LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PRIORITY_VERYHIGH);
-
-  LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MODE_CIRCULAR);
-
-  LL_DMA_SetPeriphIncMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PERIPH_NOINCREMENT);
-
-  LL_DMA_SetMemoryIncMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MEMORY_INCREMENT);
-
-  LL_DMA_SetPeriphSize(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PDATAALIGN_BYTE);
-
-  LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MDATAALIGN_BYTE);
-
-  LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_6, USART2_RX_LEN);
-
-
-  /* USART1_TX Init */
-  LL_DMA_SetPeriphRequest(DMA1, LL_DMA_CHANNEL_7, LL_DMA_REQUEST_2);
-
-  LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_7, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-
-  LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_7, LL_DMA_PRIORITY_LOW);
-
-  LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_7, LL_DMA_MODE_NORMAL);
-
-  LL_DMA_SetPeriphIncMode(DMA1, LL_DMA_CHANNEL_7, LL_DMA_PERIPH_NOINCREMENT);
-
-  LL_DMA_SetMemoryIncMode(DMA1, LL_DMA_CHANNEL_7, LL_DMA_MEMORY_INCREMENT);
-
-  LL_DMA_SetPeriphSize(DMA1, LL_DMA_CHANNEL_7, LL_DMA_PDATAALIGN_BYTE);
-
-  LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_7, LL_DMA_MDATAALIGN_BYTE);
   /* USER CODE END USART2_Init 2 */
 
-  if (fifo_init(pfifo_2, USART2_BUFFER, USART2_RX_LEN) == -1)
-  {
-  }
 }
-
+/* USART3 init function */
 
 void MX_USART3_UART_Init(void)
 {

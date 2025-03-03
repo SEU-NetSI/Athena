@@ -2,7 +2,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "debug.h"
 #include "cpx/cpx.h"
 #include "cpx/uart_transport.h"
 #include "cpx/router.h"
@@ -10,7 +10,7 @@
 osThreadId_t cpx_ExampleHandle;
 const osThreadAttr_t cpx_Example_attributes = {
 		.name = "cpx_Example",
-		.stack_size = 128 * 2,
+		.stack_size = 700,
 		.priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -37,7 +37,9 @@ static void cpx_Example(void *argument)
 	uint8_t count=0;
   while(1)
   {
+
 	    vTaskDelay(2000);
+	    int mark=uxTaskGetStackHighWaterMark(cpx_ExampleHandle);
 	    cpxInitRoute(CPX_T_GAP8, CPX_T_STM32, CPX_F_APP, &cpxPacket.route);
 	    cpxPacket.dataLength = 1;
 	    cpxPacket.data[0]=count;
@@ -55,4 +57,4 @@ static const UserInit cpx_init = {
 		.init = cpx_example_init,
 };
 
-//USER_INIT(cpx_init);
+USER_INIT(cpx_init);
