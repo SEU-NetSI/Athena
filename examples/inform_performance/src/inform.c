@@ -36,7 +36,7 @@ static const UserInit informHighPerformanceTask_init = {
 	.name = "informH7",
 };
 
-USER_INIT(informHighPerformanceTask_init);
+// USER_INIT(informHighPerformanceTask_init);
 
 static void informHighPerformanceTask(void *argument)
 {
