@@ -27,6 +27,7 @@
 #include "semphr.h"
 #include "fm25_platform.h"
 #include "spi.h"
+#include "debug_print.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -123,14 +124,19 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-	uint8_t readByte;
-	Fm25cxxInitialization(&fram_test,FM25CL64B,ReadDataFromFM25,WriteDataToFM25,LL_mDelay,ChipSelectForFM25);
-  for(;;)
-  {
-	WriteByteToFM25xxx(&fram_test,0x0B,0x66);
-  	readByte = ReadByteFromFM25xxx(&fram_test,0x0B);
-    osDelay(1000);
-  }
+	debug_print_init();
+	while(1)
+	{
+		printf("Hello World!\n");
+	}
+//	uint8_t readByte;
+//	Fm25cxxInitialization(&fram_test,FM25CL64B,ReadDataFromFM25,WriteDataToFM25,LL_mDelay,ChipSelectForFM25);
+//  for(;;)
+//  {
+//	WriteByteToFM25xxx(&fram_test,0x0B,0x66);
+//  	readByte = ReadByteFromFM25xxx(&fram_test,0x0B);
+//    osDelay(1000);
+//  }
   /* USER CODE END StartDefaultTask */
 }
 
