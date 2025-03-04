@@ -66,8 +66,8 @@
 
 #include <stdint.h>
 #include <string.h>
-#include "stm32l4xx.h"
-#include "i2c_drv.h"
+//#include "stm32l4xx.h"
+//#include "i2c_drv.h"
 
 /**
  * @brief Structure VL53L5CX_Platform needs to be filled by the customer,

@@ -17,6 +17,15 @@
         "libdw3000.h": "c",
         "calibration.h": "c",
         "freertos.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "main.h": "c",
+        "limits": "c",
+        "type_traits": "c",
+        "cmsis_os.h": "c",
+        "flash_fs_example.h": "c",
+        "fm25cl64.h": "c",
+        "uwb_send_print.h": "c",
+        "dw3000_cbll.h": "c",
+        "tof_init.h": "c"
     }
 }

@@ -62,7 +62,7 @@
 
 #include "platform.h"
 #include "i2c_drv.h"
-#include "cmsis_os.h"
+//#include "cmsis_os.h"
 
 #define chunk_size 252
 
