@@ -12,5 +12,6 @@ typedef void (*ToFdataCallback)(const tof_packet* pk);
 
 void tof_get_data(void* argument);
 void ToFRegisterMessageHandler(ToFdataCallback callback);
+tof_packet get_pk();
 
 #endif // TOF_GET_DATA_H

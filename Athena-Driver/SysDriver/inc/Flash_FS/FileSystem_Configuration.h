@@ -11,6 +11,7 @@
 #include "FileSystem.h"
 #include <stddef.h>
 #include "w25q64_ll.h"
+#include <stdbool.h>
 
 #define FLASH_SECTOR_SIZE       4096  //FLASH扇区大小
 #define FLASH_TOTAL_SECTORS     2048 //FLASH总扇区数
