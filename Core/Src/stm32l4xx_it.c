@@ -31,6 +31,8 @@
 #include "uart_receive.h"
 #include "stm32l4xx_ll_gpio.h"
 #include "arbitration_fram.h"
+#include "debug.h"
+#include "usart_sysinit.h"
 
 /* USER CODE END Includes */
 
@@ -39,7 +41,9 @@
 extern osThreadId_t uwbISRTaskHandle;
 extern SemaphoreHandle_t spiDeckTxComplete;
 extern SemaphoreHandle_t spiDeckRxComplete;
-
+extern fifo_rx_def *pfifo_x;
+extern fifo_rx_def *pfifo_2;
+extern SemaphoreHandle_t Uart2RxComplete;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -349,22 +353,31 @@ void USART1_IRQHandler(void)
   */
 void USART2_IRQHandler(void)
 {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    uint8_t received_data;
+  /* USER CODE BEGIN USART2_IRQn 0 */
+	 BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	__IO uint8_t len = 0;
 
-    if (LL_USART_IsActiveFlag_RXNE(USART2)) {
-        received_data = LL_USART_ReceiveData8(USART2);
-        if (UART2RxQueue) {
-            xQueueSendFromISR(UART2RxQueue, &received_data, &xHigherPriorityTaskWoken);
-        }
-    }
-    if (LL_USART_IsActiveFlag_IDLE(USART2)) {
-        LL_USART_ClearFlag_IDLE(USART2);
-        if (uartReadySemaphore != NULL) {
-            xSemaphoreGiveFromISR(uartReadySemaphore, &xHigherPriorityTaskWoken);
-        }
-    }
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	if (LL_USART_IsActiveFlag_IDLE(USART2))
+	{
+	LL_USART_ClearFlag_IDLE(USART2);
+	len = LL_DMA_GetDataLength(DMA1, LL_DMA_CHANNEL_6);
+	if (pfifo_2 != NULL)
+	{
+		pfifo_2->in += ((pfifo_2->last_cnt - len) & (pfifo_2->size - 1)); //更新in
+		pfifo_2->last_cnt = len;
+		xSemaphoreGiveFromISR(Uart2RxComplete, &xHigherPriorityTaskWoken);
+		if ((pfifo_2->in - pfifo_2->out) > pfifo_2->size)
+		{
+			pfifo_2->out = pfifo_2->in;
+//	        pfifo_2->error |= FIFO_DMA_ERROR_RX_FULL;
+	    }
+	}
+	else
+	{
+//		pfifo_2->error |= FIFO_DMA_ERROR_RX_POINT_NULL;
+	}
+	}
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 /**

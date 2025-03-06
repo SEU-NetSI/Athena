@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
+#include "stm32l4xx_ll_dma.h"
 
 /* USER CODE BEGIN 0 */
 // static bool isInit = false;
@@ -113,57 +114,104 @@ void MX_USART1_UART_Init(void)
   /* USER CODE END USART1_Init 2 */
 
 }
+#define USART2_RX_LEN 64
+uint8_t USART2_BUFFER[USART2_RX_LEN] = {0};
+
+fifo_rx_def fifo_usart_rx_2;
+fifo_rx_def *pfifo_2 = &fifo_usart_rx_2;
 
 void MX_USART2_UART_Init(void)
 {
+	  /* USER CODE BEGIN USART2_Init 0 */
 
-  /* USER CODE BEGIN USART2_Init 0 */
+	  /* USER CODE END USART2_Init 0 */
 
-  /* USER CODE END USART2_Init 0 */
+	  LL_USART_InitTypeDef USART_InitStruct = {0};
 
-  LL_USART_InitTypeDef USART_InitStruct = {0};
+	  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+	  LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1);
 
-  LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1);
+	  /* Peripheral clock enable */
+	  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
 
-  /* Peripheral clock enable */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+	  LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
+	  /**USART2 GPIO Configuration
+	  PA2   ------> USART2_TX
+	  PA3   ------> USART2_RX
+	  */
+	  GPIO_InitStruct.Pin = LL_GPIO_PIN_2|LL_GPIO_PIN_3;
+	  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+	  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+	  GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
+	  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
-  /**USART2 GPIO Configuration
-  PA2   ------> USART2_TX
-  PA3   ------> USART2_RX
-  */
-  GPIO_InitStruct.Pin = LL_GPIO_PIN_2|LL_GPIO_PIN_3;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
-  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	  /* USART2 interrupt Init */
+	  NVIC_SetPriority(USART2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	  NVIC_EnableIRQ(USART2_IRQn);
 
-  /* USART2 interrupt Init */
-  NVIC_SetPriority(USART2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
-  NVIC_EnableIRQ(USART2_IRQn);
+	  /* USER CODE BEGIN USART2_Init 1 */
 
-  /* USER CODE BEGIN USART2_Init 1 */
-  LL_USART_EnableIT_RXNE(USART2);
 
-  /* USER CODE END USART2_Init 1 */
-  USART_InitStruct.BaudRate = 921600;
-  USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
-  USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
-  USART_InitStruct.Parity = LL_USART_PARITY_NONE;
-  USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
-  USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
-  USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
-  LL_USART_Init(USART2, &USART_InitStruct);
-  LL_USART_ConfigAsyncMode(USART2);
-  LL_USART_Enable(USART2);
-  /* USER CODE BEGIN USART2_Init 2 */
+	  /* USER CODE END USART2_Init 1 */
+	  USART_InitStruct.BaudRate = 115200;
+	  USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
+	  USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
+	  USART_InitStruct.Parity = LL_USART_PARITY_NONE;
+	  USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
+	  USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
+	  USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
+	  LL_USART_Init(USART2, &USART_InitStruct);
+	  LL_USART_ConfigAsyncMode(USART2);
+	  LL_USART_Enable(USART2);
+	  /* USART2 DMA Init */
 
-  /* USER CODE END USART2_Init 2 */
+	  /* USART2_RX Init */
+	  LL_DMA_SetPeriphRequest(DMA1, LL_DMA_CHANNEL_6, LL_DMA_REQUEST_2);
+
+	  LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_6, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+
+	  LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PRIORITY_VERYHIGH);
+
+	  LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MODE_CIRCULAR);
+
+	  LL_DMA_SetPeriphIncMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PERIPH_NOINCREMENT);
+
+	  LL_DMA_SetMemoryIncMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MEMORY_INCREMENT);
+
+	  LL_DMA_SetPeriphSize(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PDATAALIGN_BYTE);
+
+	  LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MDATAALIGN_BYTE);
+
+	  LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_6, USART2_RX_LEN);
+
+	  LL_DMA_SetMemoryAddress(DMA1, LL_DMA_CHANNEL_6, USART2_BUFFER);
+
+
+	  /* USART1_TX Init */
+//	  LL_DMA_SetPeriphRequest(DMA1, LL_DMA_CHANNEL_7, LL_DMA_REQUEST_2);
+//
+//	  LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_7, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+//
+//	  LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_7, LL_DMA_PRIORITY_LOW);
+//
+//	  LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_7, LL_DMA_MODE_NORMAL);
+//
+//	  LL_DMA_SetPeriphIncMode(DMA1, LL_DMA_CHANNEL_7, LL_DMA_PERIPH_NOINCREMENT);
+//
+//	  LL_DMA_SetMemoryIncMode(DMA1, LL_DMA_CHANNEL_7, LL_DMA_MEMORY_INCREMENT);
+//
+//	  LL_DMA_SetPeriphSize(DMA1, LL_DMA_CHANNEL_7, LL_DMA_PDATAALIGN_BYTE);
+//
+//	  LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_7, LL_DMA_MDATAALIGN_BYTE);
+
+	  /* USER CODE END USART2_Init 2 */
+
+	  if (fifo_init(pfifo_2, USART2_BUFFER, USART2_RX_LEN) == -1)
+	  {
+	  }
 
 }
 /* USART3 init function */
@@ -231,4 +279,12 @@ void Uart3_SendStr(char* SendBuf, uint8_t size) {
     }
 }
 
+void Uart2_SendStr(char* SendBuf, uint8_t size) {
+    while (size > 0) {
+        while (!LL_USART_IsActiveFlag_TC(USART2));  // 等待发送完成
+        LL_USART_TransmitData8(USART2,(uint8_t)(*SendBuf & (uint8_t)0xff));  // 发送当前字节
+        SendBuf++;
+        size--;
+    }
+}
 /* USER CODE END 1 */

@@ -31,11 +31,13 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include <stdint.h> 
 #include <stdbool.h>
+#include "fifo_buff.h"
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
 void uart3SendData(uint32_t size, uint8_t* data);
 void Uart3_SendStr(char* SendBuf, uint8_t size);
+void Uart2_SendStr(char* SendBuf, uint8_t size);
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
