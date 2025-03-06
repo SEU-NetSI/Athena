@@ -22,7 +22,9 @@
 #include "dma.h"
 #include "memorymap.h"
 #include "spi.h"
+#include "usart.h"
 #include "gpio.h"
+#include "debug_print.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -104,6 +106,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_USART2_UART_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
@@ -113,7 +116,9 @@ int main(void)
   osKernelInitialize();
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
-  LL_mDelay(5000);
+  LL_mDelay(5678);
+  debug_print_init();
+  printf("Hello World!Debug print init ok!\n");
   SysDriverInit();
   //MX_FREERTOS_Init();
   /* Start scheduler */

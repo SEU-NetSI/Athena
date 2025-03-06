@@ -20,7 +20,7 @@
 #define ERROR_GPIO_PIN         LL_GPIO_PIN_9
 #define ERROR_GPIO_PORT        GPIOE
 
-bool spi2Exchange(SPI_TypeDef* SPIx, size_t length, const uint8_t* data_tx, uint8_t * data_rx)
+bool spi2ExchangeOld(SPI_TypeDef* SPIx, size_t length, const uint8_t* data_tx, uint8_t * data_rx)
 {
 	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_1, (uint32_t)data_tx, LL_SPI_DMA_GetTxRegAddr(SPI2), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_1, length);
@@ -43,7 +43,7 @@ bool spi2Exchange(SPI_TypeDef* SPIx, size_t length, const uint8_t* data_tx, uint
 // 静态变量用于错误计数（实际应用中建议使用原子操作）
 static volatile uint8_t spiErrorCount = 0;
 
-bool spi2ExchangeNew(SPI_TypeDef* SPIx, size_t length,
+bool spi2Exchange(SPI_TypeDef* SPIx, size_t length,
                 const uint8_t* data_tx, uint8_t* data_rx)
 {
     uint8_t retries = 0;
@@ -80,7 +80,7 @@ bool spi2ExchangeNew(SPI_TypeDef* SPIx, size_t length,
         bool rxDone = (xSemaphoreTake(rxComplete, xTicksToWait) == pdTRUE);
         uint8_t test_char = *data_rx;
 
-        if(*data_rx != 0xFF) {
+        if((*data_rx & *(data_rx+1)) != 0xFF){
             // 传输成功，重置错误计数器
             LL_GPIO_ResetOutputPin(ERROR_GPIO_PORT, ERROR_GPIO_PIN);
             return true;
@@ -98,6 +98,7 @@ bool spi2ExchangeNew(SPI_TypeDef* SPIx, size_t length,
                 LL_GPIO_SetOutputPin(ERROR_GPIO_PORT, ERROR_GPIO_PIN);
                 osDelay(200);
                 LL_GPIO_ResetOutputPin(ERROR_GPIO_PORT, ERROR_GPIO_PIN);
+                printf("Retry over 5 times!\n");
             }
             // 重试前延时
             vTaskDelay(pdMS_TO_TICKS(10));

@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-
+#include "stm32h7xx_hal.h"
 #include "stm32h7xx_ll_dma.h"
 #include "stm32h7xx_ll_rcc.h"
 #include "stm32h7xx_ll_crs.h"
@@ -39,6 +39,7 @@ extern "C" {
 #include "stm32h7xx_ll_pwr.h"
 #include "stm32h7xx_ll_spi.h"
 #include "stm32h7xx_ll_gpio.h"
+#include "stm32h7xx_ll_usart.h"
 
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
@@ -48,6 +49,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "spi_drv.h"
 #include "fm25cl64.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

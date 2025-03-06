@@ -239,5 +239,45 @@ void SPI2_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+uint8_t usart2_rxBuf[128] = {0};
+uint8_t usart2_rxIndex = 0;
+static uint8_t usart2_sta = 0;
+extern SemaphoreHandle_t Uart2RxComplete;
+uint8_t data[8] = {0,1,2,3,4,5,6,7};
+void USART2_IRQHandler(void)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	if(LL_USART_IsActiveFlag_ORE(USART2)){
+		  LL_USART_ClearFlag_ORE(USART2);
+	}
+	if(LL_USART_IsActiveFlag_RXNE(USART2))
+	{
+		uint8_t recv = LL_USART_ReceiveData8(USART2);
+		printf("%c\n", recv);
+		switch(usart2_sta){
+		case 0:
+			if(recv == 0xFE)usart2_sta = 1;
+			break;
+		case 1:
+			if(usart2_rxIndex > 7)
+			{
+				usart2_sta = 0;
+				usart2_rxIndex = 0;
+				printf("recv error\n");
+
+			}
+			if(recv == 0xEF){
+				usart2_rxBuf[usart2_rxIndex++] = '\0';
+				printf("finish recive:%s\n",usart2_rxBuf);
+				usart2_sta = 0;
+				usart2_rxIndex = 0;
+				xSemaphoreGiveFromISR(Uart2RxComplete, &xHigherPriorityTaskWoken);
+			}
+			else usart2_rxBuf[usart2_rxIndex++] = recv;
+			break;
+		}
+	}
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
 
 /* USER CODE END 1 */

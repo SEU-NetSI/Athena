@@ -2,7 +2,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-#include "debug_print.h"
+
 
 static void debugPrintInitTask(void *argument);
 
@@ -22,7 +22,7 @@ static const UserInit debugprint_init = {
 		.init = user_debugPrintInitTask_init,
 };
 
-USER_INIT(debugprint_init);
+//USER_INIT(debugprint_init);
 
 static void debugPrintInitTask(void *argument)
 {

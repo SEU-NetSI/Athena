@@ -8,6 +8,8 @@
 #include "debug.h"
 #include "arbitration_fram.h"
 #include "fram_sys_xfer.h"
+//#include "debug_print.h"
+
 
 
 SemaphoreHandle_t txComplete = NULL;
@@ -34,7 +36,7 @@ static const UserInit informTask_init = {
 	.name = "informH7",
 };
 
-USER_INIT(informTask_init);
+//USER_INIT(informTask_init);
 
 static void informTask(void *argument)
 {
@@ -43,7 +45,8 @@ static void informTask(void *argument)
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 //	FRAMxferMutex = xSemaphoreCreateMutex();
-
+	debug_print_init();
+	printf("Hello World!Debug print init ok!\n");
 	Framinit();
 	LL_GPIO_ResetOutputPin(LED_GPIO_Port, LED_Pin);
 	uint8_t data[100] = {0};
@@ -61,7 +64,10 @@ static void informTask(void *argument)
 	while(1){
 //		XfertoPerformance(&pk);
 		ReadBytesFromFM25xxx(&fm25,0x00,data1,100);
+		if((data1[1] & data1[0]) != 0xFF)printf("True\n");
+		else printf("false\n");
+		memset(data1, 0, sizeof(data1));
 		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-		osDelay(1000);
+		osDelay(500);
 	}
 }
