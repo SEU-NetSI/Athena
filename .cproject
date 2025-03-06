@@ -211,6 +211,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/inform_performance"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/init_fun_example"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/tof_get_data"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples/usart2_example"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

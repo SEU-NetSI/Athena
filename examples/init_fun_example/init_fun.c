@@ -2,6 +2,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
+#include "usart.h"
 
 static void ledTask(void *argument);
 
@@ -21,14 +22,15 @@ static const UserInit led_init = {
 		.init = user_ledtask_init,
 };
 
-//USER_INIT(led_init);
+USER_INIT(led_init);
 
 static void ledTask(void *argument)
 {
-
+  uint8_t data[8] = {0xFE,0,0,0,10,0XAA,0xEF};
   while(1)
   {
+	Uart2_SendStr(data, 8);
 	LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-	vTaskDelay(1000);
+	vTaskDelay(2000);
   }
 }
