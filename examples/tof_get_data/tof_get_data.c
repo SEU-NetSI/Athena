@@ -17,7 +17,7 @@ osThreadId_t TOF_exampleHandle;
 
 const osThreadAttr_t tof_get_data_attributes = {
 		.name = "tof_get_data",
-		.stack_size = 500,
+		.stack_size = 5000,
 		.priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -51,6 +51,11 @@ void tof_get_data(void* argument){
       LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
 	  LL_mDelay(500);
 	}
+}
+
+tof_packet get_pk()
+{
+	return pk;
 }
 
 void ToFRegisterMessageHandler(ToFdataCallback callback) {

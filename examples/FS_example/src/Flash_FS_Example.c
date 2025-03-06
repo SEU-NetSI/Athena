@@ -1,4 +1,3 @@
-//FS_ExampleHandle = osThreadNew(FS_Example, NULL, &FS_Example_attributes);
 #include "Flash_FS_Example.h"
 void FS_Example(void *argument){
 	struct log_entry {      //定义日志条目结构体
@@ -44,9 +43,8 @@ void FS_Example(void *argument){
 		assert(ringfs_fetch(&fs, &entry1) == 0);
 	}
 
-
-
 	while(true){
 	    	vTaskDelay(100);
 	}
 }
+
