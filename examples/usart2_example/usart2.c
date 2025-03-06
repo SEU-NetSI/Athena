@@ -27,7 +27,7 @@ static const UserInit usart2_init = {
 		.init = user_usart2task_init,
 };
 
-USER_INIT(usart2_init);
+//USER_INIT(usart2_init);
 
 // L4中用于接收H7返回数据的后台任务
 static void usart2Task(void* argument)
