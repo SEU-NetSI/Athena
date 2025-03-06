@@ -386,6 +386,9 @@ void USART2_IRQHandler(void)
 void USART3_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_IRQn 0 */
+    if(LL_USART_IsActiveFlag_ORE(USART3)){
+        LL_USART_ClearFlag_ORE(USART3);
+    }
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     uint8_t received_data;
     static int count = 0;
