@@ -40,15 +40,29 @@ static void ledTask(void *argument)
 	  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
 	  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
 	  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  while(1)
-  {
-	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_12);	//LED1, work correct
-	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_11);	//LED2, work correct
-	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_10);	//LED3, work correct
-	LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_7);	//LED4, work correct
-	LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_6);	//LED5, work correct
-	LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);	//LED6, work correct
 
-	vTaskDelay(500);
+int ledcode=0;
+	  while(1)
+	  {
+		  vTaskDelay(100);
+		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12);
+		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
+		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_10);
+		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_7);
+		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_6);
+		  LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_13);
+		  if(ledcode & (0x1UL << 1U))
+			  LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_12);
+		  if(ledcode & (0x1UL << 2U))
+			  LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_11);
+		  if(ledcode & (0x1UL << 3U))
+			  LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_10);
+		  if(ledcode & (0x1UL << 4U))
+			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_7);
+		  if(ledcode & (0x1UL << 5U))
+			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_6);
+		  if(ledcode & (0x1UL << 6U))
+			  LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);
+		  ledcode++;
   }
 }
