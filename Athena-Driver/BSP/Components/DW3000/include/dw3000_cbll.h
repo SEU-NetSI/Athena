@@ -29,8 +29,8 @@
   #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_STD
 #endif
 
-#define DW3000Deck_CS_GPIO_Port GPIOA
-#define DW3000Deck_CS_Pin LL_GPIO_PIN_1
+#define DW3000Deck_CS_GPIO_Port GPIOE
+#define DW3000Deck_CS_Pin LL_GPIO_PIN_2
 
 #define DUMMY_BYTE 0x00
 
