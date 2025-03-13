@@ -2,6 +2,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
+#include "stm32h7xx_ll_bus.h"
 
 static void ledTask(void *argument);
 
@@ -21,14 +22,29 @@ static const UserInit led_init = {
 		.init = user_ledtask_init,
 };
 
-//USER_INIT(led_init);
+USER_INIT(led_init);
 
 static void ledTask(void *argument)
 {
+	  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+	  LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOC);
+	  LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6);
+	  GPIO_InitStruct.Pin = LL_GPIO_PIN_6;
+	  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+	  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+	  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+	  LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   while(1)
   {
-	LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_9);
-	vTaskDelay(1000);
+	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_12);	//LED1
+	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_11);	//LED2
+	LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_10);	//LED3
+	LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_7);	//LED4
+	LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_6);	//LED5
+	LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);	//LED6, work correct
+
+	vTaskDelay(500);
   }
 }
