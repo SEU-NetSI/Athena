@@ -51,17 +51,17 @@ int ledcode=0;
 		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_7);
 		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_6);
 		  LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_13);
-		  if(ledcode & (0x1UL << 1U))
+		  if(ledcode & (0x1UL << 0U))
 			  LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_12);
-		  if(ledcode & (0x1UL << 2U))
+		  if(ledcode & (0x1UL << 1U))
 			  LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_11);
-		  if(ledcode & (0x1UL << 3U))
+		  if(ledcode & (0x1UL << 2U))
 			  LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_10);
-		  if(ledcode & (0x1UL << 4U))
+		  if(ledcode & (0x1UL << 3U))
 			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_7);
-		  if(ledcode & (0x1UL << 5U))
+		  if(ledcode & (0x1UL << 4U))
 			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_6);
-		  if(ledcode & (0x1UL << 6U))
+		  if(ledcode & (0x1UL << 5U))
 			  LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);
 		  ledcode++;
   }
