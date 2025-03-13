@@ -45,29 +45,29 @@ static void informTask(void *argument)
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 //	FRAMxferMutex = xSemaphoreCreateMutex();
-	debug_print_init();
-	printf("Hello World!Debug print init ok!\n");
-	Framinit();
-	LL_GPIO_ResetOutputPin(LED_GPIO_Port, LED_Pin);
-	uint8_t data[100] = {0};
-	uint8_t data1[100] = {0};
-	for(int i = 0; i < 100; ++i) {
-		data[i] = i;
-	}
-	DataPacket pk;
-	pk.length = 100;
-	pk.type = 1;
-	pk.content = malloc(pk.length);
-	if (pk.content != NULL) {
-	    memcpy(pk.content, data, pk.length);
-	}
+//	debug_print_init();
+//	printf("Hello World!Debug print init ok!\n");
+//	Framinit();
+//	LL_GPIO_ResetOutputPin(LED_GPIO_Port, LED_Pin);
+//	uint8_t data[100] = {0};
+//	uint8_t data1[100] = {0};
+//	for(int i = 0; i < 100; ++i) {
+//		data[i] = i;
+//	}
+//	DataPacket pk;
+//	pk.length = 100;
+//	pk.type = 1;
+//	pk.content = malloc(pk.length);
+//	if (pk.content != NULL) {
+//	    memcpy(pk.content, data, pk.length);
+//	}
 	while(1){
 //		XfertoPerformance(&pk);
-		ReadBytesFromFM25xxx(&fm25,0x00,data1,100);
-		if((data1[1] & data1[0]) != 0xFF)printf("True\n");
-		else printf("false\n");
-		memset(data1, 0, sizeof(data1));
-		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+//		ReadBytesFromFM25xxx(&fm25,0x00,data1,100);
+//		if((data1[1] & data1[0]) != 0xFF)printf("True\n");
+//		else printf("false\n");
+//		memset(data1, 0, sizeof(data1));
+//		LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 		osDelay(500);
 	}
 }
