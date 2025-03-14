@@ -116,7 +116,6 @@ int main(void)
   osKernelInitialize();
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
-  LL_mDelay(5678);
   debug_print_init();
   printf("Hello World!Debug print init ok!\n");
   SysDriverInit();
