@@ -9,7 +9,8 @@
 #include "arbitration_fram.h"
 #include "fram_sys_xfer.h"
 //#include "debug_print.h"
-
+#include "dwTypes.h"
+#include "dw3000_cbll.h"
 
 
 SemaphoreHandle_t txComplete = NULL;
@@ -25,7 +26,7 @@ osThreadId_t informTaskHandle;
 
 const osThreadAttr_t informTask_attributes = {
   .name = "informTask",
-  .stack_size = 128 * 10,
+  .stack_size = 2 * UWB_FRAME_LEN_MAX * sizeof(StackType_t),
   .priority = (osPriority_t) osPriorityNormal,
 };
 
