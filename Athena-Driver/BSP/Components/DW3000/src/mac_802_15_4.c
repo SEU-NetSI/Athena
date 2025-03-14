@@ -10,7 +10,7 @@
  *
  */
 #include <string.h>
-#include <dw3000.h>
+#include "dw3000.h"
 #include <libdw3000.h>
 #include <mac_802_15_4.h>
 
