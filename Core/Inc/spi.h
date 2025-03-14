@@ -39,6 +39,7 @@ extern "C" {
 void MX_SPI2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void MX_SPI2_Alt_Init(void);
 
 /* USER CODE END Prototypes */
 
