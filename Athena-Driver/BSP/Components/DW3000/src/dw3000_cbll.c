@@ -63,7 +63,7 @@ static void spiDeckWrite(const void* cmd,
 	DW3000Deck_Enable();
     memcpy(spiDeckTxBuffer, cmd, cmdLength);
     memcpy(spiDeckTxBuffer + cmdLength, data, dataLength);
-    spi2ExchangeOld(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
+    spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
 	DW3000Deck_Disable();
 	spiDeckEndTransaction();
 }
@@ -77,7 +77,7 @@ static void spiDeckRead(const void* cmd,
 	DW3000Deck_Enable();
 	memcpy(spiDeckTxBuffer, cmd, cmdLength);
 	memset(spiDeckTxBuffer + cmdLength, DUMMY_BYTE, dataLength);
-	spi2ExchangeOld(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
+	spiDeckExchange(cmdLength + dataLength, spiDeckTxBuffer, spiDeckRxBuffer);
 	memcpy(data, spiDeckRxBuffer + cmdLength, dataLength);
 	DW3000Deck_Disable();
 	spiDeckEndTransaction();

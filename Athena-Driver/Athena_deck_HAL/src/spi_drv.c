@@ -20,7 +20,7 @@
 #define ERROR_GPIO_PIN         LL_GPIO_PIN_9
 #define ERROR_GPIO_PORT        GPIOE
 
-bool spi2ExchangeOld(SPI_TypeDef* SPIx, size_t length, const uint8_t* data_tx, uint8_t * data_rx)
+bool spiDeckExchange(size_t length, const uint8_t* data_tx, uint8_t * data_rx)
 {
 	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_1, (uint32_t)data_tx, LL_SPI_DMA_GetTxRegAddr(SPI2), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_1, length);
@@ -119,3 +119,15 @@ void spiEndTransaction()
 	xSemaphoreGive(spiMutex);
 }
 
+//======
+
+void spiDeckBeginTransaction()
+{
+	xSemaphoreTake(spiDeckMutex, portMAX_DELAY);
+
+}
+
+void spiDeckEndTransaction()
+{
+	xSemaphoreGive(spiDeckMutex);
+}

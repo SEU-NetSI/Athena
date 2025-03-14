@@ -17,6 +17,8 @@
 extern SemaphoreHandle_t txComplete;
 extern SemaphoreHandle_t rxComplete;
 extern SemaphoreHandle_t spiMutex;
+extern SemaphoreHandle_t spiDeckMutex;
+
 
 bool spi2Exchange(SPI_TypeDef* SPIx, size_t length, const uint8_t * data_tx, uint8_t * data_rx);
 void spiBeginTransaction();

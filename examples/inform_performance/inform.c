@@ -15,6 +15,8 @@
 SemaphoreHandle_t txComplete = NULL;
 SemaphoreHandle_t rxComplete = NULL;
 SemaphoreHandle_t spiMutex = NULL;
+SemaphoreHandle_t spiDeckMutex = NULL;
+
 SemaphoreHandle_t FRAMxferMutex = NULL;
 
 static void informTask(void *argument);
