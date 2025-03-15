@@ -5,6 +5,8 @@
 #include "stm32h7xx_ll_bus.h"
 
 static void ledTask(void *argument);
+int ledcode=0;
+
 
 osThreadId_t ledTaskHandle;
 
@@ -28,16 +30,15 @@ static void ledTask(void *argument)
 {
 
 
-int ledcode=0;
 	  while(1)
 	  {
-		  vTaskDelay(100);
-//		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12);
-//		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
-//		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_10);
-//		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_7);
-//		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_6);
-//		  LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_13);放在gpio.c中进行初始化
+		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12);
+		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
+		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_10);
+		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_7);
+		  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_6);
+		  LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_13);
+		  vTaskDelay(950);
 		  if(ledcode & (0x1UL << 0U))
 			  LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_12);
 		  if(ledcode & (0x1UL << 1U))
@@ -50,6 +51,6 @@ int ledcode=0;
 			  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_6);
 		  if(ledcode & (0x1UL << 5U))
 			  LL_GPIO_TogglePin(GPIOD, LL_GPIO_PIN_13);
-		  ledcode++;
+		  vTaskDelay(50);
   }
 }

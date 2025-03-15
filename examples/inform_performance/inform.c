@@ -41,6 +41,7 @@ static const UserInit informTask_init = {
 };
 
 USER_INIT(informTask_init);
+extern int ledcode;
 
 static void informTask(void *argument)
 {
@@ -57,9 +58,11 @@ static void informTask(void *argument)
 	vTaskDelay(100); // wait for the uwbISRTask to start to handle ISR
 
 	// init the dw3000 chip, get ready to rx and rx，下面两次初始化是为了两个不同SPI配置的dw3000设备
-	uint32_t dev_id = dwt_readdevid(); //0xDECA0302
+	uint32_t dev_id = dwt_readdevid();
+	ledcode=0;
 	if (dev_id != 0x0 && dev_id != (0xDECA0302))
 	{
+		ledcode=(0x1UL << 1U);
 		MX_SPI2_Alt_Init();
 	}
 	int result = dw3000_init();
