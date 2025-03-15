@@ -8,8 +8,8 @@
 #include "adhocuwb.h"
 #include "uwb_send_print.h"
 
-SemaphoreHandle_t spiDeckTxComplete = NULL;
-SemaphoreHandle_t spiDeckRxComplete = NULL;
+SemaphoreHandle_t txComplete = NULL;
+SemaphoreHandle_t rxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
@@ -31,12 +31,12 @@ const osThreadAttr_t uwbISRTaskAttributes = {
 
 int spi_deck_init(void)
 {
-  spiDeckTxComplete = xSemaphoreCreateBinary();
-  spiDeckRxComplete = xSemaphoreCreateBinary();
+	txComplete = xSemaphoreCreateBinary();
+	rxComplete = xSemaphoreCreateBinary();
   spiDeckMutex = xSemaphoreCreateMutex();
   uwbIrqSemaphore = xSemaphoreCreateMutex();
 
-	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
+	if (txComplete == NULL || rxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
 	{
 	    while (1);
 	}
@@ -58,14 +58,14 @@ static void initUWBConfig(){
 	uint32_t dev_id = dwt_readdevid();
 	if (dev_id != 0x0 && dev_id != (0xDECA0302))
 	{
-	  MX_SPI2_Init_IO2IO3();
+	  MX_SPI2_Alt_Init();
 	  dw3000_init();
 	}
 
 	// set the chip in listening mode, rxcallback should be invoked once a packet is received.
 	// you should see the RX led flashes at the UWB Deck
 	adhocuwb_hdw_force_rx();
-	initUWBDebugPrint();
+//	initUWBDebugPrint();
 }
 
 static int initStatus;
@@ -78,7 +78,7 @@ static void uwbLaunchTask(){
 	spi_deck_init();
 	initUWBConfig();
 	vTaskDelay(100);
-	adhocuwbInit();
+//	adhocuwbInit();
 	initStatus = 1;
 	while (1) {
 		vTaskDelay(1000);
