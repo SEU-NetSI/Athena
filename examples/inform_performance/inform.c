@@ -49,6 +49,7 @@ static void informTask(void *argument)
 	rxComplete = xSemaphoreCreateBinary();
 	spiMutex = xSemaphoreCreateMutex();
 	spiDeckMutex = xSemaphoreCreateMutex();
+	vTaskDelay(100); //wait for the above semaphore and mutex to take effect
 
 	// reset dw3000 chip
 	dwt_ops.reset(); // this is not necessary
