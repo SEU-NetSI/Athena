@@ -40,7 +40,7 @@ static const UserInit informTask_init = {
 	.name = "informH7",
 };
 
-USER_INIT(informTask_init);
+//USER_INIT(informTask_init);
 extern int ledcode;
 
 static void informTask(void *argument)

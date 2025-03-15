@@ -18,4 +18,4 @@ static const UserInit usart2_sysdriver_init = {
 		.init = USART2_Sysdrv_Init,
 };
 
-USER_INIT(usart2_sysdriver_init);
+//USER_INIT(usart2_sysdriver_init);

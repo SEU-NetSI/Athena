@@ -74,6 +74,7 @@
 									<listOptionValue builtIn="false" value="&quot;/${ProjName}/examples/inform_performance&quot;"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Athena-Driver/BSP/Components/DW3000/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Athena_H7/AdHocUWB/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.992860444" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

@@ -26,7 +26,7 @@ static const UserInit usart2L4_init = {
 		.init = user_usart2L4Task_init,
 };
 
-USER_INIT(usart2L4_init);
+//USER_INIT(usart2L4_init);
 
 // H7中用于响应L4指令的后台任务
 static void usart2L4Task(void *argument)
