@@ -104,6 +104,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/UWB_send_recv_packet"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples/debugprint_example"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples/inform_performance"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples/ledblink_example"/>
@@ -201,6 +202,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="examples/UWB_send_recv_packet"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
