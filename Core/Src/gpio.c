@@ -42,6 +42,7 @@
 void MX_GPIO_Init(void)
 {
 
+  LL_EXTI_InitTypeDef EXTI_InitStruct = {0};
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* 1.GPIO Ports Clock Enable 时钟使能 */
@@ -128,8 +129,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-
-
   //3. 对于所有LED引脚设置低电平,表示熄灭
   LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12);//LED1
   LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);//LED2
@@ -137,6 +136,30 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_7);//LED4
   LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_6);//LED5
   LL_GPIO_ResetOutputPin(GPIOD, LL_GPIO_PIN_13);//LED6
+
+
+  /**/
+  LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTA, LL_SYSCFG_EXTI_LINE15);
+
+  /**/
+  EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_15;
+  EXTI_InitStruct.Line_32_63 = LL_EXTI_LINE_NONE;
+  EXTI_InitStruct.Line_64_95 = LL_EXTI_LINE_NONE;
+  EXTI_InitStruct.LineCommand = ENABLE;
+  EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
+  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_RISING;
+  LL_EXTI_Init(&EXTI_InitStruct);
+
+  /**/
+  LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_15, LL_GPIO_PULL_NO);
+
+  /**/
+  LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_15, LL_GPIO_MODE_INPUT);
+
+  /* EXTI interrupt init*/
+  NVIC_SetPriority(EXTI15_10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+  NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 
 }
 
