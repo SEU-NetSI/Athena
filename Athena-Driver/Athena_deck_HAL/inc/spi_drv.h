@@ -13,10 +13,12 @@
 #include "stm32h7xx_ll_dma.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
+#include "cmsis_os.h"
 
-extern SemaphoreHandle_t txComplete;
-extern SemaphoreHandle_t rxComplete;
-extern SemaphoreHandle_t spiMutex;
+extern osThreadId_t uwbISRTaskHandle;
+
+extern SemaphoreHandle_t spiDeckRxComplete;
+extern SemaphoreHandle_t spiDeckTxComplete;
 extern SemaphoreHandle_t spiDeckMutex;
 
 

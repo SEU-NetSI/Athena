@@ -8,8 +8,8 @@
 #include "adhocuwb.h"
 #include "uwb_send_print.h"
 
-SemaphoreHandle_t txComplete = NULL;
-SemaphoreHandle_t rxComplete = NULL;
+SemaphoreHandle_t spiDeckRxComplete = NULL;
+SemaphoreHandle_t spiDeckTxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
@@ -31,12 +31,12 @@ const osThreadAttr_t uwbISRTaskAttributes = {
 
 int spi_deck_init(void)
 {
-	txComplete = xSemaphoreCreateBinary();
-	rxComplete = xSemaphoreCreateBinary();
+  spiDeckTxComplete = xSemaphoreCreateBinary();
+  spiDeckRxComplete = xSemaphoreCreateBinary();
   spiDeckMutex = xSemaphoreCreateMutex();
   uwbIrqSemaphore = xSemaphoreCreateMutex();
 
-	if (txComplete == NULL || rxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
+	if (spiDeckTxComplete == NULL || spiDeckRxComplete == NULL || spiDeckMutex == NULL || uwbIrqSemaphore == NULL)
 	{
 	    while (1);
 	}

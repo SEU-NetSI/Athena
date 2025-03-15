@@ -42,10 +42,6 @@ extern int ledcode;
 
 static void informTask(void *argument)
 {
-	txComplete = xSemaphoreCreateBinary();
-	rxComplete = xSemaphoreCreateBinary();
-	spiMutex = xSemaphoreCreateMutex();
-	spiDeckMutex = xSemaphoreCreateMutex();
 
 	// reset dw3000 chip
 	dwt_ops.reset(); // this is not necessary

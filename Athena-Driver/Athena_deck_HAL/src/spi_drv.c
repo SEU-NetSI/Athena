@@ -34,8 +34,8 @@ bool spiDeckExchange(size_t length, const uint8_t* data_tx, uint8_t * data_rx)
 	LL_SPI_Enable(SPI2);
 	LL_SPI_StartMasterTransfer(SPI2);
     // Wait for completion
-    bool result = (xSemaphoreTake(txComplete, portMAX_DELAY) == pdTRUE)
-             && (xSemaphoreTake(rxComplete, portMAX_DELAY) == pdTRUE);
+    bool result = (xSemaphoreTake(spiDeckRxComplete, portMAX_DELAY) == pdTRUE)
+             && (xSemaphoreTake(spiDeckTxComplete, portMAX_DELAY) == pdTRUE);
 
     return result;
 }
@@ -49,74 +49,18 @@ bool spi2Exchange(SPI_TypeDef* SPIx, size_t length,
     uint8_t retries = 0;
     const TickType_t xTicksToWait = pdMS_TO_TICKS(SPI_TIMEOUT_MS);
 
-    while(retries < MAX_RETRIES) {
-        // 配置DMA传输
-        LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_1);
-        LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_1,
-                             (uint32_t)data_tx,
-                             LL_SPI_DMA_GetTxRegAddr(SPI2),
-                             LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-        LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_1, length);
-        LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_1);
-
-        LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_0);
-        LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_0,
-                             LL_SPI_DMA_GetRxRegAddr(SPI2),
-                             (uint32_t)data_rx,
-                             LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
-        LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_0, length);
-        LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_0);
-
-        // 使能SPI DMA请求
-        LL_SPI_EnableDMAReq_TX(SPI2);
-        LL_SPI_EnableDMAReq_RX(SPI2);
-
-        // 启动传输
-        LL_SPI_Enable(SPI2);
-        LL_SPI_StartMasterTransfer(SPI2);
-
-        // 等待传输完成（带超时）
-        bool txDone = (xSemaphoreTake(txComplete, xTicksToWait) == pdTRUE);
-        bool rxDone = (xSemaphoreTake(rxComplete, xTicksToWait) == pdTRUE);
-        uint8_t test_char = *data_rx;
-
-        if((*data_rx & *(data_rx+1)) != 0xFF){
-            // 传输成功，重置错误计数器
-            LL_GPIO_ResetOutputPin(ERROR_GPIO_PORT, ERROR_GPIO_PIN);
-            return true;
-        } else {
-        	spiErrorCount ++;
-        	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-        	osDelay(200);
-        	LL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-            // 传输失败处理
-            LL_SPI_Disable(SPI2);
-            LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_0);
-            LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_1);
-            // 增加错误计数
-            if(++retries >= ERROR_THRESHOLD) {
-                LL_GPIO_SetOutputPin(ERROR_GPIO_PORT, ERROR_GPIO_PIN);
-                osDelay(200);
-                LL_GPIO_ResetOutputPin(ERROR_GPIO_PORT, ERROR_GPIO_PIN);
-                printf("Retry over 5 times!\n");
-            }
-            // 重试前延时
-            vTaskDelay(pdMS_TO_TICKS(10));
-        }
-    }
     // 超过最大重试次数
     return false;
 }
 
 void spiBeginTransaction()
 {
-	xSemaphoreTake(spiMutex, portMAX_DELAY);
-
+	return;
 }
 
 void spiEndTransaction()
 {
-	xSemaphoreGive(spiMutex);
+	return;
 }
 
 //======

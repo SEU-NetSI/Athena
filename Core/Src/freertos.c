@@ -93,9 +93,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
-  txComplete = xSemaphoreCreateBinary();
-  rxComplete = xSemaphoreCreateBinary();
-  spiMutex = xSemaphoreCreateMutex();
+
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */

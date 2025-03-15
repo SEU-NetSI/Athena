@@ -194,7 +194,7 @@ void DMA1_Stream0_IRQHandler(void)
 		LL_SPI_DisableDMAReq_TX(SPI2);
 		LL_DMA_DisableStream(DMA1,LL_DMA_STREAM_0);
 		LL_GPIO_TogglePin(GPIOB,LL_GPIO_PIN_9);
-		xSemaphoreGiveFromISR(rxComplete,&xHigherPriorityTaskWoken);
+		xSemaphoreGiveFromISR(spiDeckRxComplete,&xHigherPriorityTaskWoken);
 	}
   /* USER CODE END DMA1_Stream0_IRQn 0 */
 
@@ -216,7 +216,7 @@ void DMA1_Stream1_IRQHandler(void)
 		LL_SPI_DisableDMAReq_TX(SPI2);
 		LL_DMA_DisableStream(DMA1,LL_DMA_STREAM_1);
 		LL_GPIO_TogglePin(GPIOB,LL_GPIO_PIN_9);
-		xSemaphoreGiveFromISR(txComplete,&xHigherPriorityTaskWoken);
+		xSemaphoreGiveFromISR(spiDeckTxComplete,&xHigherPriorityTaskWoken);
 	}
   /* USER CODE END DMA1_Stream1_IRQn 0 */
 
@@ -292,6 +292,11 @@ void EXTI15_10_IRQHandler(void)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_15);
     /* USER CODE BEGIN LL_EXTI_LINE_15 */
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+    if(uwbISRTaskHandle) {
+      vTaskNotifyGiveFromISR(uwbISRTaskHandle, &xHigherPriorityTaskWoken);
+    }
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 
     /* USER CODE END LL_EXTI_LINE_15 */
   }

@@ -47,7 +47,6 @@ static void usart2L4Task(void *argument)
 	{
 		if(xSemaphoreTake(Uart2RxComplete, pdMS_TO_TICKS(1000)) == pdPASS)
 		{
-
 			Uart2_SendStr(data,16);
 			osDelay(1);
 		}
