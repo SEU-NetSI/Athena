@@ -13,7 +13,7 @@ SemaphoreHandle_t spiDeckTxComplete = NULL;
 SemaphoreHandle_t spiDeckMutex = NULL;
 SemaphoreHandle_t uwbIrqSemaphore = NULL;
 
-osThreadId_t uwbISRTaskHandle;
+osThreadId_t uwbISRTaskHandle = NULL;
 
 #ifdef ENABLE_UWB_DW3000
 
@@ -51,7 +51,7 @@ static void initUWBConfig(){
 
 	// prepare the interrupt service routines task
 	uwbISRTaskHandle = osThreadNew(uwbISRTask, NULL, &uwbISRTaskAttributes);
-	vTaskDelay(100); // wait for the uwbISRTask to start to handle ISR
+	vTaskDelay(10); // wait for the uwbISRTask to start to handle ISR
 
 	// init the dw3000 chip, get ready to rx and rx，下面两次初始化是为了两个不同SPI配置的dw3000设备
 	int result = dw3000_init();

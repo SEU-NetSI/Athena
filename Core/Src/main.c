@@ -100,7 +100,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  LL_mDelay(0);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -109,7 +109,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-
+  LL_mDelay(0);
   /* USER CODE END 2 */
 
   /* Init scheduler */

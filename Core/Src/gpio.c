@@ -160,7 +160,6 @@ void MX_GPIO_Init(void)
   NVIC_SetPriority(EXTI15_10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
   NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-
 }
 
 /* USER CODE BEGIN 2 */
