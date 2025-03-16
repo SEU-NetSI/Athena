@@ -295,7 +295,7 @@ void EXTI15_10_IRQHandler(void)
     /* USER CODE BEGIN LL_EXTI_LINE_15 */
     portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
     if(uwbISRTaskHandle) {
-    	if(count!=0)
+    	if(count++!=0)
       vTaskNotifyGiveFromISR(uwbISRTaskHandle, &xHigherPriorityTaskWoken);
     }
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
