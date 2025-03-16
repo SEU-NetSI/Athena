@@ -58,5 +58,5 @@ static const UserInit uwb_send_recv_packet_struct = {
 		.init = uwb_send_recv_packet_init,
 };
 
-USER_INIT(uwb_send_recv_packet_struct);
+//USER_INIT(uwb_send_recv_packet_struct);
 

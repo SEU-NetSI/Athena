@@ -101,6 +101,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
+						<entry excluding="Src/adhocuwb_macos.c|Src/adhocuwb_linux.c|Src/adhocuwb_freertos_crazyflie.c|Src/adhocuwb_freertos_athena3.2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AdHocUWB"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Athena-Driver"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
@@ -200,6 +201,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
+						<entry excluding="Src/adhocuwb_macos.c|Src/adhocuwb_linux.c|Src/adhocuwb_freertos_crazyflie.c|Src/adhocuwb_freertos_athena3.2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AdHocUWB"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>

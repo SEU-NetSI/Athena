@@ -78,7 +78,7 @@ static void uwbLaunchTask(){
 	spi_deck_init();
 	initUWBConfig();
 	vTaskDelay(100);
-//	adhocuwbInit();
+	adhocuwbInit();
 	initStatus = 1;
 	while (1) {
 		vTaskDelay(1000);
