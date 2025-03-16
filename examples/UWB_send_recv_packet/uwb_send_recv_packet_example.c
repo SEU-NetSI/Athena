@@ -18,9 +18,9 @@ void simpleTxCallback(void *argument) {	// 发送完数据包后的回调函数
 }
 
 void simpleRxCallback(void *argument) {	// 接收到数据包时的回调函数
-	int *packet = (int *) argument;
-	int a = packet[0];
-	int b = packet[1];
+	uint32_t *packet = (uint32_t *) argument;
+	uint32_t a = packet[0];
+	uint32_t b = packet[1];
 	return;
 }
 
@@ -33,10 +33,11 @@ void uwbSendRecvPacketTask(void *argument)
 
 	/*============ the above code need only support from BSP/Components/DW3000 =============*/
 //	int uwbdata_tx[10] = {1,2,3,4,5,6,7,8,9};
-	int uwbdata_tx[2] = {1,2};
+	static uint32_t uwbdata_tx[2] = {1,0x5E02E751};
 	// loop forever
 	while(1)
 	{
+	  uwbdata_tx[0]++;
 	  adhocuwb_hdw_send(uwbdata_tx, 8);
       vTaskDelay(2000);
 	}
