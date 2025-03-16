@@ -8,7 +8,7 @@
 #ifndef INC_SYSLAUNCH_H_
 #define INC_SYSLAUNCH_H_
 
-//#define ENABLE_UWB_DW3000
+#define ENABLE_UWB_DW3000
 
 int getInitStatus();
 

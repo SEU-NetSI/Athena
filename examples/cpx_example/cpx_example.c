@@ -169,4 +169,4 @@ static const UserInit cpx_init = {
 };
 
 
-USER_INIT(cpx_init);
+//USER_INIT(cpx_init);

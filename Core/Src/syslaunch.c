@@ -78,7 +78,7 @@ static void uwbLaunchTask(){
 	spi_deck_init();
 	initUWBConfig();
 	vTaskDelay(100);
-	adhocuwbInit();
+//	adhocuwbInit();
 	initStatus = 1;
 	while (1) {
 		vTaskDelay(1000);
@@ -96,5 +96,5 @@ static const UserInit uwb_launch_struct = {
 		.name = "uwb_init",
 };
 
-//USER_INIT(uwb_launch_struct);
+USER_INIT(uwb_launch_struct);
 #endif
