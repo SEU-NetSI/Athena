@@ -47,7 +47,7 @@ void MX_GPIO_Init(void)
   /* 1.GPIO Ports Clock Enable 时钟使能 */
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOB);
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOH);
-  LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOA);//LED1:12;LED2:11;LED3:10
+  LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOA);//LED1:12;LED2:11;LED3:10;中断引脚
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOD);//LED6:13
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOE);
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOC);//LED4:7;LED5:6
@@ -86,6 +86,13 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*IRQ中断引脚配置:A15*/
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_15;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;    // 设置为输入模式
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;       // 无上拉下拉
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*LED 4:PC7*/

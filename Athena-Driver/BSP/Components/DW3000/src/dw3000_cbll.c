@@ -211,12 +211,12 @@ void uwbISRTask(void *parameters) {
 }
 
 void adhocuwb_hdw_force_rx() {
-	dwt_forcetrxoff();
-	dwt_rxenable(DWT_START_RX_IMMEDIATE);
+	dwt_forcetrxoff();					 //关闭所有的发送和接收功能
+	dwt_rxenable(DWT_START_RX_IMMEDIATE);//立即开始接收
 }
 
 int adhocuwb_hdw_send(void *data, uint32_t datalen) {
-	dwt_forcetrxoff();
+	dwt_forcetrxoff();//关闭发射器与接收器
 	dwt_writetxdata(datalen, (uint8_t *) data, 0);
 	dwt_writetxfctrl(datalen + FCS_LEN, 0, 1);
 	return (dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) != DWT_ERROR);
