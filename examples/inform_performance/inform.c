@@ -43,21 +43,6 @@ extern int ledcode;
 static void informTask(void *argument)
 {
 
-	//GPIOA15对应到EXTI中断线之上
-	LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTA, LL_SYSCFG_EXTI_LINE15);
-
-	 // 配置EXTI中断参数
-	 LL_EXTI_InitTypeDef EXTI_InitStruct;
-	 EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_15;              // EXTI线15
-	 EXTI_InitStruct.LineCommand = ENABLE;                      // 使能EXTI线
-	 EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;                    // 中断模式
-	 EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_RISING;          // 上升沿触发
-	 LL_EXTI_Init(&EXTI_InitStruct);
-
-	// 设置中断优先级并使能中断
-	NVIC_SetPriority(EXTI15_10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 1, 0));
-	NVIC_EnableIRQ(EXTI15_10_IRQn);
-
 	// reset dw3000 chip
 	dwt_ops.reset(); // this is not necessary
 
